@@ -1,0 +1,40 @@
+# Arquivos e diretórios de dependências.
+/node_modules
+/vendor
+/vendor/**
+
+# Arquivos de log e cache, gerados dinamicamente.
+/storage/*.key
+/storage/app/public
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs/*.log
+/bootstrap/cache/*.php
+
+# Arquivos de ambiente e chaves.
+.env
+.env.backup
+.env.production
+
+# Arquivos gerados por IDEs e sistemas operacionais.
+.DS_Store
+.idea
+.vscode
+.fleet
+.nova
+.phpunit.cache
+.phpunit.result.cache
+.phpactor.json
+.zed
+Thumbs.db
+/auth.json
+
+# Arquivos de ambiente local e ferramentas
+Homestead.json
+Homestead.yaml
+
+# Arquivos de build (Laravel Mix, Vite)
+/public/build
+/public/hot
