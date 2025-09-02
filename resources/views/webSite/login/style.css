@@ -1,0 +1,13 @@
+ body {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 1rem;
+        }
