@@ -1,17 +1,27 @@
 import $ from "jquery";
 
-export const modalError = (mesage) => {
-    const modal = $("#modalError");
-    const mesageError = $("#modalErrorMsg");
-    const subMesage = $("#odalSubMessage");
+interface ModalErrorProps {
+    message: string;
+    subMessage?: string; // opcional
+}
 
+export const modalError = ({ message, subMessage }: ModalErrorProps) => {
+    const modal = $("#modalError");
+    const messageError = $("#modalErrorMsg");
+    const subMessageError = $("#modalSubMessage");
 
     modal.modal("show");
 
-    mesageError.text(mesage);
+
+    messageError.text(message);
+
+    if (subMessage) {
+        subMessageError.text(subMessage).show();
+    } else {
+        subMessageError.hide();
+    }
 
     setTimeout(() => {
         modal.modal("hide");
     }, 3000);
-
-}
+};
