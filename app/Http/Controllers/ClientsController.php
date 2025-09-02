@@ -8,6 +8,6 @@ class ClientsController extends Controller
 {
     public function clients()
     {
-        return view('webSite.clients');
+        return view('webSite.clients.clients');
     }
 }

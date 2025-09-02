@@ -31,14 +31,14 @@
       </div>
 
       <!-- Formulário -->
-      <form>
+      <form id="form-login">
         <div class="mb-3">
           <label for="email" class="form-label">E-mail</label>
           <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
         </div>
         <div class="mb-3">
           <label for="senha" class="form-label">Senha</label>
-          <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required>
+          <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="form-check">
@@ -47,7 +47,7 @@
           </div>
           <a href="#" class="text-decoration-none small">Esqueci a senha</a>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        <button type="submit" id="btn-submit-login" class="btn btn-primary w-100">Entrar</button>
       </form>
 
       <!-- Cadastro -->

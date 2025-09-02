@@ -1,0 +1,79 @@
+:root {
+  --bg: #0b0f19;
+  --panel: #111727;
+  --text: #e8ecf1;
+  --accent: #6ae3ff;
+  --danger: #ff7b7b;
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --radius: 12px;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 70% -20%, #1b2440 0%, #0b0f19 55%);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+input, button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: none;
+}
+
+button {
+  background: var(--accent);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(11, 15, 25, 0.85);
+}
+
+.modal-content {
+  background-color: var(--panel);
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: var(--radius);
+  width: 80%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.close {
+  color: var(--danger);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -8,6 +8,6 @@ class ProvidersController extends Controller
 {
     public function providers()
     {
-        return view('webSite.providers');
+        return view('webSite.providers.providers');
     }
 }
