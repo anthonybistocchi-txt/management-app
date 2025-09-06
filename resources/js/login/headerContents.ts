@@ -6,8 +6,8 @@ export interface formLogin {
 }
 
 export function getInputsLogin(): formLogin {
-  const email = ($("#email").val() as string) || "";
-  const password = ($("#password").val() as string) || "";
+  const email = $("#email").val() as string;
+  const password = $("#password").val() as string;
 
   return {
     email,

@@ -10,10 +10,9 @@ export const modalError = ({ message, subMessage }: ModalErrorProps) => {
     const messageError = $("#modalErrorMsg");
     const subMessageError = $("#modalSubMessage");
 
-    modal.modal("show");
+    modal.css("display", "block");
 
-
-    messageError.text(message);
+    messageError.text(message).show();
 
     if (subMessage) {
         subMessageError.text(subMessage).show();
@@ -22,6 +21,6 @@ export const modalError = ({ message, subMessage }: ModalErrorProps) => {
     }
 
     setTimeout(() => {
-        modal.modal("hide");
+        modal.hide();
     }, 3000);
 };

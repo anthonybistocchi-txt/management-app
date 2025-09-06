@@ -5,18 +5,19 @@ import { isValidEmail } from "./validations/isValidEmail";
 import { isStrongPassword } from "./validations/isStrongPassaword";
 
 export async function handleSubmitForm(e: Event) {
+    console.log('handleSubmitForm triggered');
     e.preventDefault();
 
     const data: formLogin = getInputsLogin();
 
-    if (data.email === "" || data.password === "") {
+    if (data.email == "" || data.password == "") {
         modalError({
             message: "Erro ao tentar enviar o formulário.",
             subMessage: "Todos os campos são obrigatórios."
         });
         return;
     }
-
+    console.log('handlesubmitForm called with data:');
     if (data.password.length < 6) {
         modalError({
             message: "Erro ao enviar formulario, a senha deve ter pelo menos 6 caracteres.",
