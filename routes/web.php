@@ -10,7 +10,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProvidersController;
 
 
-route::get('/', [IndexController::class, 'index'])->name('index');
+route::get('/gestao-pro', [IndexController::class, 'index'])->name('index');
 route::get('/sobre-nos', [AboutUsController::class, 'aboutUs'])->name('aboutUs');
 route::get('/contato', [ContactController::class, 'contact'])->name('contact');
 route::get('/login', [LoginController::class, 'login'])->name('login');
