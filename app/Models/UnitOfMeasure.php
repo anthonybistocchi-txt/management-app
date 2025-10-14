@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class UnitOfMeasure extends Model
 {
      protected $fillable = [
-        'unit',
+        'name',
+        'abbreviation',
         'created_at',
         'updated_at',
     ];

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// NOME DA CLASSE CORRIGIDO para "Contact"
 class Contact extends Model
 {
     use HasFactory;
@@ -20,6 +19,7 @@ class Contact extends Model
         'email',
         'phone',
         'message',
+        'reason_id',
         'is_user',
         'user_id',
         'created_at',

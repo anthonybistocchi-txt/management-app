@@ -8,9 +8,11 @@ class ProductDetail extends Model
 {
      protected $fillable = [
         'product_id',
+        'color',
+        'size',
+        'material',
+        'additional_info',
         'unit_of_measure_id',
-        'quantity',
-        'price',
         'created_at',
         'updated_at',
     ];

@@ -13,7 +13,6 @@ class Providers extends Model
         'city',
         'state',
         'address',
-        'email',
         'is_provider',
         'created_at',
         'updated_at',
