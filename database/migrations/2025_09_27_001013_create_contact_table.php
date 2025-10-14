@@ -17,8 +17,10 @@ return new class extends Migration
         $table->string('email', 80);
         $table->string('phone', 14); 
         $table->text('message');
-        $table->boolean('is_user')->default(false); 
+        $table->boolean('is_user')->default(false);
+        $table->bigInteger('user_id')->nullable()->unsigned(); 
         $table->timestamps();
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
     });
 }
 

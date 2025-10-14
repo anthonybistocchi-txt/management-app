@@ -15,7 +15,6 @@ class Contact extends Model
      *
      * @var array<int, string>
      */
-    // ATRIBUTOS PREENCHÍVEIS (MASS ASSIGNMENT)
     protected $fillable = [
         'name',
         'email',
