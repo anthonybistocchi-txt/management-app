@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_status', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 50);
+            $table->foreignId('customer_id')->constrained('customers');
+            $table->foreignId('order_status_id')->constrained('order_statuses');
+            $table->unsignedInteger('total_amount_in_cents');
+            $table->text('notes')->nullable();
+            $table->timestamp('ordered_at')->useCurrent(); // Data do pedido
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_status');
+        //
     }
 };

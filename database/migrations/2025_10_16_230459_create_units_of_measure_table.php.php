@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('units_of_measure', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->string('abbreviation', 10);
+            $table->string('name', 50)->unique(); // Ex: Quilograma
+            $table->string('abbreviation', 10)->unique(); // Ex: kg
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('units_of_measure');
+        //
     }
 };

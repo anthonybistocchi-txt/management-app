@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('providers', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+           
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('contact_reason_id')->nullable()->constrained('contact_reasons')->onDelete('set null');
             $table->string('name', 100);
-            $table->string('city', 50);
-            $table->string('state', 2);
-            $table->string('address', 255);
-            $table->string('cpnj', 18);
-            $table->string('phone', 14);
-            $table->boolean('is_provider')->default(true);
+            $table->string('email', 100);
+            $table->string('phone', 20)->nullable();
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('providers');
+        //
     }
 };

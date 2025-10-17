@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50)->unique(); // Ex: 'Pendente', 'Pago', 'Enviado', 'Cancelado'
+            $table->string('slug', 50)->unique(); // Ex: 'pending', 'paid', 'shipped', 'canceled'
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        //
     }
 };

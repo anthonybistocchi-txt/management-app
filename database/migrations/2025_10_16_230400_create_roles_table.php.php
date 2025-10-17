@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('desactivated_at')->nullable()->after('is_active');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 50)->unique(); 
+            $table->string('slug', 50)->unique();  
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('desactivated_at');
-        });
+        //
     }
 };

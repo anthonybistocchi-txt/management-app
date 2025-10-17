@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('order_product', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->string('email', 80);
-            $table->string('password', 255);
-            $table->integer('type'); 
-            $table->boolean('is_active')->default(true); 
-            $table->timestamps();
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products');
 
+            $table->integer('quantity');
+            $table->unsignedInteger('price_per_unit_in_cents');
+
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        //
     }
 };

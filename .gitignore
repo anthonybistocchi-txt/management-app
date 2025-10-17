@@ -13,6 +13,11 @@
 /storage/logs/*.log
 /bootstrap/cache/*.php
 
+# config server
+laravel
+# anotation 
+public\anotatations.txt
+
 # Arquivos de ambiente e chaves.
 .env
 .env.backup
