@@ -2,27 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'message',
-        'reason_id',
-        'is_user',
-        'user_id',
-        'created_at',
-        'updated_at',
+        'user_id', 
+        'contact_reason_id', 
+        'name', 
+        'email', 
+        'phone', 
+        'message'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function reason()
+    {
+        return $this->belongsTo(ContactReason::class, 'contact_reason_id');
+    }
 }

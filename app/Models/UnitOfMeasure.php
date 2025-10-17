@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitOfMeasure extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'name',
-        'abbreviation',
-        'created_at',
-        'updated_at',
+        'abbreviation'
     ];
+
+    public function productDetails()
+    {
+        return $this->hasMany(ProductDetail::class);
+    }
 }
+

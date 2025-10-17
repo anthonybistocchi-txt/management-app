@@ -4,39 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Providers extends Model
+class Provider extends Model
 {
     protected $fillable = [
         'name',
+        'cnpj',
         'phone',
-        'cpnj',
-        'city',
-        'state',
-        'address',
-        'is_provider',
-        'created_at',
-        'updated_at',
+        'email',
+        'address_street',
+        'address_city',
+        'address_state',
+        'address_zipcode'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function products()
     {
-        return [
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
+        return $this->hasMany(Product::class);
     }
 }
+

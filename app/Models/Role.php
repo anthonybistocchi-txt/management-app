@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderStatus extends Model
+class Role extends Model
 {
     protected $fillable = [
-        'name',
+        'name', 
         'slug'
     ];
 
-    public function orders()
+    public function users()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(User::class);
     }
 }
-
