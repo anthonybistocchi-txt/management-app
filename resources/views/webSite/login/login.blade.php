@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="d-flex justify-content-center align-items-center min-vh-100 bg-primary">
+<body class="d-flex justify-content-center align-items-center min-vh-100 ">
 
     <div class="card shadow-lg login-card">
         <div class="card-body p-4">
@@ -75,8 +75,7 @@
 
 <style>
     body {
-       background: linear-gradient(135deg, #1a1a1a, #3a3a3a);
-        height: 100vh;
+        background: linear-gradient(135deg, #c7c5c5, #cccccc); 
         font-family: 'Inter', sans-serif;
     }
 
