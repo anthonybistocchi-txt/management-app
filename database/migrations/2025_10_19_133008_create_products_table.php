@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('provider_id')->nullable()->constrained('providers')->onDelete('set null');
-            $table->string('name', 150);
-            $table->string('slug', 170)->unique(); 
+            $table->foreignId('provider_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->unsignedInteger('price_in_cents'); 
+            $table->integer('price_in_cents');
             $table->integer('stock_quantity')->default(0);
-            $table->boolean('is_active')->default(true); 
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('products');
     }
 };

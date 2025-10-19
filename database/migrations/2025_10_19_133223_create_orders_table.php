@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_statuses', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50)->unique(); // Ex: 'Pendente', 'Pago', 'Enviado', 'Cancelado'
-            $table->string('slug', 50)->unique(); // Ex: 'pending', 'paid', 'shipped', 'canceled'
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('order_status_id')->nullable()->constrained('order_statuses')->onDelete('set null');
+            $table->integer('total_amount_in_cents')->default(0);
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('orders');
     }
 };

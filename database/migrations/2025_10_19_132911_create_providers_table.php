@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('cnpj', 18)->unique();
+            $table->string('name');
+            $table->string('cnpj', 20)->nullable();
             $table->string('phone', 20)->nullable();
-            $table->string('email', 100)->nullable();
-            $table->string('address_street', 255)->nullable();
-            $table->string('address_city', 100)->nullable();
+            $table->string('email')->nullable();
+            $table->string('address_street')->nullable();
+            $table->string('address_number', 10)->nullable();
+            $table->string('address_city')->nullable();
             $table->string('address_state', 2)->nullable();
             $table->string('address_zipcode', 10)->nullable();
             $table->timestamps();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('providers');
     }
 };

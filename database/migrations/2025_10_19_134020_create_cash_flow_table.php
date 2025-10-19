@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('units_of_measure', function (Blueprint $table) {
+        Schema::create('cash_flow', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50)->unique(); // Ex: Quilograma
-            $table->string('abbreviation', 10)->unique(); // Ex: kg
+            $table->date('date');
+            $table->integer('total_in')->default(0);
+            $table->integer('total_out')->default(0);
+            $table->integer('balance')->default(0);
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('cash_flow');
     }
 };
