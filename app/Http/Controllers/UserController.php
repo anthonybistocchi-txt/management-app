@@ -62,13 +62,13 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser($id , Request $request, UserService $userService)
+    public function updateUser($id, Request $request, UserService $userService)
     {
         try {
 
             $data = $request->all();
 
-            $user = $userService->updateUser($id,$data);
+            $user = $userService->updateUser($id, $data);
 
             if (!$user) {
                 return response()->json([
@@ -95,8 +95,8 @@ class UserController extends Controller
 
     public function getUser($id, UserService $userService)
     {
-    try {
-        $user = $userService->getUser($id); 
+        try {
+            $user = $userService->getUser($id);
 
             if (!$user) {
                 return response()->json([
@@ -106,12 +106,11 @@ class UserController extends Controller
 
                 ]);
             }
-                return response()->json([
-                    'status'     => true,
-                    'data'       => $user,
-                    'statusCode' => 200
-                ]);
-            
+            return response()->json([
+                'status'     => true,
+                'data'       => $user,
+                'statusCode' => 200
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'     => false,
@@ -121,5 +120,24 @@ class UserController extends Controller
             ]);
         }
     }
-}
 
+    public function getAllUsers(Request $request, UserService $userService)
+    {
+        try {
+            $paginate = $request->get('paginate',10);
+            $users = $userService->getAllUsers($paginate);
+            return response()->json([
+                'status'     => true,
+                'data'       => $users,
+                'statusCode' => 200
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'     => false,
+                'message'    => 'Error to get users',
+                'error'      => $e->getMessage(),
+                'statusCode' => 500
+            ]);
+        }
+    }
+}

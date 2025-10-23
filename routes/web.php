@@ -31,10 +31,11 @@ Route::post('/reasons', [ReasonController::class, 'createReason'])->name('post.r
 Route::put('/reasons/{id}', [ReasonController::class, 'updateReasons'])->name('put.reasons');
 Route::delete('/reasons/{id}', [ReasonController::class, 'deleteReasons'])->name('delete.reasons');
 
-Route::get('/users/{id}', [UserController::class, 'getUser'])->name('get.users');
-Route::post('/users', [UserController::class, 'createUser'])->name('post.users');
-Route::put('/users/{id}', [UserController::class, 'updateUser'])->name('put.users');
-Route::delete('/users/{id}', [UserController::class, 'deleteUser'])->name('delete.users');
+Route::get('/getUser/{id}', [UserController::class, 'getUser'])->name('get.user');
+Route::get('/getAllUsers', [UserController::class, 'getAllUser'])->name('getAll.user');
+Route::post('/createUser', [UserController::class, 'createUser'])->name('create.user');
+Route::put('/updateUser/{id}', [UserController::class, 'updateUser'])->name('update.user');
+Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
 
 
 Route::get('/providers/{id}', [ProviderController::class, 'getProvider'])->name('get.providers');

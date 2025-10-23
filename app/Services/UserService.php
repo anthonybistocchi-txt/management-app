@@ -54,4 +54,11 @@ class UserService
 
         return $user;
     }
+
+    public function getAllUsers(int $paginate): User
+    {
+        $columns = ['id', 'name', 'email', 'cpf', 'created_at', 'updated_at'];
+
+        return User::paginate($paginate, $columns);
+    }
 }
