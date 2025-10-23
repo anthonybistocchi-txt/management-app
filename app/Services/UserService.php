@@ -7,15 +7,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function createUser(array $data): User|bool
+    public function createUser(array $data): User 
     {
-        $user = User::where('id', $data['id'])->first();
-
-        if ($user) {
-            return false;
-        }
-
-        $data['created_at'] = date_format(now(), 'd-m-Y H:i:s');
+        $user = User::findOrFail($data['id']);
 
         $data['password'] = Hash::make($data['password']);
 
@@ -32,7 +26,6 @@ class UserService
             return false;
         }
 
-        $data['deleted_at'] = date_format(now(), 'd-m-Y H:i:s');
         $user->delete();
 
         return true;
