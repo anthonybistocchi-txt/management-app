@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('units_of_measure', function (Blueprint $table) {
+        Schema::create('site_contact', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('abbreviation', 10);
             $table->timestamps();
+            $table->string('name', 50);
+            $table->string('email', 70);
+            $table->foreignId('reason_id')->constrained('reasons');
+            $table->string('phone', 20);
+            $table->text('message');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('units_of_measure_of_products');
+        Schema::dropIfExists('site_contact');
     }
 };
