@@ -32,7 +32,7 @@ Route::put('/reasons/{id}', [ReasonController::class, 'updateReasons'])->name('p
 Route::delete('/reasons/{id}', [ReasonController::class, 'deleteReasons'])->name('delete.reasons');
 
 Route::get('/getUser/{id}', [UserController::class, 'getUser'])->name('get.user');
-Route::get('/getAllUsers', [UserController::class, 'getAllUser'])->name('getAll.user');
+Route::get('/getAllUsers', [UserController::class, 'getAllUsers'])->name('getAll.user');
 Route::post('/createUser', [UserController::class, 'createUser'])->name('create.user');
 Route::put('/updateUser/{id}', [UserController::class, 'updateUser'])->name('update.user');
 Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('delete.user');

@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function createUser(array $data): User 
+    public function createUser(array $data): User
     {
         $user = User::findOrFail($data['id']);
 
@@ -55,10 +56,9 @@ class UserService
         return $user;
     }
 
-    public function getAllUsers(int $paginate): User
+    public function getAllUsers():array
     {
-        $columns = ['id', 'name', 'email', 'cpf', 'created_at', 'updated_at'];
-
-        return User::paginate($paginate, $columns);
+        $users = User::get()->toArray();
+        return $users;
     }
 }

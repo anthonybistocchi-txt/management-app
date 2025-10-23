@@ -16,16 +16,16 @@ class UserController extends Controller
 
             return response()->json([
                 'status'     => true,
-                'message'    => 'User create with successful',
+                'message'    => 'user create with successful',
                 'data'       => $user,
-                'statusCode' => 200
+                'code'       => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'     => false,
-                'message'    => 'Error to create user',
+                'message'    => 'error to create user',
                 'error'      => $e->getMessage(),
-                'statusCode' => 500
+                'code'       => 500
             ]);
         }
     }
@@ -37,27 +37,25 @@ class UserController extends Controller
 
             if ($user) {
                 return response()->json([
-                    'status'     => true,
-                    'message'    => 'User delete with successful',
-                    'statusCode' => 200
+                    'status'   => true,
+                    'message'  => 'user delete with successful',
+                    'code'     => 200
                 ]);
             }
 
             return response()->json([
-                'status'     => true,
-                'error'    => 'error to delete user',
-                [
-                    'message'    => 'User not exists',
-                ],
-                'statusCode' => 404
+                'status'  => true,
+                'error'   => 'error to delete user',
+                'message' => 'user not exist',
+                'code'    => 404
 
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'     => false,
-                'message'    => 'Error to delete user',
-                'error'      => $e->getMessage(),
-                'statusCode' => 500
+                'status'  => false,
+                'message' => 'error to delete user',
+                'error'   => $e->getMessage(),
+                'code'    => 500
             ]);
         }
     }
@@ -72,23 +70,23 @@ class UserController extends Controller
 
             if (!$user) {
                 return response()->json([
-                    'status'     => true,
-                    'message'    => 'User not exists',
-                    'statusCode' => 404
+                    'status'   => true,
+                    'message'  => 'user not exists',
+                    'code'     => 404
 
                 ]);
             }
             return response()->json([
-                'status'     => true,
-                'message'    => 'User updated with successful',
-                'statusCode' => 200
+                'status'   => true,
+                'message'  => 'user updated with successful',
+                'code'     => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'     => false,
-                'message'    => 'Error to update user',
-                'error'      => $e->getMessage(),
-                'statusCode' => 500
+                'status'  => false,
+                'message' => 'error to update user',
+                'error'   => $e->getMessage(),
+                'code'    => 500
             ]);
         }
     }
@@ -100,23 +98,24 @@ class UserController extends Controller
 
             if (!$user) {
                 return response()->json([
-                    'status'     => false,
-                    'message'    => 'User not exists',
-                    'statusCode' => 404
+                    'status'  => false,
+                    'message' => 'user not exists',
+                    'code'    => 404
 
                 ]);
             }
             return response()->json([
-                'status'     => true,
-                'data'       => $user,
-                'statusCode' => 200
+                'status'  => true,
+                'message' => 'sucess',
+                'data'    => $user,
+                'code'    => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'     => false,
-                'message'    => 'Error to get user',
-                'error'      => $e->getMessage(),
-                'statusCode' => 500
+                'status'  => false,
+                'message' => 'error to get user',
+                'error'   => $e->getMessage(),
+                'code'    => 500
             ]);
         }
     }
@@ -124,19 +123,29 @@ class UserController extends Controller
     public function getAllUsers(Request $request, UserService $userService)
     {
         try {
-            $paginate = $request->get('paginate',10);
-            $users = $userService->getAllUsers($paginate);
+            $users = $userService->getAllUsers();
+
+            if (!$users) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Users not exists',
+                    'code'    => 404
+
+                ]);
+            }
             return response()->json([
-                'status'     => true,
-                'data'       => $users,
-                'statusCode' => 200
+                'status'  => true,
+                'message' => 'sucess',
+                'data'    => $users,
+                'code'    => 200
             ]);
+
         } catch (\Exception $e) {
             return response()->json([
-                'status'     => false,
-                'message'    => 'Error to get users',
-                'error'      => $e->getMessage(),
-                'statusCode' => 500
+                'status'  => false,
+                'message' => 'error to get users',
+                'error'   => $e->getMessage(),
+                'code'    => 500
             ]);
         }
     }
