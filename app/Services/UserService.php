@@ -5,9 +5,10 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+
+use function Symfony\Component\Clock\now;
 
 class UserService
 {
@@ -19,7 +20,6 @@ class UserService
             'password'     => 'required|string|min:8',
             'type_user_id' => 'required|integer|exists:type_user,id',
             'cpf'          => 'required|string|max:14|unique:users',
-            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1'])],
         ]);
 
         $data['password'] = Hash::make($data['password']);
@@ -37,7 +37,8 @@ class UserService
             return false;
         }
 
-        $user->is_active = 0;
+        $user->is_active  = 0;
+        $user->deleted_at = now();
 
         return true;
     }
@@ -83,7 +84,9 @@ class UserService
 
     public function getAllUsers(): array
     {
-        $users = User::get()->toArray();
+        $users = User::where('is_active', '1')
+        ->get()
+        ->toArray();
         return $users;
     }
 }

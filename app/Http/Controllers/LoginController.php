@@ -7,11 +7,6 @@ use LoginService;
 
 class LoginController extends Controller
 {
-    public function login()
-    {
-        return view('website.login.login');
-    }
-
     public function loginAttempt(Request $request, LoginService $loginService)
     {
         try {

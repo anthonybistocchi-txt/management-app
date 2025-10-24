@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->enum('is_active', [0, 1])->default(1);
             $table->softDeletes();
-            $table->foreign('type_user_id')->references('id')->on('type_user'); // Assumindo o nome da sua foreign key
+            $table->foreign('type_user_id')->references('id')->on('type_user'); 
 
             $table->timestamps();
         });
