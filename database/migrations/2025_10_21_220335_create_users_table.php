@@ -10,29 +10,27 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('users', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('email')->unique();
-        $table->timestamp('email_verified_at')->nullable(); // <-- ADICIONE ESTA LINHA
-        $table->string('password');
-        $table->unsignedBigInteger('id_type_user');
-        // Seus campos customizados
-        $table->string('cpf')->unique();
-        $table->boolean('is_active')->default(true);
-        $table->foreign('id_type_user')->references('id')->on('type_user'); // Assumindo o nome da sua foreign key
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->unsignedBigInteger('type_user_id');
+            $table->string('cpf')->unique();
+            $table->enum('is_active', [0, 1])->default(1);
+            $table->softDeletes();
+            $table->foreign('type_user_id')->references('id')->on('type_user'); // Assumindo o nome da sua foreign key
 
-        $table->rememberToken(); // <-- ADICIONE ESTA LINHA
-        $table->timestamps();
-    });
-}
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-       Schema::dropIfExists('users');
+        Schema::dropIfExists('users');
     }
 };
