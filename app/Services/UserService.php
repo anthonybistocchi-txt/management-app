@@ -4,14 +4,23 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserService
 {
-    public function createUser(array $data): User
+    public function createUser(Request $request): User
     {
-        $user = User::findOrFail($data['id']);
+        $data = $request->validate([
+            'name'         => 'required|string|max:255',
+            'email'        => 'required|string|email|max:255|unique:users',
+            'password'     => 'required|string|min:8',
+            'type_user_id' => 'required|integer|exists:type_user,id',
+            'cpf'          => 'required|string|max:14|unique:users',
+            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1'])],
+        ]);
 
         $data['password'] = Hash::make($data['password']);
 
@@ -33,9 +42,26 @@ class UserService
         return true;
     }
 
-    public function updateUser(int $id, array $data): User
+    public function updateUser($id, Request $request): User
     {
         $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'name'         => 'sometimes|required|string|max:255',
+            'email'        => [
+                'sometimes',
+                'required',
+                'string',
+                'email',
+                'max:255',
+                // ignora o email do ID deste usuário
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'password'     => 'sometimes|nullable|string|min:8',
+            'type_user_id' => 'sometimes|required|integer|exists:type_user,id',
+            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1'])],
+        ]);
+
 
         if (isset($data['password']) && $data['password']) {
             $data['password'] = Hash::make($data['password']);
@@ -52,7 +78,6 @@ class UserService
     {
         $ids = explode(',', $data);
         $users = User::whereIn('id', $ids)->get();
-    
         return $users;
     }
 

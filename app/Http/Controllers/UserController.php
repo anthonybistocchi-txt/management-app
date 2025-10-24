@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function createUser(Request $request, UserService $userService)
+    public function createUser(Request $request, UserService $userService): JsonResponse
     {
         try {
-            $data = $request->all();
-            $user = $userService->createUser($data);
+            $user = $userService->createUser($request);
 
             return response()->json([
                 'status'     => true,
                 'message'    => 'user create with successful',
                 'data'       => $user,
-                'code'       => 200
+                'code'       => 201
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status'   => false,
+                'message'  => 'invalid datas',
+                'errors'   => $e->getMessage(),
+                'code'     => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -30,7 +38,7 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request, UserService $userService)
+    public function deleteUser(Request $request, UserService $userService): JsonResponse
     {
         try {
             $user = $userService->deleteUser($request->all());
@@ -60,39 +68,44 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser($id, Request $request, UserService $userService)
+    public function updateUser($id, Request $request, UserService $userService): JsonResponse
     {
         try {
+            $user = $userService->updateUser($request, $id);
 
-            $data = $request->all();
-
-            $user = $userService->updateUser($id, $data);
-
-            if (!$user) {
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'user not found',
-                    'code'     => 404
-
-                ]);
-            }
             return response()->json([
-                'status'   => true,
-                'message'  => 'user updated with successful',
-                'code'     => 200
+                'status'  => true,
+                'message' => 'Usuário atualizado com sucesso!',
+                'data'    => $user,
+                'code'    => 200
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Usuário não encontrado.',
+                'code'    => 404
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Dados inválidos.',
+                'errors'  => $e->errors(), // Mostra os erros
+                'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to update user',
+                'message' => 'Erro ao atualizar usuário',
                 'error'   => $e->getMessage(),
                 'code'    => 500
-            ]);
+            ], 500);
         }
     }
 
-    public function getUser(Request $request, UserService $userService)
+
+    public function getUser(Request $request, UserService $userService): JsonResponse
     {
+
         if (!$request->has('id') || empty($request->id)) {
             return response()->json([
                 'status'  => false,
@@ -128,8 +141,7 @@ class UserController extends Controller
         }
     }
 
-
-    public function getAllUsers(UserService $userService)
+    public function getAllUsers(UserService $userService): JsonResponse
     {
         try {
             $users = $userService->getAllUsers();
