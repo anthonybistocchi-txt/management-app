@@ -46,7 +46,7 @@ class UserController extends Controller
             return response()->json([
                 'status'  => true,
                 'error'   => 'error to delete user',
-                'message' => 'user not exist',
+                'message' => 'user not found',
                 'code'    => 404
 
             ]);
@@ -71,7 +71,7 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json([
                     'status'   => true,
-                    'message'  => 'user not exists',
+                    'message'  => 'user not found',
                     'code'     => 404
 
                 ]);
@@ -91,36 +91,45 @@ class UserController extends Controller
         }
     }
 
-    public function getUser($id, UserService $userService)
+    public function getUser(Request $request, UserService $userService)
     {
-        try {
-            $user = $userService->getUser($id);
+        if (!$request->has('id') || empty($request->id)) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'id parameter is required',
+                'code'    => 400
+            ]);
+        }
 
-            if (!$user) {
+        try {
+            $users = $userService->getUser($request->id);
+
+            if ($users->isEmpty()) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'user not exists',
+                    'message' => 'no users found',
                     'code'    => 404
-
                 ]);
             }
+
             return response()->json([
                 'status'  => true,
                 'message' => 'sucess',
-                'data'    => $user,
+                'data'    => $users,
                 'code'    => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to get user',
+                'message' => 'error to get users',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
         }
     }
 
-    public function getAllUsers(Request $request, UserService $userService)
+
+    public function getAllUsers(UserService $userService)
     {
         try {
             $users = $userService->getAllUsers();
@@ -128,7 +137,7 @@ class UserController extends Controller
             if (!$users) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'Users not exists',
+                    'message' => 'users not found',
                     'code'    => 404
 
                 ]);
@@ -139,7 +148,6 @@ class UserController extends Controller
                 'data'    => $users,
                 'code'    => 200
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,

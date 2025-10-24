@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,7 +28,7 @@ class UserService
             return false;
         }
 
-        $user->delete();
+        $user->is_active = 0;
 
         return true;
     }
@@ -47,16 +48,15 @@ class UserService
         return $user;
     }
 
-    public function getUser(int $id): User
+    public function getUser(string $data): Collection
     {
-        $columns = ['id', 'name', 'email', 'cpf', 'created_at', 'updated_at'];
-
-        $user = User::findOrFail($id, $columns);
-
-        return $user;
+        $ids = explode(',', $data);
+        $users = User::whereIn('id', $ids)->get();
+    
+        return $users;
     }
 
-    public function getAllUsers():array
+    public function getAllUsers(): array
     {
         $users = User::get()->toArray();
         return $users;

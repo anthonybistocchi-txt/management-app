@@ -21,6 +21,11 @@ class User extends Authenticatable
         'id_type_user',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -34,4 +39,9 @@ class User extends Authenticatable
         'deleted_at'        => 'datetime:d-m-Y H:i:s',
 
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'id_type_user');
+    }
 }
