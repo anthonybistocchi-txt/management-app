@@ -13,12 +13,12 @@ class ProviderController extends Controller
     public function createProvider(Request $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $user = $providerService->createProvider($request);
+            $provider = $providerService->createProvider($request);
 
             return response()->json([
                 'status'     => true,
-                'message'    => 'user create with successful',
-                'data'       => $user,
+                'message'    => 'provider create with successful',
+                'data'       => $provider,
                 'code'       => 201
             ]);
         } catch (ValidationException $e) {
@@ -31,7 +31,7 @@ class ProviderController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status'     => false,
-                'message'    => 'error to create user',
+                'message'    => 'error to create provider',
                 'error'      => $e->getMessage(),
                 'code'       => 500
             ]);
@@ -41,27 +41,27 @@ class ProviderController extends Controller
     public function deleteProvider(Request $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $user = $providerService->deleteProvider($request->all());
+            $provider = $providerService->deleteProvider($request->all());
 
-            if ($user) {
+            if ($provider) {
                 return response()->json([
                     'status'   => true,
-                    'message'  => 'user delete with successful',
+                    'message'  => 'provider delete with successful',
                     'code'     => 200
                 ]);
             }
 
             return response()->json([
                 'status'  => true,
-                'error'   => 'error to delete user',
-                'message' => 'user not found',
+                'error'   => 'error to delete provider',
+                'message' => 'provider not found',
                 'code'    => 404
 
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to delete user',
+                'message' => 'error to delete provider',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
@@ -71,31 +71,31 @@ class ProviderController extends Controller
     public function updateProvider($id, Request $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $user = $providerService->updateProvider($request, $id);
+            $provider = $providerService->updateProvider($request, $id);
 
             return response()->json([
                 'status'  => true,
-                'message' => 'Usuário atualizado com sucesso!',
-                'data'    => $user,
+                'message' => 'provider updated with sucessful',
+                'data'    => $provider,
                 'code'    => 200
             ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Usuário não encontrado.',
+                'message' => 'provider not found',
                 'code'    => 404
             ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Dados inválidos.',
+                'message' => 'invalid data',
                 'errors'  => $e->errors(), // Mostra os erros
                 'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Erro ao atualizar usuário',
+                'message' => 'error to update provider',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ], 500);
@@ -115,12 +115,12 @@ class ProviderController extends Controller
         }
 
         try {
-            $users = $providerService->getProvider($request->id);
+            $provider = $providerService->getProvider($request->id);
 
-            if ($users->isEmpty()) {
+            if ($provider->isEmpty()) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'no users found',
+                    'message' => 'provider not found',
                     'code'    => 404
                 ]);
             }
@@ -128,13 +128,13 @@ class ProviderController extends Controller
             return response()->json([
                 'status'  => true,
                 'message' => 'sucess',
-                'data'    => $users,
+                'data'    => $provider,
                 'code'    => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to get users',
+                'message' => 'error to get provider',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
@@ -144,12 +144,12 @@ class ProviderController extends Controller
     public function getAllProviders(ProviderService $providerService): JsonResponse
     {
         try {
-            $users = $providerService->getAllProviders();
+            $providers = $providerService->getAllProviders();
 
-            if (!$users) {
+            if (!$providers) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'users not found',
+                    'message' => 'providers not found',
                     'code'    => 404
 
                 ]);
@@ -157,13 +157,13 @@ class ProviderController extends Controller
             return response()->json([
                 'status'  => true,
                 'message' => 'sucess',
-                'data'    => $users,
+                'data'    => $providers,
                 'code'    => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to get users',
+                'message' => 'error to get providers',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
