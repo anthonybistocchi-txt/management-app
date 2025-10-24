@@ -2,35 +2,46 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes;
-
+    use HasFactory, Notifiable;
     protected $fillable = [
-        'role_id',
+        'id',
         'name',
         'email',
-        'password'
+        'cpf',
+        'password',
+        'created_at',
+        'updated_at',
+        'is_active',
+        'id_type_user',
     ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'password'          => 'hashed',
+        'email_verified_at' => 'datetime',
+        'created_at'        => 'datetime:d-m-Y H:i:s',
+        'updated_at'        => 'datetime:d-m-Y H:i:s',
+        'deleted_at'        => 'datetime:d-m-Y H:i:s',
 
-    public function customers()
-    {
-        return $this->hasMany(Customer::class);
-    }
+    ];
 
-    public function contacts()
+    public function users()
     {
-        return $this->hasMany(Contact::class);
+        return $this->hasMany(User::class, 'id_type_user');
     }
 }
