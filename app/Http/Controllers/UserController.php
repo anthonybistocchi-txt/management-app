@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -38,10 +39,10 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request, UserService $userService): JsonResponse
+    public function deleteUser($id, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->deleteUser($request->all());
+            $user = $userService->deleteUser($id);
 
             if ($user) {
                 return response()->json([
@@ -71,7 +72,7 @@ class UserController extends Controller
     public function updateUser($id, Request $request, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->updateUser($request, $id);
+            $user = $userService->updateUser($id, $request);
 
             return response()->json([
                 'status'  => true,

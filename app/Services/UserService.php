@@ -29,15 +29,16 @@ class UserService
         return $user;
     }
 
-    public function deleteUser(array $data): bool
+    public function deleteUser(int $id): bool
     {
-        $user = User::findOrFail($data['id']);
+        $user = User::findOrFail($id);
 
         if (!$user) {
             return false;
         }
 
-        $user->is_active = 0;
+        $user->is_active = '0';
+        $user->save();
 
         return true;
     }
