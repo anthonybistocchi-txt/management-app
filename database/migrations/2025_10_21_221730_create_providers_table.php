@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('cnpj', 20)->nullable();
-            $table->string('phone', 20)->nullable();
-            $table->string('email')->nullable();
-            $table->string('address_street')->nullable();
-            $table->string('address_number', 10)->nullable();
-            $table->string('address_city')->nullable();
-            $table->string('address_state', 2)->nullable();
-            $table->string('address_zipcode', 10)->nullable();
+            $table->string('name', 100);
+            $table->string('email', 150)->unique();
+            $table->string('cnpj', 100);
+            $table->string('phone', 20);
+            $table->string('address', 255);
+            $table->string('city', 100);
+            $table->string('state', 50);
+            $table->string('zip_code', 20);
             $table->timestamps();
         });
     }
