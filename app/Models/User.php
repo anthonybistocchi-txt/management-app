@@ -18,7 +18,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'is_active',
-        'id_type_user',
+        'type_user_id',
     ];
 
     protected $hidden = [
@@ -42,6 +42,7 @@ class User extends Authenticatable
 
     public function users()
     {
-        return $this->hasMany(User::class, 'id_type_user');
+        return $this->hasMany(User::class, 'type_user_id');
     }
 }
+

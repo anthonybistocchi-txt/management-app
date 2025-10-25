@@ -38,10 +38,10 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request, UserService $userService): JsonResponse
+    public function deleteUser($id, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->deleteUser($request->all());
+            $user = $userService->deleteUser($id);
 
             if ($user) {
                 return response()->json([
@@ -71,7 +71,7 @@ class UserController extends Controller
     public function updateUser($id, Request $request, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->updateUser($request, $id);
+            $user = $userService->updateUser($id, $request);
 
             return response()->json([
                 'status'  => true,
@@ -146,7 +146,7 @@ class UserController extends Controller
         try {
             $users = $userService->getAllUsers();
 
-            if (!$users) {
+            if (empty($users)) {
                 return response()->json([
                     'status'  => false,
                     'message' => 'not found users',
