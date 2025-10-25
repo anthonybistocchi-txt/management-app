@@ -24,7 +24,7 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             return response()->json([
                 'status'   => false,
-                'message'  => 'invalid datas',
+                'message'  => 'invalid data',
                 'errors'   => $e->getMessage(),
                 'code'     => 422
             ]);
@@ -38,10 +38,10 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request, UserService $userService): JsonResponse
+    public function deleteUser($id, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->deleteUser($request->all());
+            $user = $userService->deleteUser($id);
 
             if ($user) {
                 return response()->json([
@@ -71,34 +71,34 @@ class UserController extends Controller
     public function updateUser($id, Request $request, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->updateUser($request, $id);
+            $user = $userService->updateUser($id, $request);
 
             return response()->json([
                 'status'  => true,
-                'message' => 'Usuário atualizado com sucesso!',
+                'message' => 'user updated with sucessful',
                 'data'    => $user,
                 'code'    => 200
             ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Usuário não encontrado.',
+                'message' => 'user not found',
                 'code'    => 404
             ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Dados inválidos.',
+                'message' => 'invalid data',
                 'errors'  => $e->errors(), // Mostra os erros
                 'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Erro ao atualizar usuário',
+                'message' => 'error to update user',
                 'error'   => $e->getMessage(),
                 'code'    => 500
-            ], 500);
+            ]);
         }
     }
 
@@ -120,7 +120,7 @@ class UserController extends Controller
             if ($users->isEmpty()) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'no users found',
+                    'message' => 'not found users',
                     'code'    => 404
                 ]);
             }
@@ -146,10 +146,10 @@ class UserController extends Controller
         try {
             $users = $userService->getAllUsers();
 
-            if (!$users) {
+            if (empty($users)) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'users not found',
+                    'message' => 'not found users',
                     'code'    => 404
 
                 ]);
