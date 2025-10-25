@@ -147,7 +147,7 @@ class UserController extends Controller
         try {
             $users = $userService->getAllUsers();
 
-            if (!$users) {
+            if (empty($users)) {
                 return response()->json([
                     'status'  => false,
                     'message' => 'users not found',

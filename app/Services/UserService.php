@@ -33,12 +33,8 @@ class UserService
     {
         $user = User::findOrFail($id);
 
-        if (!$user) {
-            return false;
-        }
-
-        $user->is_active = '0';
-        $user->save();
+        $user->is_active = 0;
+        $user->delete();
 
         return true;
     }
