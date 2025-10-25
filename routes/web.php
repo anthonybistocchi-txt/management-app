@@ -33,7 +33,7 @@ Route::prefix('users')->group(function () {
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
 });
 
-Route::prefix('provciders')->group(function () {
+Route::prefix('providers')->group(function () {
     Route::get('/getProvider', [ProviderController::class, 'getProvider'])->name('get.provider');
     Route::get('/getAllProvider', [ProviderController::class, 'getAllProvider'])->name('getAll.Provider');
     Route::post('/createProvider', [ProviderController::class, 'createProvider'])->name('create.provider');

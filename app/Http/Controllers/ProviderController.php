@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ProviderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use ProviderService;
 
 class ProviderController extends Controller
 {
@@ -38,10 +38,10 @@ class ProviderController extends Controller
         }
     }
 
-    public function deleteProvider(Request $request, ProviderService $providerService): JsonResponse
+    public function deleteProvider($id, ProviderService $providerService): JsonResponse
     {
         try {
-            $provider = $providerService->deleteProvider($request->all());
+            $provider = $providerService->deleteProvider($id);
 
             if ($provider) {
                 return response()->json([
@@ -71,7 +71,7 @@ class ProviderController extends Controller
     public function updateProvider($id, Request $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $provider = $providerService->updateProvider($request, $id);
+            $provider = $providerService->updateProvider($id, $request);
 
             return response()->json([
                 'status'  => true,
@@ -146,7 +146,7 @@ class ProviderController extends Controller
         try {
             $providers = $providerService->getAllProviders();
 
-            if (!$providers) {
+            if (empty($providers)) {
                 return response()->json([
                     'status'  => false,
                     'message' => 'providers not found',

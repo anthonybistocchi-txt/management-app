@@ -1,10 +1,11 @@
-<?
+<?php
+
+namespace App\Services;
 
 use App\Models\Provider;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class ProviderService
 {
@@ -14,7 +15,7 @@ class ProviderService
             'name'             => 'required|string|max:255',
             'cnpj'             => 'required|string|max:21',
             'phone'            => 'nullable|string|max:20',
-            'email'            => 'required|string|email|max:255|unique:users',
+            'email'            => 'required|string|email|max:255|unique:providers',
             'address_street'   => 'nullable|string|max:255',
             'address_number'   => 'nullable|string|max:20',
             'address_city'     => 'nullable|string|max:255',
@@ -31,13 +32,7 @@ class ProviderService
     public function deleteProvider(array $data): bool
     {
         $provider = Provider::findOrFail($data['id']);
-
-        if (!$provider) {
-            return false;
-        }
-
-        $provider->is_active  = 0;
-        $provider->deleted_at = now();
+        $provider->delete();
 
         return true;
     }
@@ -50,7 +45,15 @@ class ProviderService
             'name'             => 'sometimes|string|max:255',
             'cnpj'             => 'sometimes|string|max:21',
             'phone'            => 'sometimes|string|max:20',
-            'email'            => 'sometimes|string|email|max:255|unique:users',
+            'email'        => [
+                'sometimes',
+                'required',
+                'string',
+                'email',
+                'max:255',
+                // ignora o email do ID deste provider
+                Rule::unique('providers')->ignore($provider->id)
+            ],
             'is_active'        => 'sometimes|boolean',
             'address_street'   => 'sometimes|string|max:255',
             'address_number'   => 'sometimes|string|max:20',
