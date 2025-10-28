@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('location_id')->nullable();
-            $table->enum('type', ['in', 'out']); // entrada ou saída
+            $table->enum('type', ['in', 'out']); 
             $table->integer('quantity');
-            $table->text('description')->nullable(); // motivo da movimentação
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
