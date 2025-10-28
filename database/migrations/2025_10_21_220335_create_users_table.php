@@ -20,8 +20,11 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->enum('is_active', [0, 1])->default(1);
             $table->softDeletes();
-            $table->foreign('type_user_id')->references('id')->on('type_user'); 
-
+            $table->foreign('type_user_id')->references('id')->on('type_user');
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable(); 
+            $table->softDeletes();  
             $table->timestamps();
         });
     }

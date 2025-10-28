@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasFactory, Notifiable;
+
+    protected $table = 'users';
+
     protected $fillable = [
-        'id',
         'name',
         'email',
         'cpf',
@@ -60,5 +64,25 @@ class User extends Authenticatable
     public function users()
     {
         return $this->hasMany(User::class, 'type_user_id');
+    }
+
+    public function typeUser()
+    {
+        return $this->belongsTo(TypeUser::class, 'type_user_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deleter()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

@@ -13,7 +13,6 @@ class TypeUser extends Model
     protected $table = 'type_users';
 
     protected $fillable = [
-        'id',
         'name',
         'created_at',
         'updated_at'
