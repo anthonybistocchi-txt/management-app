@@ -14,9 +14,7 @@ class ProductService
             'name'           => 'required|string|max:255',
             'description'    => 'nullable|string',
             'price'          => 'required|integer|min:0',
-            'stock_quantity' => 'required|integer|min:0',
-            'provider_id'    => 'required|exists:products,id',
-            'created_by'     => 'required|exists:users,id',
+            'provider_id'    => 'required|exists:providers,id',
         ]);
 
         $product = Product::create($data);
