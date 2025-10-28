@@ -7,45 +7,45 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class ProductLocation extends Model
 {
     use SoftDeletes;
     use Userstamps;
 
-    protected $table = 'products';
+    protected $table = 'products_locations';
 
     protected $fillable = [
         'name',
-        'description',
-        'price',
-        'provider_id',
-        'created_by',
+        'address',
+        'city',
+        'state',
+        'cep',
+        'product_id',
         'updated_by',
+        'created_by',
         'deleted_by',
-        'created_at',
-        'updated_at',
     ];
+
 
     protected $casts = [
-        'price'          => 'integer',
-        'stock_quantity' => 'integer',
-        'created_at'     => 'datetime:d-m-Y H:i:s',
-        'updated_at'     => 'datetime:d-m-Y H:i:s',
-        'deleted_at'     => 'datetime:d-m-Y H:i:s',
+        'created_at'        => 'datetime:d-m-Y H:i:s',
+        'updated_at'        => 'datetime:d-m-Y H:i:s',
+        'deleted_at'        => 'datetime:d-m-Y H:i:s',
+
     ];
 
-    protected function price(): Attribute
+    protected function cep(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value / 100,
+            set: fn($value) => preg_replace('/[^0-9]/', '', $value),
 
-            set: fn($value) => $value * 100
+            get: fn($value) => preg_replace('/(\d{5})(\d{3})/', '$1-$2', $value)
         );
     }
 
-    public function provider()
+    public function product()
     {
-        return $this->belongsTo(Provider::class, 'provider_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function creator()
