@@ -18,7 +18,6 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock_quantity',
         'provider_id',
         'created_by',
         'updated_by',
