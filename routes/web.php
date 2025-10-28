@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProviderController;
 
@@ -36,6 +37,14 @@ Route::prefix('providers')->group(function () {
     Route::post('/createProvider', [ProviderController::class, 'createProvider'])->name('create.provider');
     Route::put('/updateProvider/{id}', [ProviderController::class, 'updateProvider'])->name('update.provider');
     Route::delete('/deleteProvider/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.provider');
+});
+
+Route::prefix('products')->group(function () {
+    Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
+    Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
+    Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
+    Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
+    Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
 });
 
 // });
