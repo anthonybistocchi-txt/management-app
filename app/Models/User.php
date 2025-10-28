@@ -22,6 +22,10 @@ class User extends Authenticatable
         'password',
         'created_at',
         'updated_at',
+        'deleted_at',
+        'deleted_by',
+        'updated_by',
+        'created_by',
         'is_active',
         'type_user_id',
     ];
