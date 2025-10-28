@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
+    use Userstamps;
+
     protected $table = 'products';
 
     protected $fillable = [
-        'id',
         'name',
         'description',
         'price',
@@ -52,5 +56,10 @@ class Product extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deleter()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
