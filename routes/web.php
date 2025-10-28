@@ -9,10 +9,8 @@ use App\Http\Controllers\ProviderController;
 
 Route::get('/login', [LoginController::class, 'login'])->name('get.login');
 Route::get('/login', [LoginController::class, 'loginAttempt'])->name('post.loginAttempt');
-Route::get('/logout',[LoginController::class, 'logout'])->name('post.logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('post.logout');
 
-Route::get('/cadastro', [RegisterController::class, 'register'])->name('get.register');
-Route::post('/cadastro', [RegisterController::class, 'register'])->name('post.register');
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +19,9 @@ Route::post('/cadastro', [RegisterController::class, 'register'])->name('post.re
 */
 
 // Route::middleware(['auth'])->group(function () {
-Route::prefix('index')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dasboard'])->name('get.dasboard');
-});
+// Route::prefix('index')->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('get.dashboard');
+// });
 
 Route::prefix('users')->group(function () {
     Route::get('/getUser', [UserController::class, 'getUser'])->name('get.user');
@@ -33,9 +31,12 @@ Route::prefix('users')->group(function () {
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
 });
 
-Route::get('/providers/{id}', [ProviderController::class, 'getProvider'])->name('get.providers');
-Route::post('/providers', [ProviderController::class, 'createProvider'])->name('post.providers');
-Route::put('/providers/{id}', [ProviderController::class, 'updateProvider'])->name('put.providers');
-Route::delete('/providers/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.providers');
+Route::prefix('providers')->group(function () {
+    Route::get('/getProvider', [ProviderController::class, 'getProvider'])->name('get.provider');
+    Route::get('/getAllProvider', [ProviderController::class, 'getAllProviders'])->name('getAll.Provider');
+    Route::post('/createProvider', [ProviderController::class, 'createProvider'])->name('create.provider');
+    Route::put('/updateProvider/{id}', [ProviderController::class, 'updateProvider'])->name('update.provider');
+    Route::delete('/deleteProvider/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.provider');
+});
 
 // });
