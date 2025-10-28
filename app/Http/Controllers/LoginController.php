@@ -29,7 +29,7 @@ class LoginController extends Controller
             return response()->json([
                 'status'  => false,
                 'message' => "invalid datas",
-                'error'  => $e->getMessage(),
+                'error'   => $e->getMessage(),
                 'code'    => 422
             ]);
         }
