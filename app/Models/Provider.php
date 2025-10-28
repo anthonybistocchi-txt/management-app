@@ -40,7 +40,7 @@ class Provider extends Model
         'deleted_at'        => 'datetime:d-m-Y H:i:s',
 
     ];
-    
+
     protected function cnpj(): Attribute
     {
         return Attribute::make(
@@ -56,26 +56,9 @@ class Provider extends Model
             }
         );
     }
-    
+
     public function products()
     {
         return $this->hasMany(Product::class, 'provider_id');
     }
-
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    } 
-
-    public function deleter()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
-    }
-
-
 }
