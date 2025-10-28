@@ -22,6 +22,7 @@ class Product extends Model
         'provider_id',
         'created_by',
         'updated_by',
+        'deleted_by',
         'created_at',
         'updated_at',
     ];
@@ -46,20 +47,5 @@ class Product extends Model
     public function provider()
     {
         return $this->belongsTo(Provider::class, 'provider_id');
-    }
-
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function deleter()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
