@@ -22,6 +22,7 @@ class Product extends Model
         'provider_id',
         'created_by',
         'updated_by',
+        'deleted_by',
         'created_at',
         'updated_at',
     ];
