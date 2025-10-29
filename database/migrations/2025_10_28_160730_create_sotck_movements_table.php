@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('location_id')->nullable();
-            $table->enum('type', ['in', 'out']); 
-            $table->integer('quantity');
+            $table->foreignId('related_location_id')->nullable()->constrained('products_locations')->nullOnDelete(); // origem/destino
+            $table->enum('type', ['in', 'out', 'transfer', 'adjustment']);
+            $table->integer('quantity'); // quantidade movimentada
+            $table->bigInteger('previous_quantity')->nullable(); // saldo antes da operacao 
+            $table->bigInteger('new_quantity')->nullable(); // saldo atual
+            $table->string('reference')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

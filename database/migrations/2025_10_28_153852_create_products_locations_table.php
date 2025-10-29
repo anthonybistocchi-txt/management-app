@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('cep');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
