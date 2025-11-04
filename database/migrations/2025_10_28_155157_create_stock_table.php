@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('stock', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-             $table->string('sku')->nullable()->unique();
-            $table->text('description')->nullable();
-            $table->bigInteger('price');
-            $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('providers');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('quantity')->default(0);
+            $table->unsignedBigInteger('minimum_quantity')->default(0);
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('products_locations')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
+            $table->unique(['product_id', 'location_id']);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('stock');
     }
 };

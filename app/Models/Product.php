@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -18,10 +19,10 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock_quantity',
         'provider_id',
         'created_by',
         'updated_by',
+        'deleted_by',
         'created_at',
         'updated_at',
     ];
@@ -43,23 +44,26 @@ class Product extends Model
         );
     }
 
-    public function provider()
+    public function provider(): BelongsTo
     {
         return $this->belongsTo(Provider::class, 'provider_id');
     }
+<<<<<<< Updated upstream
+=======
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater()
+    public function updater(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function deleter()
+    public function deleter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+>>>>>>> Stashed changes
 }

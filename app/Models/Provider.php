@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provider extends Model
 {
     use SoftDeletes;
+    use Userstamps;
 
     protected $table = 'providers';
 
@@ -25,7 +29,10 @@ class Provider extends Model
         'address_state',
         'address_zipcode',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -35,7 +42,7 @@ class Provider extends Model
         'deleted_at'        => 'datetime:d-m-Y H:i:s',
 
     ];
-    
+
     protected function cnpj(): Attribute
     {
         return Attribute::make(
@@ -51,26 +58,34 @@ class Provider extends Model
             }
         );
     }
-    
+<<<<<<< Updated upstream
+
     public function products()
     {
         return $this->hasMany(Product::class, 'provider_id');
     }
+=======
+    
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'provider_id');
+    }
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater()
+    public function updater(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
     } 
 
-    public function deleter()
+    public function deleter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
 
+>>>>>>> Stashed changes
 }
