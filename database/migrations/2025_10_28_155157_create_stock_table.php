@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('stock', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->integer('quantity')->default(0);
             $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('quantity')->default(0);
+            $table->unsignedBigInteger('minimum_quantity')->default(0);
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('products_locations')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
+            $table->unique(['product_id', 'location_id']);
             $table->softDeletes();
             $table->timestamps();
         });
