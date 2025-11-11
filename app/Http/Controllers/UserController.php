@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         try {
             $user = $userService->createUser($request);
-
+            
             return response()->json([
                 'status'     => true,
                 'message'    => 'user create with successful',
