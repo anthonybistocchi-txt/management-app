@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('location_id')->nullable();
-            $table->enum('type', ['in', 'out']); 
-            $table->integer('quantity');
+            $table->unsignedBigInteger('provider_id')->nullable();
+            $table->enum('type', ['in', 'out', 'transfer', 'adjustment']);
+            $table->integer('quantity'); // quantidade movimentada
+            $table->bigInteger('previous_quantity')->nullable(); // saldo antes da operacao 
+            $table->bigInteger('new_quantity')->nullable(); // saldo atual
             $table->text('description')->nullable();
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('products_locations')->onDelete('set null');
         });
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sotck_movements');
+        Schema::dropIfExists('stock_movements');
     }
 };

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductLocation extends Model
@@ -43,7 +44,7 @@ class ProductLocation extends Model
         );
     }
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

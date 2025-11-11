@@ -44,7 +44,7 @@ class Product extends Model
         );
     }
 
-    public function provider()
+    public function provider(): BelongsTo
     {
         return $this->belongsTo(Provider::class, 'provider_id');
     }

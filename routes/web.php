@@ -1,16 +1,11 @@
  <?php
 
-    use Illuminate\Support\Facades\Route;
-    use App\Http\Controllers\LoginController;
-    use App\Http\Controllers\ProductController;
-    use App\Http\Controllers\UserController;
-    use App\Http\Controllers\ProviderController;
-    use App\Http\Controllers\StockController;
-
-    Route::get('/login', [LoginController::class, 'login'])->name('get.login');
-    Route::get('/login', [LoginController::class, 'loginAttempt'])->name('post.loginAttempt');
-    Route::get('/logout', [LoginController::class, 'logout'])->name('post.logout');
-
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\StockController;
 
 
 
@@ -43,9 +38,18 @@
             Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
         });
 
-        Route::prefix('stock')->group(function () {
-            Route::post('/in', [StockController::class, 'in'])->name('stock.in');
-            Route::post('/out', [StockController::class, 'out'])->name('stock.out');
-            Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
-        });
-    
+Route::prefix('products')->group(function () {
+    Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
+    Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
+    Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
+    Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
+    Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
+});
+
+Route::prefix('stock')->group(function () {
+    Route::post('/in', [StockController::class, 'in'])->name('stock.in');
+    Route::post('/out', [StockController::class, 'out'])->name('stock.out');
+    Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
+});
+
+// });

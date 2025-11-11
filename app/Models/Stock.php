@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
@@ -22,12 +23,12 @@ class Stock extends Model
         'deleted_by',
     ];
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function location()
+    public function location(): BelongsTo
     {
         return $this->belongsTo(ProductLocation::class, 'location_id');
     }
