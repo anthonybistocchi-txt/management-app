@@ -40,6 +40,15 @@ class Product extends Model
         return $this->belongsTo(Provider::class, 'provider_id');
     }
 
+    public function location() {
+        return $this->hasOne(ProductLocation::class);
+    }
+
+    public function stock() {
+        return $this->hasOne(Stock::class);
+    }
+
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

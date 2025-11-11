@@ -9,22 +9,22 @@ use Illuminate\Support\Facades\DB;
 
 class StockService
 {
-    public function in($request)
+    public function in(array $data)
     {
-        $request->validate([
+        $validated = validator($data, [
             'product_id'   => 'required|exists:products,id',
             'quantity'     => 'required|integer|min:1',
             'location_id'  => 'required|exists:product_locations,id',
             'description'  => 'nullable|string|max:500',
             'provider_id'  => 'nullable|exists:providers,id',
             'type'         => 'required|in:in',
-        ]);
+        ])->validate();
 
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($validated) {
             $stock = Stock::firstOrCreate(
                 [
-                    'product_id'  => $request->product_id,
-                    'location_id' => $request->location_id,
+                    'product_id'  => $validated['product_id'],
+                    'location_id' => $validated['location_id'],
                 ],
                 [
                     'quantity' => 0,
@@ -33,20 +33,26 @@ class StockService
 
             $previousQuantity = $stock->quantity;
 
-            $stock->quantity += $request->quantity;
-            $stock->save();
+            $stock->increment('quantity', $validated['quantity']); // mais clean
 
             StockMovements::create([
-                'product_id'        => $request->product_id,
-                'quantity_moved'    => $request->quantity,
-                'location_id'       => $request->location_id,
+                'product_id'        => $validated['product_id'],
+                'quantity_moved'    => $validated['quantity'],
+                'location_id'       => $validated['location_id'],
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
-                'description'       => $request->description,
+                'description'       => $validated['description'] ?? null,
                 'type'              => 'in',
-                'provider_id'       => $request->provider_id,
+                'provider_id'       => $validated['provider_id'] ?? null,
                 'created_by'        => Auth::id(),
             ]);
+
+            return [
+                'product_id'        => $validated['product_id'],
+                'location_id'       => $validated['location_id'],
+                'previous_quantity' => $previousQuantity,
+                'new_quantity'      => $stock->quantity,
+            ];
         });
     }
 
