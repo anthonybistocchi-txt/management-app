@@ -58,13 +58,6 @@ class Provider extends Model
             }
         );
     }
-<<<<<<< Updated upstream
-
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'provider_id');
-    }
-=======
     
     public function products(): HasMany
     {
@@ -87,5 +80,4 @@ class Provider extends Model
     }
 
 
->>>>>>> Stashed changes
 }
