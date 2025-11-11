@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use LoginService;
+use App\Services\LoginService;
 
 class LoginController extends Controller
 {
