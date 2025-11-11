@@ -29,9 +29,13 @@ class ProviderService
         return $provider;
     }
 
-    public function deleteProvider(array $data): bool
+    public function deleteProvider(int $id): bool
     {
-        $provider = Provider::findOrFail($data['id']);
+       $provider = Provider::findOrFail($id);
+
+        $provider->is_active = 0;
+        $provider->save();
+
         $provider->delete();
 
         return true;
@@ -76,7 +80,7 @@ class ProviderService
 
     public function getAllProviders(): array
     {
-        $providers = Provider::where('is_active', '1')
+        $providers = Provider::where('is_active', 1)
             ->get()
             ->toArray();
         return $providers;

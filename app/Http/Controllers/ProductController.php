@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    public function createProduct(Request $request, ProductService $productService)
+    public function createProduct(Request $request, ProductService $productService): JsonResponse
     {
         try {
             $product = $productService->createProduct($request);
@@ -36,7 +37,7 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function deleteProduct($id, ProductService $productService)
+    public function deleteProduct($id, ProductService $productService): JsonResponse
     {
         try {
             $product = $productService->deleteProduct($id);
@@ -64,7 +65,7 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function updateProduct(Request $request, $id, ProductService $productService)
+    public function updateProduct(Request $request, $id, ProductService $productService): JsonResponse
     {
         try {
             $product = $productService->updateProduct($id, $request);
@@ -97,7 +98,7 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getProduct(Request $request, ProductService $productService)
+    public function getProduct(Request $request, ProductService $productService): JsonResponse
     {
         if (!$request->has('id') || empty($request->id)) {
             return response()->json([
@@ -133,15 +134,15 @@ class ProductController extends Controller
         }
     }
 
-    public function getAllProducts(ProductService $productService)
+    public function getAllProducts(ProductService $productService): JsonResponse
     {
         try {
             $products = $productService->getAllProducts();
 
-            if (empty($providers)) {
+            if (empty($products)) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'providers not found',
+                    'message' => 'products not found',
                     'code'    => 404
                 ]);
             }

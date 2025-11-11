@@ -33,8 +33,8 @@ class UserService
     {
         $user = User::findOrFail($id);
 
-        $user->is_active = '0';
-        $user->save(); 
+        $user->is_active = 0;
+        $user->save();
 
         $user->delete();
 
@@ -83,8 +83,8 @@ class UserService
     public function getAllUsers(): array
     {
         $users = User::where('is_active', '1')
-        ->get()
-        ->toArray();
+            ->get()
+            ->toArray();
         return $users;
     }
 }
