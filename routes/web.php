@@ -1,31 +1,13 @@
  <?php
 
-<<<<<<< Updated upstream
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\StockController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
-
-// Route::middleware(['auth'])->group(function () {
-//     Route::prefix('index')->group(function () {
-//         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('get.dashboard');
-//     });
-=======
-    use Illuminate\Support\Facades\Route;
-    use App\Http\Controllers\LoginController;
-    use App\Http\Controllers\ProductController;
-    use App\Http\Controllers\UserController;
-    use App\Http\Controllers\ProviderController;
-    use App\Http\Controllers\StockController;
-
-    Route::get('/login', [LoginController::class, 'login'])->name('get.login');
-    Route::get('/login', [LoginController::class, 'loginAttempt'])->name('post.loginAttempt');
-    Route::get('/logout', [LoginController::class, 'logout'])->name('post.logout');
 
 
-
->>>>>>> Stashed changes
 
     // Route::middleware(['auth'])->group(function () {
     //     Route::prefix('index')->group(function () {
@@ -48,21 +30,6 @@ use Illuminate\Support\Facades\Route;
             Route::delete('/deleteProvider/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.provider');
         });
 
-<<<<<<< Updated upstream
-Route::prefix('products')->group(function () {
-    Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
-    Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
-    Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
-    Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
-    Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
-});
-
-Route::prefix('stock')->group(function () {
-    Route::post('/in', [StockController::class, 'in'])->name('stock.in');
-    Route::post('/out', [StockController::class, 'out'])->name('stock.out');
-    Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
-});
-=======
         Route::prefix('products')->group(function () {
             Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
             Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
@@ -70,11 +37,11 @@ Route::prefix('stock')->group(function () {
             Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
             Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
         });
->>>>>>> Stashed changes
 
-        Route::prefix('stock')->group(function () {
-            Route::post('/in', [StockController::class, 'in'])->name('stock.in');
-            Route::post('/out', [StockController::class, 'out'])->name('stock.out');
-            Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
-        });
-    
+Route::prefix('stock')->group(function () {
+    Route::post('/in', [StockController::class, 'in'])->name('stock.in');
+    Route::post('/out', [StockController::class, 'out'])->name('stock.out');
+    Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
+});
+
+// });
