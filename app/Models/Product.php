@@ -48,8 +48,6 @@ class Product extends Model
     {
         return $this->belongsTo(Provider::class, 'provider_id');
     }
-<<<<<<< Updated upstream
-=======
 
     public function creator(): BelongsTo
     {
@@ -65,5 +63,4 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
->>>>>>> Stashed changes
 }
