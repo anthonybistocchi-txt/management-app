@@ -38,9 +38,7 @@ class ProductService
             'name'           => 'sometimes|string|max:255',
             'description'    => 'sometimes|string',
             'price'          => 'sometimes|integer|min:0',
-            'stock_quantity' => 'sometimes|integer|min:0',
             'provider_id'    => 'sometimes|exists:products,id',
-            'updated_by'     => 'required|exists:users,id',
         ]);
 
         $product->update($data);

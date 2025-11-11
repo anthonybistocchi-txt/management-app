@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('location_id')->nullable();
             $table->unsignedBigInteger('provider_id')->nullable();
             $table->enum('type', ['in', 'out', 'transfer', 'adjustment']);
-            $table->integer('quantity'); // quantidade movimentada
-            $table->bigInteger('previous_quantity')->nullable(); // saldo antes da operacao 
-            $table->bigInteger('new_quantity')->nullable(); // saldo atual
+            $table->integer('quantity_moved'); // quantidade movimentada
+            $table->bigInteger('quantity_before')->nullable(); // saldo antes da operacao 
+            $table->bigInteger('quantity_after')->nullable(); // saldo atual
             $table->text('description')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
