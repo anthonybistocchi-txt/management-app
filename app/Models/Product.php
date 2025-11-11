@@ -35,15 +35,6 @@ class Product extends Model
         'deleted_at'     => 'datetime:d-m-Y H:i:s',
     ];
 
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => $value / 100,
-
-            set: fn($value) => $value * 100
-        );
-    }
-
     public function provider(): BelongsTo
     {
         return $this->belongsTo(Provider::class, 'provider_id');

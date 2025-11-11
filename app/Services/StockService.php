@@ -38,7 +38,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->location_id,
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
@@ -76,7 +76,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->location_id,
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
@@ -114,7 +114,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->from_location_id,
                 'previous_quantity' => $previousFromQuantity,
                 'new_quantity'      => $fromStock->quantity,
@@ -141,7 +141,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->to_location_id,
                 'previous_quantity' => $previousToQuantity,
             ]);

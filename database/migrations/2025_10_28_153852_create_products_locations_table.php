@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('products_locations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->bigInteger('product_id');
             $table->string('address');
             $table->string('city');
             $table->string('state');
             $table->string('cep');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
