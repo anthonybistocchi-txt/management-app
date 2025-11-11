@@ -33,7 +33,9 @@ class UserService
     {
         $user = User::findOrFail($id);
 
-        $user->is_active = 0;
+        $user->is_active = '0';
+        $user->save(); 
+
         $user->delete();
 
         return true;

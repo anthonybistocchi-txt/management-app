@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provider extends Model
@@ -56,9 +58,26 @@ class Provider extends Model
             }
         );
     }
-
-    public function products()
+    
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'provider_id');
     }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    } 
+
+    public function deleter(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+
 }
