@@ -28,7 +28,7 @@ class User extends Authenticatable
         'deleted_by',
         'updated_by',
         'created_by',
-        'is_active',
+        'active',
         'type_user_id',
     ];
 
@@ -65,11 +65,6 @@ class User extends Authenticatable
                 return preg_replace('/[^0-9]/', '', $value);
             }
         );
-    }
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'type_user_id');
     }
 
     public function typeUser()

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\CreateProviderRequest;
+use App\Http\Requests\Provider\UpdateProviderRequest;
 use App\Services\ProviderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -10,10 +12,11 @@ use Illuminate\Validation\ValidationException;
 
 class ProviderController extends Controller
 {
-    public function createProvider(Request $request, ProviderService $providerService): JsonResponse
+    public function createProvider(CreateProviderRequest $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $provider = $providerService->createProvider($request);
+            $dataValidated = $request->validated();
+            $provider      = $providerService->createProvider($dataValidated);
 
             return response()->json([
                 'status'     => true,
@@ -68,10 +71,11 @@ class ProviderController extends Controller
         }
     }
 
-    public function updateProvider($id, Request $request, ProviderService $providerService): JsonResponse
+    public function updateProvider($id, UpdateProviderRequest $request, ProviderService $providerService): JsonResponse
     {
         try {
-            $provider = $providerService->updateProvider($id, $request);
+            $dataValidated = $request->validated();
+            $provider      = $providerService->updateProvider($id, $dataValidated);
 
             return response()->json([
                 'status'  => true,

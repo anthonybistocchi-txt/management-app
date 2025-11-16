@@ -9,22 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class StockService
 {
-    public function in($request)
+    public function in(array $request)
     {
-        $request->validate([
-            'product_id'   => 'required|exists:products,id',
-            'quantity'     => 'required|integer|min:1',
-            'location_id'  => 'required|exists:product_locations,id',
-            'description'  => 'nullable|string|max:500',
-            'provider_id'  => 'nullable|exists:providers,id',
-            'type'         => 'required|in:in',
-        ]);
 
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
             $stock = Stock::firstOrCreate(
                 [
-                    'product_id'  => $request->product_id,
-                    'location_id' => $request->location_id,
+                    'product_id'  => $request['product_id'],
+                    'location_id' => $request['location_id'],
                 ],
                 [
                     'quantity' => 0,
@@ -33,32 +25,31 @@ class StockService
 
             $previousQuantity = $stock->quantity;
 
-            $stock->quantity += $request->quantity;
-            $stock->save();
+            $stock->increment('quantity', $request['quantity']); // mais clean
 
             StockMovements::create([
-                'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
-                'location_id'       => $request->location_id,
+                'product_id'        => $request['product_id'],
+                'quantity_moved'    => $request['quantity'],
+                'location_id'       => $request['location_id'],
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
-                'description'       => $request->description,
+                'description'       => $request['description'] ?? null,
                 'type'              => 'in',
-                'provider_id'       => $request->provider_id,
+                'provider_id'       => $request['provider_id'] ?? null,
                 'created_by'        => Auth::id(),
             ]);
+
+            return [
+                'product_id'        => $request['product_id'],
+                'location_id'       => $request['location_id'],
+                'previous_quantity' => $previousQuantity,
+                'new_quantity'      => $stock->quantity,
+            ];
         });
     }
 
     public function out($request)
     {
-        $request->validate([
-            'product_id'   => 'required|exists:products,id',
-            'quantity'     => 'required|integer|min:1',
-            'location_id'  => 'required|exists:product_locations,id',
-            'description'  => 'nullable|string|max:500',
-            'type'         => 'required|in:out',
-        ]);
 
         DB::transaction(function () use ($request) {
             $stock = Stock::where('product_id', $request->product_id)
@@ -66,7 +57,7 @@ class StockService
                 ->firstOrFail();
 
             if ($stock->quantity < $request->quantity) {
-                throw new \Exception('Insufficient stock for the requested operation.');
+                throw new \Exception('Insufficient stock for the data$requested operation.');
             }
 
             $previousQuantity = $stock->quantity;
@@ -76,7 +67,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->location_id,
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
@@ -89,14 +80,6 @@ class StockService
 
     public function transfer($request)
     {
-        $request->validate([
-            'product_id'        => 'required|exists:products,id',
-            'quantity'          => 'required|integer|min:1',
-            'from_location_id'  => 'required|exists:product_locations,id',
-            'to_location_id'    => 'required|exists:product_locations,id|different:from_location_id',
-            'description'       => 'nullable|string|max:500',
-            'type'              => 'required|in:transfer',
-        ]);
 
         DB::transaction(function () use ($request) {
             $fromStock = Stock::where('product_id', $request->product_id)
@@ -104,7 +87,7 @@ class StockService
                 ->firstOrFail();
 
             if ($fromStock->quantity < $request->quantity) {
-                throw new \Exception('Insufficient stock at the source location for the requested transfer.');
+                throw new \Exception('Insufficient stock at the source location for the data$requested transfer.');
             }
 
             $previousFromQuantity = $fromStock->quantity;
@@ -114,7 +97,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->from_location_id,
                 'previous_quantity' => $previousFromQuantity,
                 'new_quantity'      => $fromStock->quantity,
@@ -123,7 +106,6 @@ class StockService
                 'created_by'        => Auth::id(),
             ]);
 
-            // Increase stock at the destination location
             $toStock = Stock::firstOrCreate(
                 [
                     'product_id'  => $request->product_id,
@@ -141,7 +123,7 @@ class StockService
 
             StockMovements::create([
                 'product_id'        => $request->product_id,
-                'quantity'          => $request->quantity,
+                'quantity_moved'    => $request->quantity,
                 'location_id'       => $request->to_location_id,
                 'previous_quantity' => $previousToQuantity,
             ]);

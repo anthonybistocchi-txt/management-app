@@ -3,59 +3,85 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductLocation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
-    public function createProduct(Request $request): Product
+    public function __construct(protected StockService $stockService) {}
+
+    public function createProduct($request)
     {
-        $data = $request->validate([
-            'name'           => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            'price'          => 'required|integer|min:0',
-            'provider_id'    => 'required|exists:providers,id',
-        ]);
 
-        $product = Product::create($data);
+        return DB::transaction(function () use ($request) {
+            $product = Product::create($request);
 
-        return $product;
+            if (!empty($request['quantity']) && $request['quantity'] > 0) {
+                $this->stockService->in( [
+                    'product_id'  => $product->id,
+                    'quantity'    => $request['quantity'],
+                    'location_id' => $request['location_id'] ?? null,
+                    'description' => $request['description'] ?? '',
+                    'type'        => 'in',
+                    'provider_id' => $request['provider_id'],
+                ]);
+            }
+
+            return $product->load('location');
+        });
     }
 
+    public function updateProduct($id, $request)
+    {
+
+        return DB::transaction(function () use ($id, $request) {
+            $product = Product::findOrFail($id);
+            $product->update($request);
+
+            if (!empty($request['location_id'])) {
+                $productLocation = ProductLocation::where('product_id', $product->id)->first();
+
+                $productLocation->update([
+                    'location_id' => $request['location_id'],
+                ]);
+
+            if (!empty($request['quantity']) && $request['quantity'] > 0) {
+                $this->stockService->in( [
+                    'product_id'  => $product->id,
+                    'quantity'    => $request['quantity'],
+                    'location_id' => $request['location_id'] ?? null,
+                    'description' => $request['description'] ?? '',
+                    'type'        => 'in',
+                    'provider_id' => $request['provider_id'] ?? $product->provider_id,
+                ]);
+            }
+
+                return $product->load('location');
+            }
+        });
+    }
+    
     public function deleteProduct($id): bool
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        return DB::transaction(function () use ($id) {
+            $product = Product::findOrFail($id);
+            $product->location()->delete();
+            $product->stock()->delete();
+            $product->delete();
 
-        return true;
-    }
-
-    public function updateProduct($id, Request $request): Product
-    {
-        $product = Product::findOrFail($id);
-
-        $data = $request->validate([
-            'name'           => 'sometimes|string|max:255',
-            'description'    => 'sometimes|string',
-            'price'          => 'sometimes|integer|min:0',
-            'provider_id'    => 'sometimes|exists:products,id',
-        ]);
-
-        $product->update($data);
-
-        return $product;
+            return true;
+        });
     }
 
     public function getProduct(string $data): Collection
     {
-        $ids = explode(',', $data);
-        $product = Product::whereIn('id', $ids)->get();
-        return $product;
+        return Product::whereIn('id', explode(',', $data))->get();
     }
 
     public function getAllProducts(): array
     {
-        $products = Product::all();
-        return $products->toArray();    
+        return Product::all()->toArray();
     }
 }

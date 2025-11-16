@@ -21,7 +21,7 @@ class Provider extends Model
         'cnpj',
         'phone',
         'email',
-        'is_active',
+        'active',
         'deleted_at',
         'address_street',
         'address_number',
@@ -78,6 +78,4 @@ class Provider extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
-
-
 }

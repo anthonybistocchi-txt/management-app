@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+;
+use App\Http\Requests\Login\LoginRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\LoginService;
 
 class LoginController extends Controller
 {
-    public function loginAttempt(Request $request, LoginService $loginService)
+    public function loginAttempt(LoginService $loginService, LoginRequest $request): JsonResponse
     {
         try {
-            $status = $loginService->loginAttempt($request);
+            $dataValidated = $request->validated();
+            $status        = $loginService->loginAttempt($dataValidated);
 
             if ($status) {
                 return response()->json([

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -10,10 +13,11 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function createUser(Request $request, UserService $userService): JsonResponse
+    public function createUser(CreateUserRequest $request, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->createUser($request);
+            $dataValidated = $request->validated();
+            $user          = $userService->createUser($dataValidated);
             
             return response()->json([
                 'status'     => true,
@@ -68,10 +72,11 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser($id, Request $request, UserService $userService): JsonResponse
+    public function updateUser($id, UpdateUserRequest $request, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->updateUser($id, $request);
+            $dataValidated = $request->validated();
+            $user = $userService->updateUser($id, $dataValidated);
 
             return response()->json([
                 'status'  => true,
