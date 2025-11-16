@@ -38,14 +38,6 @@ use App\Http\Controllers\StockController;
             Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
         });
 
-Route::prefix('products')->group(function () {
-    Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
-    Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
-    Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
-    Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
-    Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
-});
-
 Route::prefix('stock')->group(function () {
     Route::post('/in', [StockController::class, 'in'])->name('stock.in');
     Route::post('/out', [StockController::class, 'out'])->name('stock.out');
