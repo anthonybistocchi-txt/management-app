@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\TypeUser;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\TypeUser; // Opcional, se você tiver o Model
 
 class TypeUserSeeder extends Seeder
 {
@@ -13,18 +13,14 @@ class TypeUserSeeder extends Seeder
      */
     public function run(): void
     {
-        TypeUser::truncate();
+        // Limpa a tabela antes de popular
+        DB::table('type_user')->truncate();
 
-        TypeUser::create([
-            'name' => 'Admin'
-        ]);
-
-        TypeUser::create([
-            'name' => 'Gestor'
-        ]);
-
-        TypeUser::create([
-            'name' => 'User'
+        // Insere os tipos de usuário
+        DB::table('type_user')->insert([
+            ['name' => 'Admin'],
+            ['name' => 'Gerente'],
+            ['name' => 'Estoquista'],
         ]);
     }
 }
