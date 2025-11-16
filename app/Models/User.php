@@ -67,11 +67,6 @@ class User extends Authenticatable
         );
     }
 
-    public function users()
-    {
-        return $this->hasMany(User::class, 'type_user_id');
-    }
-
     public function typeUser()
     {
         return $this->belongsTo(TypeUser::class, 'type_user_id');
