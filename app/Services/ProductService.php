@@ -18,16 +18,6 @@ class ProductService
         return DB::transaction(function () use ($request) {
             $product = Product::create($request);
 
-            if (!empty($request['address'])) {
-                ProductLocation::create([
-                    'product_id' => $product->id,
-                    'address'    => $request['address'],
-                    'city'       => $request['city'],
-                    'state'      => $request['state'],
-                    'cep'        => $request['cep'],
-                ]);
-            }
-
             if (!empty($request['quantity']) && $request['quantity'] > 0) {
                 $this->stockService->in( [
                     'product_id'  => $product->id,
@@ -50,26 +40,12 @@ class ProductService
             $product = Product::findOrFail($id);
             $product->update($request);
 
-            if (!empty($request['address'])) {
+            if (!empty($request['location_id'])) {
                 $productLocation = ProductLocation::where('product_id', $product->id)->first();
 
-                if ($productLocation) {
-                    $productLocation->update([
-                        'address' => $request['address'],
-                        'city'    => $request['city'],
-                        'state'   => $request['state'],
-                        'cep'     => $request['cep'],
-                    ]);
-                } else {
-                    ProductLocation::create([
-                        'product_id' => $product->id,
-                        'address'    => $request['address'],
-                        'city'       => $request['city'],
-                        'state'      => $request['state'],
-                        'cep'        => $request['cep'],
-                    ]);
-                }
-            }
+                $productLocation->update([
+                    'location_id' => $request['location_id'],
+                ]);
 
             if (!empty($request['quantity']) && $request['quantity'] > 0) {
                 $this->stockService->in( [
@@ -82,10 +58,11 @@ class ProductService
                 ]);
             }
 
-            return $product->load('location');
+                return $product->load('location');
+            }
         });
     }
-
+    
     public function deleteProduct($id): bool
     {
         return DB::transaction(function () use ($id) {

@@ -43,9 +43,10 @@ class ProviderService
 
     public function getAllProviders(): array
     {
-        $providers = Provider::where('is_active', '1')
-            ->get()
-            ->toArray();
+        $providers = Provider::where('active', '1')
+        ->get()
+        ->toArray();
+
         return $providers;
     }
 }
