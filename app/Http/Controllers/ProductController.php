@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    public function createProduct(Request $request, ProductService $productService)
+    public function createProduct(CreateProductRequest $request, ProductService $productService): JsonResponse
     {
         try {
-            $product = $productService->createProduct($request);
+            $dataValidated = $request->validated();
+            $product       = $productService->createProduct($dataValidated);
 
             return response()->json([
                 'status'  => true,
@@ -36,7 +40,7 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function deleteProduct($id, ProductService $productService)
+    public function deleteProduct($id, ProductService $productService): JsonResponse
     {
         try {
             $product = $productService->deleteProduct($id);
@@ -64,10 +68,11 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function updateProduct(Request $request, $id, ProductService $productService)
+    public function updateProduct(UpdateProductRequest $request, $id, ProductService $productService)
     {
         try {
-            $product = $productService->updateProduct($id, $request);
+            $dataValidated = $request->validated();
+            $product       = $productService->updateProduct($id, $dataValidated);
 
             return response()->json([
                 'status'  => true,

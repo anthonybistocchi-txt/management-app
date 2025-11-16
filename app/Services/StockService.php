@@ -9,22 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class StockService
 {
-    public function in(array $data)
+    public function in(array $request)
     {
-        $validated = validator($data, [
-            'product_id'   => 'required|exists:products,id',
-            'quantity'     => 'required|integer|min:1',
-            'location_id'  => 'required|exists:product_locations,id',
-            'description'  => 'nullable|string|max:500',
-            'provider_id'  => 'nullable|exists:providers,id',
-            'type'         => 'required|in:in',
-        ])->validate();
 
-        return DB::transaction(function () use ($validated) {
+        return DB::transaction(function () use ($request) {
             $stock = Stock::firstOrCreate(
                 [
-                    'product_id'  => $validated['product_id'],
-                    'location_id' => $validated['location_id'],
+                    'product_id'  => $request['product_id'],
+                    'location_id' => $request['location_id'],
                 ],
                 [
                     'quantity' => 0,
@@ -33,23 +25,23 @@ class StockService
 
             $previousQuantity = $stock->quantity;
 
-            $stock->increment('quantity', $validated['quantity']); // mais clean
+            $stock->increment('quantity', $request['quantity']); // mais clean
 
             StockMovements::create([
-                'product_id'        => $validated['product_id'],
-                'quantity_moved'    => $validated['quantity'],
-                'location_id'       => $validated['location_id'],
+                'product_id'        => $request['product_id'],
+                'quantity_moved'    => $request['quantity'],
+                'location_id'       => $request['location_id'],
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
-                'description'       => $validated['description'] ?? null,
+                'description'       => $request['description'] ?? null,
                 'type'              => 'in',
-                'provider_id'       => $validated['provider_id'] ?? null,
+                'provider_id'       => $request['provider_id'] ?? null,
                 'created_by'        => Auth::id(),
             ]);
 
             return [
-                'product_id'        => $validated['product_id'],
-                'location_id'       => $validated['location_id'],
+                'product_id'        => $request['product_id'],
+                'location_id'       => $request['location_id'],
                 'previous_quantity' => $previousQuantity,
                 'new_quantity'      => $stock->quantity,
             ];
@@ -58,13 +50,6 @@ class StockService
 
     public function out($request)
     {
-        $request->validate([
-            'product_id'   => 'required|exists:products,id',
-            'quantity'     => 'required|integer|min:1',
-            'location_id'  => 'required|exists:product_locations,id',
-            'description'  => 'nullable|string|max:500',
-            'type'         => 'required|in:out',
-        ]);
 
         DB::transaction(function () use ($request) {
             $stock = Stock::where('product_id', $request->product_id)
@@ -72,7 +57,7 @@ class StockService
                 ->firstOrFail();
 
             if ($stock->quantity < $request->quantity) {
-                throw new \Exception('Insufficient stock for the requested operation.');
+                throw new \Exception('Insufficient stock for the data$requested operation.');
             }
 
             $previousQuantity = $stock->quantity;
@@ -95,14 +80,6 @@ class StockService
 
     public function transfer($request)
     {
-        $request->validate([
-            'product_id'        => 'required|exists:products,id',
-            'quantity'          => 'required|integer|min:1',
-            'from_location_id'  => 'required|exists:product_locations,id',
-            'to_location_id'    => 'required|exists:product_locations,id|different:from_location_id',
-            'description'       => 'nullable|string|max:500',
-            'type'              => 'required|in:transfer',
-        ]);
 
         DB::transaction(function () use ($request) {
             $fromStock = Stock::where('product_id', $request->product_id)
@@ -110,7 +87,7 @@ class StockService
                 ->firstOrFail();
 
             if ($fromStock->quantity < $request->quantity) {
-                throw new \Exception('Insufficient stock at the source location for the requested transfer.');
+                throw new \Exception('Insufficient stock at the source location for the data$requested transfer.');
             }
 
             $previousFromQuantity = $fromStock->quantity;
@@ -129,7 +106,6 @@ class StockService
                 'created_by'        => Auth::id(),
             ]);
 
-            // Increase stock at the destination location
             $toStock = Stock::firstOrCreate(
                 [
                     'product_id'  => $request->product_id,

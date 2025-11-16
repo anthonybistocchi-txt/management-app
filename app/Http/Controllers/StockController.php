@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Stock\StockInRequest;
 use App\Services\StockService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,10 +11,11 @@ use Illuminate\Validation\ValidationException;
 
 class StockController extends Controller
 {
-    public function in(Request $request, StockService $service): JsonResponse
+    public function in(StockInRequest $request, StockService $service): JsonResponse
     {
         try {
-            $data = $this->$service->in($request);
+            $dataValidated = $request->validated();
+            $data          = $service->in($dataValidated);
 
             return response()->json([
                 'status'  => true,

@@ -7,14 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginService
 {
-    public function loginAttempt(Request $data)
+    public function loginAttempt($data)
     {
-        $credentials = $data->validate([
-            'email'    => 'required|email',
-            'password' => 'required|min:6|max:200',
-        ]);
-
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($data)) {
             $data->session()->regenerate();
 
             return true;

@@ -8,22 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-
 class UserService
 {
-    public function createUser(Request $request): User
+    public function createUser($request): User
     {
-        $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'email'        => 'required|string|email|max:255|unique:users',
-            'password'     => 'required|string|min:8',
-            'type_user_id' => 'required|integer|exists:type_user,id',
-            'cpf'          => 'required|string|max:14|unique:users',
-        ]);
+        $request['password'] = Hash::make($request['password']);
 
-        $data['password'] = Hash::make($data['password']);
-
-        $user = User::create($data);
+        $user = User::create($request);
 
         return $user;
     }
@@ -40,41 +31,25 @@ class UserService
         return true;
     }
 
-    public function updateUser($id, Request $request): User
+    public function updateUser($id, $request): User
     {
         $user = User::findOrFail($id);
 
-        $data = $request->validate([
-            'name'         => 'sometimes|required|string|max:255',
-            'email'        => [
-                'sometimes',
-                'required',
-                'string',
-                'email',
-                'max:255',
-                // ignora o email do ID deste usuário
-                Rule::unique('users')->ignore($user->id)
-            ],
-            'password'     => 'sometimes|nullable|string|min:8',
-            'type_user_id' => 'sometimes|required|integer|exists:type_user,id',
-            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1'])],
-        ]);
 
-
-        if (isset($data['password']) && $data['password']) {
-            $data['password'] = Hash::make($data['password']);
+        if (isset($request['password']) && $request['password']) {
+            $request['password'] = Hash::make($request['password']);
         } else {
-            unset($data['password']); // remove do array
+            unset($request['password']); // remove do array
         }
 
-        $user->update($data);
+        $user->update($request);
 
         return $user;
     }
 
-    public function getUser(string $data): Collection
+    public function getUser(string $request): Collection
     {
-        $ids = explode(',', $data);
+        $ids = explode(',', $request);
         $users = User::whereIn('id', $ids)->get();
         return $users;
     }

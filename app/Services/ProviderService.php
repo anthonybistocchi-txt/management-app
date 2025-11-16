@@ -9,67 +9,34 @@ use Illuminate\Validation\Rule;
 
 class ProviderService
 {
-    public function createProvider(Request $request): Provider
+    public function createProvider($request): Provider
     {
-        $data = $request->validate([
-            'name'             => 'required|string|max:255',
-            'cnpj'             => 'required|string|max:21',
-            'phone'            => 'nullable|string|max:20',
-            'email'            => 'required|string|email|max:255|unique:providers',
-            'address_street'   => 'nullable|string|max:255',
-            'address_number'   => 'nullable|string|max:20',
-            'address_city'     => 'nullable|string|max:255',
-            'address_state'    => 'nullable|string|max:2',
-            'address_zipcode'  => 'nullable|string|max:10',
-        ]);
-
-
-        $provider = Provider::create($data);
+        $provider = Provider::create($request);
 
         return $provider;
     }
 
-    public function deleteProvider(array $data): bool
+    public function deleteProvider(array $request): bool
     {
-        $provider = Provider::findOrFail($data['id']);
+        $provider = Provider::findOrFail($request['id']);
         $provider->delete();
 
         return true;
     }
 
-    public function updateProvider($id, Request $request): Provider
+    public function updateProvider($id, $request): Provider
     {
         $provider = Provider::findOrFail($id);
 
-        $data = $request->validate([
-            'name'             => 'sometimes|string|max:255',
-            'cnpj'             => 'sometimes|string|max:21',
-            'phone'            => 'sometimes|string|max:20',
-            'email'        => [
-                'sometimes',
-                'required',
-                'string',
-                'email',
-                'max:255',
-                // ignora o email do ID deste provider
-                Rule::unique('providers')->ignore($provider->id)
-            ],
-            'is_active'        => 'sometimes|boolean',
-            'address_street'   => 'sometimes|string|max:255',
-            'address_number'   => 'sometimes|string|max:20',
-            'address_city'     => 'sometimes|string|max:255',
-            'address_state'    => 'sometimes|string|max:2',
-            'address_zipcode'  => 'sometimes|string|max:10',
-        ]);
 
-        $provider->update($data);
+        $provider->update($request);
 
         return $provider;
     }
 
-    public function getProvider(string $data): Collection
+    public function getProvider(string $request): Collection
     {
-        $ids = explode(',', $data);
+        $ids = explode(',', $request);
         $providers = Provider::whereIn('id', $ids)->get();
         return $providers;
     }
