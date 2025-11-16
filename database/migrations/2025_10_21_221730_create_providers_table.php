@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->enum('is_active', [0, 1])->default(1);
             $table->string('cep', 10)->nullable();
-            $table->string('address_street')->nullable();
-            $table->string('address_number', 10)->nullable();
-            $table->string('address_city')->nullable();
-            $table->string('address_state', 2)->nullable();
-            $table->string('address_zipcode', 10)->nullable();
+            $table->string('street')->nullable();
+            $table->string('number', 10)->nullable();
+            $table->string('city')->nullable();
+            $table->string('state', 2)->nullable();
+            $table->string('cep', 10)->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
