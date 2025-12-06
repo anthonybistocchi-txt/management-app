@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('number', 10)->nullable();
             $table->string('city')->nullable();
             $table->string('state', 2)->nullable();
-            $table->string('cep', 10)->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
