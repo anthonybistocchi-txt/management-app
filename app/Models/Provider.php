@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Provider extends Model
 {
     use SoftDeletes;
-    use Userstamps;
+    //use Userstamps;
 
     protected $table = 'providers';
 

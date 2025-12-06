@@ -16,9 +16,13 @@ class ProviderService
         return $provider;
     }
 
-    public function deleteProvider(array $request): bool
+    public function deleteProvider(int $id): bool
     {
-        $provider = Provider::findOrFail($request['id']);
+       $provider = Provider::findOrFail($id);
+
+        $provider->is_active = 0;
+        $provider->save();
+
         $provider->delete();
 
         return true;

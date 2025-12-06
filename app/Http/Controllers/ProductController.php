@@ -6,8 +6,8 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
@@ -102,7 +102,7 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getProduct(Request $request, ProductService $productService)
+    public function getProduct(Request $request, ProductService $productService): JsonResponse
     {
         if (!$request->has('id') || empty($request->id)) {
             return response()->json([
@@ -138,15 +138,15 @@ class ProductController extends Controller
         }
     }
 
-    public function getAllProducts(ProductService $productService)
+    public function getAllProducts(ProductService $productService): JsonResponse
     {
         try {
             $products = $productService->getAllProducts();
 
-            if (empty($providers)) {
+            if (empty($products)) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'providers not found',
+                    'message' => 'products not found',
                     'code'    => 404
                 ]);
             }

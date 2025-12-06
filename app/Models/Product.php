@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    use Userstamps;
+    //use Userstamps;
 
     protected $table = 'products';
 
@@ -28,7 +28,7 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'price'          => 'integer',
+        'price'          => 'numeric',
         'stock_quantity' => 'integer',
         'created_at'     => 'datetime:d-m-Y H:i:s',
         'updated_at'     => 'datetime:d-m-Y H:i:s',
