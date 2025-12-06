@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Traits\ApiResponse;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -13,32 +13,19 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+    use ApiResponse;
+
     public function createUser(CreateUserRequest $request, UserService $userService): JsonResponse
     {
         try {
             $dataValidated = $request->validated();
             $user          = $userService->createUser($dataValidated);
             
-            return response()->json([
-                'status'     => true,
-                'message'    => 'user create with successful',
-                'data'       => $user,
-                'code'       => 201
-            ]);
+            return $this->createdResponse($user, 'User created successfully');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'   => false,
-                'message'  => 'invalid data',
-                'errors'   => $e->getMessage(),
-                'code'     => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->getMessage());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'     => false,
-                'message'    => 'error to create user',
-                'error'      => $e->getMessage(),
-                'code'       => 500
-            ]);
+            return $this->errorResponse('Error creating user', $e->getMessage());
         }
     }
 
@@ -48,27 +35,12 @@ class UserController extends Controller
             $user = $userService->deleteUser($id);
 
             if ($user) {
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'user delete with successful',
-                    'code'     => 200
-                ]);
+                return $this->successResponse(null, 'User deleted successfully');
             }
 
-            return response()->json([
-                'status'  => true,
-                'error'   => 'error to delete user',
-                'message' => 'user not found',
-                'code'    => 404
-
-            ]);
+            return $this->notFoundResponse('User not found');
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to delete user',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error deleting user', $e->getMessage());
         }
     }
 
@@ -78,32 +50,13 @@ class UserController extends Controller
             $dataValidated = $request->validated();
             $user = $userService->updateUser($id, $dataValidated);
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'user updated with sucessful',
-                'data'    => $user,
-                'code'    => 200
-            ]);
+            return $this->successResponse($user, 'User updated successfully');
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'user not found',
-                'code'    => 404
-            ]);
+            return $this->notFoundResponse('User not found');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'invalid data',
-                'errors'  => $e->errors(), // Mostra os erros
-                'code'    => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->errors());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to update user',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error updating user', $e->getMessage());
         }
     }
 
@@ -112,37 +65,19 @@ class UserController extends Controller
     {
 
         if (!$request->has('id') || empty($request->id)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'id parameter is required',
-                'code'    => 400
-            ]);
+            return $this->errorResponse('ID parameter is required', null, 400);
         }
 
         try {
             $users = $userService->getUser($request->id);
 
             if ($users->isEmpty()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'not found users',
-                    'code'    => 404
-                ]);
+                return $this->notFoundResponse('Users not found');
             }
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'sucess',
-                'data'    => $users,
-                'code'    => 200
-            ]);
+            return $this->successResponse($users);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get users',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error retrieving users', $e->getMessage());
         }
     }
 
@@ -152,26 +87,13 @@ class UserController extends Controller
             $users = $userService->getAllUsers();
 
             if (empty($users)) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'not found users',
-                    'code'    => 404
-
-                ]);
+                return $this->notFoundResponse('Users not found');
             }
-            return response()->json([
-                'status'  => true,
-                'message' => 'sucess',
-                'data'    => $users,
-                'code'    => 200
-            ]);
+            
+            return $this->successResponse($users);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get users',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error retrieving users', $e->getMessage());
         }
     }
 }
+

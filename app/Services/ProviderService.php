@@ -3,54 +3,39 @@
 namespace App\Services;
 
 use App\Models\Provider;
+use App\Repositories\Contracts\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class ProviderService
 {
-    public function createProvider($request): Provider
-    {
-        $provider = Provider::create($request);
+    public function __construct(
+        protected ProviderRepositoryInterface $providerRepository
+    ) {}
 
-        return $provider;
+    public function createProvider(array $data): Provider
+    {
+        return $this->providerRepository->create($data);
     }
 
     public function deleteProvider(int $id): bool
     {
-       $provider = Provider::findOrFail($id);
-
-        $provider->is_active = 0;
-        $provider->save();
-
-        $provider->delete();
-
-        return true;
+        return $this->providerRepository->delete($id);
     }
 
-    public function updateProvider($id, $request): Provider
+    public function updateProvider(int $id, array $data): Provider
     {
-        $provider = Provider::findOrFail($id);
-
-
-        $provider->update($request);
-
-        return $provider;
+        return $this->providerRepository->update($id, $data);
     }
 
-    public function getProvider(string $request): Collection
+    public function getProvider(string $idsString): Collection
     {
-        $ids = explode(',', $request);
-        $providers = Provider::whereIn('id', $ids)->get();
-        return $providers;
+        $ids = explode(',', $idsString);
+        return $this->providerRepository->findByIds($ids);
     }
 
     public function getAllProviders(): array
     {
-        $providers = Provider::where('active', '1')
-        ->get()
-        ->toArray();
-
-        return $providers;
+        return $this->providerRepository->findAll();
     }
 }
+

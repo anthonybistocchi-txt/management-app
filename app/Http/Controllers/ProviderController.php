@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Product\CreateProviderRequest;
+use App\Http\Requests\Provider\CreateProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
+use App\Http\Traits\ApiResponse;
 use App\Services\ProviderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -12,32 +13,19 @@ use Illuminate\Validation\ValidationException;
 
 class ProviderController extends Controller
 {
+    use ApiResponse;
+
     public function createProvider(CreateProviderRequest $request, ProviderService $providerService): JsonResponse
     {
         try {
             $dataValidated = $request->validated();
             $provider      = $providerService->createProvider($dataValidated);
 
-            return response()->json([
-                'status'     => true,
-                'message'    => 'provider create with successful',
-                'data'       => $provider,
-                'code'       => 201
-            ]);
+            return $this->createdResponse($provider, 'Provider created successfully');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'   => false,
-                'message'  => 'invalid datas',
-                'errors'   => $e->getMessage(),
-                'code'     => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->getMessage());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'     => false,
-                'message'    => 'error to create provider',
-                'error'      => $e->getMessage(),
-                'code'       => 500
-            ]);
+            return $this->errorResponse('Error creating provider', $e->getMessage());
         }
     }
 
@@ -47,27 +35,12 @@ class ProviderController extends Controller
             $provider = $providerService->deleteProvider($id);
 
             if ($provider) {
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'provider delete with successful',
-                    'code'     => 200
-                ]);
+                return $this->successResponse(null, 'Provider deleted successfully');
             }
 
-            return response()->json([
-                'status'  => true,
-                'error'   => 'error to delete provider',
-                'message' => 'provider not found',
-                'code'    => 404
-
-            ]);
+            return $this->notFoundResponse('Provider not found');
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to delete provider',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error deleting provider', $e->getMessage());
         }
     }
 
@@ -77,32 +50,13 @@ class ProviderController extends Controller
             $dataValidated = $request->validated();
             $provider      = $providerService->updateProvider($id, $dataValidated);
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'provider updated with sucessful',
-                'data'    => $provider,
-                'code'    => 200
-            ]);
+            return $this->successResponse($provider, 'Provider updated successfully');
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'provider not found',
-                'code'    => 404
-            ]);
+            return $this->notFoundResponse('Provider not found');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'invalid data',
-                'errors'  => $e->errors(), // Mostra os erros
-                'code'    => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->errors());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to update provider',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ], 500);
+            return $this->errorResponse('Error updating provider', $e->getMessage());
         }
     }
 
@@ -111,37 +65,19 @@ class ProviderController extends Controller
     {
 
         if (!$request->has('id') || empty($request->id)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'id parameter is required',
-                'code'    => 400
-            ]);
+            return $this->errorResponse('ID parameter is required', null, 400);
         }
 
         try {
             $provider = $providerService->getProvider($request->id);
 
             if ($provider->isEmpty()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'provider not found',
-                    'code'    => 404
-                ]);
+                return $this->notFoundResponse('Provider not found');
             }
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'sucess',
-                'data'    => $provider,
-                'code'    => 200
-            ]);
+            return $this->successResponse($provider);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get provider',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error retrieving provider', $e->getMessage());
         }
     }
 
@@ -151,26 +87,12 @@ class ProviderController extends Controller
             $providers = $providerService->getAllProviders();
 
             if (empty($providers)) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'providers not found',
-                    'code'    => 404
-
-                ]);
+                return $this->notFoundResponse('Providers not found');
             }
-            return response()->json([
-                'status'  => true,
-                'message' => 'sucess',
-                'data'    => $providers,
-                'code'    => 200
-            ]);
+            
+            return $this->successResponse($providers);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get providers',
-                'error'   => $e->getMessage(),
-                'code'    => 500
-            ]);
+            return $this->errorResponse('Error retrieving providers', $e->getMessage());
         }
     }
 }

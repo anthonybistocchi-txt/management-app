@@ -2,30 +2,31 @@
 
 namespace App\Services;
 
-use App\Models\Product;
 use App\Models\ProductLocation;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
-    public function __construct(protected StockService $stockService) {}
+    public function __construct(
+        protected ProductRepositoryInterface $productRepository,
+        protected StockService $stockService
+    ) {}
 
-    public function createProduct($request)
+    public function createProduct(array $data)
     {
+        return DB::transaction(function () use ($data) {
+            $product = $this->productRepository->create($data);
 
-        return DB::transaction(function () use ($request) {
-            $product = Product::create($request);
-
-            if (!empty($request['quantity']) && $request['quantity'] > 0) {
-                $this->stockService->in( [
+            if (!empty($data['quantity']) && $data['quantity'] > 0) {
+                $this->stockService->in([
                     'product_id'  => $product->id,
-                    'quantity'    => $request['quantity'],
-                    'location_id' => $request['location_id'] ?? null,
-                    'description' => $request['description'] ?? '',
+                    'quantity'    => $data['quantity'],
+                    'location_id' => $data['location_id'] ?? null,
+                    'description' => $data['description'] ?? '',
                     'type'        => 'in',
-                    'provider_id' => $request['provider_id'],
+                    'provider_id' => $data['provider_id'],
                 ]);
             }
 
@@ -33,55 +34,50 @@ class ProductService
         });
     }
 
-    public function updateProduct($id, $request)
+    public function updateProduct(int $id, array $data)
     {
+        return DB::transaction(function () use ($id, $data) {
+            $product = $this->productRepository->update($id, $data);
 
-        return DB::transaction(function () use ($id, $request) {
-            $product = Product::findOrFail($id);
-            $product->update($request);
-
-            if (!empty($request['location_id'])) {
+            if (!empty($data['location_id'])) {
                 $productLocation = ProductLocation::where('product_id', $product->id)->first();
 
                 $productLocation->update([
-                    'location_id' => $request['location_id'],
+                    'location_id' => $data['location_id'],
                 ]);
 
-            if (!empty($request['quantity']) && $request['quantity'] > 0) {
-                $this->stockService->in( [
-                    'product_id'  => $product->id,
-                    'quantity'    => $request['quantity'],
-                    'location_id' => $request['location_id'] ?? null,
-                    'description' => $request['description'] ?? '',
-                    'type'        => 'in',
-                    'provider_id' => $request['provider_id'] ?? $product->provider_id,
-                ]);
-            }
+                if (!empty($data['quantity']) && $data['quantity'] > 0) {
+                    $this->stockService->in([
+                        'product_id'  => $product->id,
+                        'quantity'    => $data['quantity'],
+                        'location_id' => $data['location_id'] ?? null,
+                        'description' => $data['description'] ?? '',
+                        'type'        => 'in',
+                        'provider_id' => $data['provider_id'] ?? $product->provider_id,
+                    ]);
+                }
 
                 return $product->load('location');
             }
         });
     }
     
-    public function deleteProduct($id): bool
+    public function deleteProduct(int $id): bool
     {
         return DB::transaction(function () use ($id) {
-            $product = Product::findOrFail($id);
-            $product->location()->delete();
-            $product->stock()->delete();
-            $product->delete();
-
-            return true;
+            return $this->productRepository->delete($id);
         });
     }
 
-    public function getProduct(string $data): Collection
+    public function getProduct(string $idsString): Collection
     {
-        return Product::whereIn('id', explode(',', $data))->get();
+        $ids = explode(',', $idsString);
+        return $this->productRepository->findByIds($ids);
     }
 
     public function getAllProducts(): array
     {
-        return Product::all()->toArray();
+        return $this->productRepository->findAll();
     }
 }
+

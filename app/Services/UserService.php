@@ -3,62 +3,48 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class UserService
 {
-    public function createUser($request): User
+    public function __construct(
+        protected UserRepositoryInterface $userRepository
+    ) {}
+
+    public function createUser(array $data): User
     {
-        $request['password'] = Hash::make($request['password']);
-
-        $user = User::create($request);
-
-        return $user;
+        $data['password'] = Hash::make($data['password']);
+        
+        return $this->userRepository->create($data);
     }
 
     public function deleteUser(int $id): bool
     {
-        $user = User::findOrFail($id);
-
-        $user->is_active = 0;
-        $user->save();
-
-        $user->delete();
-
-        return true;
+        return $this->userRepository->delete($id);
     }
 
-    public function updateUser($id, $request): User
+    public function updateUser(int $id, array $data): User
     {
-        $user = User::findOrFail($id);
-
-
-        if (isset($request['password']) && $request['password']) {
-            $request['password'] = Hash::make($request['password']);
+        if (isset($data['password']) && $data['password']) {
+            $data['password'] = Hash::make($data['password']);
         } else {
-            unset($request['password']); // remove do array
+            unset($data['password']);
         }
 
-        $user->update($request);
-
-        return $user;
+        return $this->userRepository->update($id, $data);
     }
 
-    public function getUser(string $request): Collection
+    public function getUser(string $idsString): Collection
     {
-        $ids = explode(',', $request);
-        $users = User::whereIn('id', $ids)->get();
-        return $users;
+        $ids = explode(',', $idsString);
+        return $this->userRepository->findByIds($ids);
     }
 
     public function getAllUsers(): array
     {
-        $users = User::where('active', '1')
-        ->get()
-        ->toArray();
-        return $users;
+        return $this->userRepository->findAllActive();
     }
 }
+

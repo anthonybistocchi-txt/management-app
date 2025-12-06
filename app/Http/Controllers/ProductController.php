@@ -4,138 +4,78 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Traits\ApiResponse;
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
+    use ApiResponse;
+
     public function createProduct(CreateProductRequest $request, ProductService $productService): JsonResponse
     {
         try {
             $dataValidated = $request->validated();
             $product       = $productService->createProduct($dataValidated);
 
-            return response()->json([
-                'status'  => true,
-                'message' => "product created successfully",
-                'data'    => $product,
-                'code'    => 201
-            ]);
+            return $this->createdResponse($product, 'Product created successfully');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'   => false,
-                'message'  => 'invalid datas',
-                'errors'   => $e->getMessage(),
-                'code'     => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->getMessage());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => "error creating product",
-                'error'   => $e->getMessage(),
-                'code'    => 422
-            ]);
+            return $this->errorResponse('Error creating product', $e->getMessage());
         }
     }
+    
     public function deleteProduct($id, ProductService $productService): JsonResponse
     {
         try {
             $product = $productService->deleteProduct($id);
 
             if ($product) {
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'product delete with successful',
-                    'code'     => 200
-                ]);
+                return $this->successResponse(null, 'Product deleted successfully');
             }
-            return response()->json([
-                'status'  => true,
-                'error'   => 'error to delete product',
-                'message' => 'product not found',
-                'code'    => 404
-
-            ]);
+            
+            return $this->notFoundResponse('Product not found');
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => "error deleting product",
-                'error'   => $e->getMessage(),
-                'code'    => 422
-            ]);
+            return $this->errorResponse('Error deleting product', $e->getMessage());
         }
     }
-    public function updateProduct(UpdateProductRequest $request, $id, ProductService $productService)
+    
+    public function updateProduct(UpdateProductRequest $request, $id, ProductService $productService): JsonResponse
     {
         try {
             $dataValidated = $request->validated();
             $product       = $productService->updateProduct($id, $dataValidated);
 
-            return response()->json([
-                'status'  => true,
-                'message' => "product updated successfully",
-                'data'    => $product,
-                'code'    => 200
-            ]);
+            return $this->successResponse($product, 'Product updated successfully');
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'product not found',
-                'code'    => 404
-            ]);
+            return $this->notFoundResponse('Product not found');
         } catch (ValidationException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'invalid data',
-                'errors'  => $e->errors(),
-                'code'    => 422
-            ]);
+            return $this->validationErrorResponse('Invalid data', $e->errors());
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => "error updating product",
-                'error'   => $e->getMessage(),
-                'code'    => 422
-            ]);
+            return $this->errorResponse('Error updating product', $e->getMessage());
         }
     }
+    
     public function getProduct(Request $request, ProductService $productService): JsonResponse
     {
         if (!$request->has('id') || empty($request->id)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'id parameter is required',
-                'code'    => 400
-            ]);
+            return $this->errorResponse('ID parameter is required', null, 400);
         }
 
         try {
             $product = $productService->getProduct($request->id);
 
             if ($product->isEmpty()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'product not found',
-                    'code'    => 404
-                ]);
+                return $this->notFoundResponse('Product not found');
             }
-            return response()->json([
-                'status'  => true,
-                'message' => "sucess",
-                'data'    => $product,
-                'code'    => 200
-            ]);
+            
+            return $this->successResponse($product);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => "error retrieving product",
-                'error'   => $e->getMessage(),
-                'code'    => 422
-            ]);
+            return $this->errorResponse('Error retrieving product', $e->getMessage());
         }
     }
 
@@ -145,25 +85,13 @@ class ProductController extends Controller
             $products = $productService->getAllProducts();
 
             if (empty($products)) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'products not found',
-                    'code'    => 404
-                ]);
+                return $this->notFoundResponse('Products not found');
             }
-            return response()->json([
-                'status'  => true,
-                'message' => "sucess",
-                'data'    => $products,
-                'code'    => 200
-            ]);
+            
+            return $this->successResponse($products);
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => "error to get products",
-                'error'   => $e->getMessage(),
-                'code'    => 422
-            ]);
+            return $this->errorResponse('Error retrieving products', $e->getMessage());
         }
     }
 }
+
