@@ -16,7 +16,7 @@ class UpdateProductRequest extends FormRequest
         return [
             'name'        => 'sometimes|string|max:255',
             'description' => 'sometimes|string', 
-            'price'       => 'sometimes|integer|min:0',
+            'price'       => 'sometimes|numeric|decimal:0,2|min:0',
             'provider_id' => 'sometimes|exists:providers,id',
             'quantity'    => 'nullable|integer|min:0', 
             'location_id' => 'nullable|exists:product_locations,id',
@@ -29,12 +29,11 @@ class UpdateProductRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-            'price.integer'      => 'O preço deve ser um número inteiro (ex: 1000 para R$ 10,00).',
-            'price.min'          => 'O preço não pode ser negativo.',
-            'provider_id.exists' => 'O fornecedor selecionado é inválido.',
-            'quantity.integer'   => 'A quantidade deve ser um número.',
-            'location_id.exists' => 'A localização selecionada é inválida.',
+       return [
+            'price.min'          => 'The price cannot be negative.',
+            'provider_id.exists' => 'The selected provider is invalid.',
+            'quantity.integer'   => 'The quantity must be an integer.',
+            'location_id.exists' => 'The selected location is invalid.',
         ];
     }
 }

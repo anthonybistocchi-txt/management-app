@@ -28,21 +28,21 @@ class UpdateUserRequest extends FormRequest
             ],
             'password'     => 'sometimes|string|min:8', 
             'type_user_id' => 'sometimes|required|integer|exists:type_user,id',
-            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1', 0, 1, true, false])],
+            'active'       => ['sometimes', 'required', Rule::in(['0', '1', 0, 1, true, false])],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required'         => 'O nome é obrigatório.',
-            'email.required'        => 'O e-mail é obrigatório.',
-            'email.email'           => 'O e-mail informado é inválido.',
-            'email.unique'          => 'Este e-mail já está cadastrado.',
-            'password.min'          => 'A nova senha deve ter no mínimo 8 caracteres.',
-            'type_user_id.required' => 'O tipo de usuário é obrigatório.',
-            'type_user_id.exists'   => 'O tipo de usuário selecionado é inválido.',
-            'is_active.in'          => 'O valor para "ativo" é inválido (aceito: 0 ou 1).',
+            'name.required'       => 'The name field is required.',
+            'email.required'      => 'The email field is required.',
+            'email.email'         => 'The email must be a valid email address.',
+            'email.unique'        => 'The email has already been taken.',
+            'password.min'        => 'The new password must be at least 8 characters.',
+            'type_user_id.required' => 'The user type field is required.',
+            'type_user_id.exists'   => 'The selected user type is invalid.',
+            'active.in'           => 'The active value is invalid (accepted: 0 or 1).',
         ];
     }
 }

@@ -42,11 +42,11 @@ class UpdateProviderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required'      => 'O e-mail é obrigatório.',
-            'email.email'         => 'O e-mail informado é inválido.',
-            'email.unique'        => 'Este e-mail já está em uso por outro fornecedor.',
-            'state.max'           => 'O estado deve ter no máximo 2 caracteres (ex: SP).',
-            'is_active.boolean'   => 'O campo "ativo" deve ser verdadeiro ou falso (1 ou 0).',
+            'email.required'    => 'The email field is required.',
+            'email.email'       => 'The email must be a valid email address.',
+            'email.unique'      => 'This email is already in use by another provider.',
+            'state.max'         => 'The state may not be greater than 2 characters (e.g., NY).',
+            'is_active.boolean' => 'The active field must be true or false (1 or 0).',
         ];
     }
 }

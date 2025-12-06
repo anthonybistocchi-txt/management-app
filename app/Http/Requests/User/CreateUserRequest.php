@@ -25,16 +25,16 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'         => 'O nome é obrigatório.',
-            'email.required'        => 'O e-mail é obrigatório.',
-            'email.email'           => 'O e-mail informado é inválido.',
-            'email.unique'          => 'Este e-mail já está cadastrado.',
-            'password.required'     => 'A senha é obrigatória.',
-            'password.min'          => 'A senha deve ter no mínimo 8 caracteres.',
-            'type_user_id.required' => 'O tipo de usuário é obrigatório.',
-            'type_user_id.exists'   => 'O tipo de usuário selecionado é inválido.',
-            'cpf.required'          => 'O CPF é obrigatório.',
-            'cpf.unique'            => 'Este CPF já está cadastrado.',
-        ];
+            'name.required'         => 'The name field is required.',
+            'email.required'        => 'The email field is required.',
+            'email.email'           => 'The email must be a valid email address.',
+            'email.unique'          => 'The email has already been taken.',
+            'password.required'     => 'The password field is required.',
+            'password.min'          => 'The password must be at least 8 characters.', 
+            'type_user_id.required' => 'The user type field is required.',
+            'type_user_id.exists'   => 'The selected user type is invalid.',
+            'cpf.required'          => 'The CPF field is required.',
+            'cpf.unique'            => 'The CPF has already been taken.',
+];
     }
 }

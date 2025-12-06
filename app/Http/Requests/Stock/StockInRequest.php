@@ -25,15 +25,15 @@ class StockInRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-            'product_id.required'  => 'O produto é obrigatório.',
-            'product_id.exists'    => 'O produto informado não existe.',
-            'quantity.required'    => 'A quantidade é obrigatória.',
-            'quantity.min'         => 'A quantidade deve ser no mínimo 1.',
-            'location_id.required' => 'A localização é obrigatória.',
-            'location_id.exists'   => 'A localização informada é inválida.',
-            'provider_id.exists'   => 'O fornecedor informado é inválido.',
-            'type.in'              => 'O tipo de operação é inválido (deve ser "in").',
+       return [
+            'product_id.required'  => 'The product is required.',
+            'product_id.exists'    => 'The selected product is invalid.',
+            'quantity.required'    => 'The quantity is required.',
+            'quantity.min'         => 'The quantity must be at least 1.',
+            'location_id.required' => 'The location is required.',
+            'location_id.exists'   => 'The selected location is invalid.',
+            'provider_id.exists'   => 'The selected provider is invalid.',
+            'type.in'              => 'The operation type is invalid (must be "in").',
         ];
     }
 }

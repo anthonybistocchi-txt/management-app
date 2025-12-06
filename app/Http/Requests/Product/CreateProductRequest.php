@@ -16,7 +16,7 @@ class CreateProductRequest extends FormRequest
         return [
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price'       => 'required|integer|min:0',
+            'price'       => 'required|numeric|decimal:0,2|min:0',
             'provider_id' => 'required|exists:providers,id',
             'quantity'    => 'nullable|integer|min:0',
             'location_id' => 'nullable|exists:product_locations,id',
@@ -26,14 +26,14 @@ class CreateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'       => 'O nome do produto é obrigatório.',
-            'price.required'      => 'O preço é obrigatório.',
-            'price.integer'       => 'O preço deve ser um número inteiro',
-            'price.min'           => 'O preço não pode ser negativo.',
-            'provider_id.required'=> 'O fornecedor é obrigatório.',
-            'provider_id.exists'  => 'O fornecedor selecionado é inválido.',
-            'quantity.integer'    => 'A quantidade deve ser um número.',
-            'location_id.exists'  => 'A localização selecionada é inválida.',
+            'name.required'        => 'The product name is required.',
+            'price.required'       => 'The price is required.',
+            'price.numeric'        => 'The price must be a number.', // Ajustado de integer para numeric
+            'price.min'            => 'The price cannot be negative.',
+            'provider_id.required' => 'The provider is required.',
+            'provider_id.exists'   => 'The selected provider is invalid.',
+            'quantity.integer'     => 'The quantity must be an integer.',
+            'location_id.exists'   => 'The selected location is invalid.',
         ];
     }
 }

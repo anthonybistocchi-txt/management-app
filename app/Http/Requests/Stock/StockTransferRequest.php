@@ -25,16 +25,16 @@ class StockTransferRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-            'product_id.required'       => 'O produto é obrigatório.',
-            'quantity.required'         => 'A quantidade é obrigatória.',
-            'quantity.min'              => 'A quantidade deve ser no mínimo 1.',
-            'from_location_id.required' => 'A localização de origem é obrigatória.',
-            'from_location_id.exists'   => 'A localização de origem é inválida.',
-            'to_location_id.required'   => 'A localização de destino é obrigatória.',
-            'to_location_id.exists'     => 'A localização de destino é inválida.',
-            'to_location_id.different'  => 'A localização de destino deve ser diferente da origem.',
-            'type.in'                   => 'O tipo de operação é inválido (deve ser "transfer").',
+       return [
+            'product_id.required'       => 'The product is required.',
+            'quantity.required'         => 'The quantity is required.',
+            'quantity.min'              => 'The quantity must be at least 1.',
+            'from_location_id.required' => 'The source location is required.',
+            'from_location_id.exists'   => 'The selected source location is invalid.',
+            'to_location_id.required'   => 'The destination location is required.',
+            'to_location_id.exists'     => 'The selected destination location is invalid.',
+            'to_location_id.different'  => 'The destination location must be different from the source.',
+            'type.in'                   => 'The operation type is invalid (must be "transfer").',
         ];
     }
 }

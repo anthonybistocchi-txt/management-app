@@ -29,14 +29,14 @@ class CreateProviderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'  => 'O nome do fornecedor é obrigatório.',
-            'cnpj.required'  => 'O CNPJ é obrigatório.',
-            'cnpj.max'       => 'O CNPJ deve ter no máximo 21 caracteres.',
-            'email.required' => 'O e-mail é obrigatório.',
-            'email.email'    => 'O e-mail informado é inválido.',
-            'email.unique'   => 'Este e-mail já está em uso por outro fornecedor.',
-            'state.max'      => 'O estado deve ter no máximo 2 caracteres (ex: SP).',
-            'cep.max'        => 'O CEP deve ter no máximo 10 caracteres.',
+            'name.required'  => 'The provider name is required.',
+            'cnpj.required'  => 'The CNPJ is required.',
+            'cnpj.max'       => 'The CNPJ may not be greater than 21 characters.',
+            'email.required' => 'The email field is required.',
+            'email.email'    => 'The email must be a valid email address.',
+            'email.unique'   => 'This email is already in use by another provider.',
+            'state.max'      => 'The state may not be greater than 2 characters (e.g., NY).',
+            'cep.max'        => 'The Zip Code may not be greater than 10 characters.',
         ];
     }
 }
