@@ -23,6 +23,9 @@ public\anotatations.txt
 .env.backup
 .env.production
 
+# Config backups
+config/*.bak
+
 # Arquivos gerados por IDEs e sistemas operacionais.
 .DS_Store
 .idea
