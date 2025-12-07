@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Login\LoginRequest;
 use App\Services\LoginService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -20,14 +19,12 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-        try {
-            $request->authenticate();
-            
-            $this->loginService->execute(
-                $request->validated(),
-                         $request->ip(),
-                   $request->boolean('remember')
-            );
+        try {    
+                $this->loginService->execute(
+                    $request->validated(),
+                             $request->ip(),
+                       $request->boolean('remember')
+                );
 
             return response()->json([
                 'status'  => true,
