@@ -63,7 +63,8 @@ class UserController extends Controller
     public function updateUser(int $id, UpdateUserRequest $request): JsonResponse
     {
         try {
-            $user = $this->userService->updateUser($id, $request->validated());
+            $request->validated();
+            $user = $this->userService->updateUser($id, $request->all());
 
             return response()->json([
                 'status'  => true,
@@ -90,7 +91,7 @@ class UserController extends Controller
 
         return response()->json([
             'status'  => true,
-            'message' => 'success', // corrigido typo 'sucess'
+            'message' => 'success', 
             'data'    => $users,
             'code'    => 200
         ]);

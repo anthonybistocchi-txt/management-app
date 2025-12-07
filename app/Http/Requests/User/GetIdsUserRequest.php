@@ -26,4 +26,13 @@ class GetIdsUserRequest extends FormRequest
             'ids.*' => 'integer|exists:users,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'ids.required'   => 'The ids field is required.',
+            'ids.*.integer'  => 'Each id must be an integer.',
+            'ids.*.exists'   => 'One or more ids do not exist in the users table.',
+        ];
+    }
 }

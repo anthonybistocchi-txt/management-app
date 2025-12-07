@@ -25,4 +25,13 @@ class GetUserRequest extends FormRequest
             'id' => 'required|integer|exists:users,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'id.required' => 'The id field is required.',
+            'id.integer'  => 'The id must be an integer.',
+            'id.exists'   => 'The specified user does not exist.',
+        ];
+    }
 }
