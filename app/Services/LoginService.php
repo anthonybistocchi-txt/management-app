@@ -19,7 +19,7 @@ class LoginService
      * @param array $credentials
      * @param string $ip
      * @param bool $remember
-     * @return User
+     * @return bool
      * @throws ValidationException
      */
 
@@ -43,12 +43,18 @@ class LoginService
 
         $user = Auth::user();
 
+        
+        LoginActivities::where('user_id', $user->id)
+            ->whereNull('logout_at')
+            ->update(['logout_at' => now()]);
+
+        
         LoginActivities::create([
             'user_id'    => $user->id,
             'ip_address' => $ip,
             'login_at'   => now(),
+            
         ]);
-
         return true;
     }
 
@@ -57,13 +63,17 @@ class LoginService
      */
     public function logout(): bool
     {
+        $user = Auth::user(); 
+
+        if ($user) {
+            LoginActivities::where('user_id', $user->id)
+                ->whereNull('logout_at')
+                ->update(['logout_at' => now()]);
+        }
+
         Auth::logout();
         Session::invalidate();
         Session::regenerateToken();
-
-        LoginActivities::where('user_id', Auth::id())
-            ->whereNull('logout_at')
-            ->update(['logout_at' => now()]);
 
         return true;
 
