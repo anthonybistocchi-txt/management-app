@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\CreateProviderRequest;
+use App\Http\Requests\Provider\DeleteProviderRequest;
+use App\Http\Requests\Provider\GetProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
 use App\Services\ProviderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -12,31 +14,39 @@ use Illuminate\Validation\ValidationException;
 
 class ProviderController extends Controller
 {
-    public function createProvider(CreateProviderRequest $request, ProviderService $providerService): JsonResponse
+
+    protected $providerService;
+
+    public function __construct(ProviderService $providerService)
+    {
+        $this->providerService = $providerService;
+    }
+    
+    public function createProvider(CreateProviderRequest $request): JsonResponse
     {
         try {
             $dataValidated = $request->validated();
-            $provider      = $providerService->createProvider($dataValidated);
+            $provider      = $this->providerService->createProvider($dataValidated);
 
             return response()->json([
-                'status'     => true,
-                'message'    => 'provider create with successful',
-                'data'       => $provider,
-                'code'       => 201
+                'status'  => true,
+                'message' => 'provider created with sucessful',
+                'data'    => $provider,
+                'code'    => 201
             ]);
         } catch (ValidationException $e) {
             return response()->json([
-                'status'   => false,
-                'message'  => 'invalid datas',
-                'errors'   => $e->getMessage(),
-                'code'     => 422
+                'status'  => false,
+                'message' => 'invalid data',
+                'errors'  => $e->errors(), // Mostra os erros
+                'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'     => false,
-                'message'    => 'error to create provider',
-                'error'      => $e->getMessage(),
-                'code'       => 500
+                'status'  => false,
+                'message' => 'error to create provider',
+                'error'   => $e->getMessage(),
+                'code'    => 500
             ]);
         }
     }
@@ -44,23 +54,14 @@ class ProviderController extends Controller
     public function deleteProvider($id, ProviderService $providerService): JsonResponse
     {
         try {
-            $provider = $providerService->deleteProvider($id);
+                $this->providerService->deleteProvider($id);
 
-            if ($provider) {
                 return response()->json([
                     'status'   => true,
                     'message'  => 'provider delete with successful',
                     'code'     => 200
                 ]);
-            }
-
-            return response()->json([
-                'status'  => true,
-                'error'   => 'error to delete provider',
-                'message' => 'provider not found',
-                'code'    => 404
-
-            ]);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
@@ -71,30 +72,17 @@ class ProviderController extends Controller
         }
     }
 
-    public function updateProvider($id, UpdateProviderRequest $request, ProviderService $providerService): JsonResponse
+    public function updateProvider($id, UpdateProviderRequest $request): JsonResponse
     {
         try {
-            $dataValidated = $request->validated();
-            $provider      = $providerService->updateProvider($id, $dataValidated);
+            $request->validated();
+            $provider = $this->providerService->updateProvider($id, $request->all());
 
             return response()->json([
                 'status'  => true,
                 'message' => 'provider updated with sucessful',
                 'data'    => $provider,
                 'code'    => 200
-            ]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'provider not found',
-                'code'    => 404
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'invalid data',
-                'errors'  => $e->errors(), // Mostra os erros
-                'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -107,31 +95,15 @@ class ProviderController extends Controller
     }
 
 
-    public function getProvider(Request $request, ProviderService $providerService): JsonResponse
+    public function getProvider(GetProviderRequest $request, ProviderService $providerService): JsonResponse
     {
-
-        if (!$request->has('id') || empty($request->id)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'id parameter is required',
-                'code'    => 400
-            ]);
-        }
-
         try {
-            $provider = $providerService->getProvider($request->id);
-
-            if ($provider->isEmpty()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'provider not found',
-                    'code'    => 404
-                ]);
-            }
+            $data     = $request->validated();
+            $provider = $providerService->getProvider($data['ids']);
 
             return response()->json([
                 'status'  => true,
-                'message' => 'sucess',
+                'message' => 'success',
                 'data'    => $provider,
                 'code'    => 200
             ]);
@@ -160,7 +132,7 @@ class ProviderController extends Controller
             }
             return response()->json([
                 'status'  => true,
-                'message' => 'sucess',
+                'message' => 'success',
                 'data'    => $providers,
                 'code'    => 200
             ]);

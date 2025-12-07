@@ -3,54 +3,42 @@
 namespace App\Services;
 
 use App\Models\Provider;
+use App\Repositories\Eloquent\ProviderRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class ProviderService
 {
-    public function createProvider($request): Provider
-    {
-        $provider = Provider::create($request);
 
-        return $provider;
+    protected $providerRepository;
+
+    public function __construct(ProviderRepository $providerRepository)
+    {
+        $this->providerRepository = $providerRepository;
+    }
+
+    
+    public function createProvider($data): Provider
+    {
+        return $this->providerRepository->createProvider($data);
     }
 
     public function deleteProvider(int $id): bool
     {
-       $provider = Provider::findOrFail($id);
-
-        $provider->is_active = 0;
-        $provider->save();
-
-        $provider->delete();
-
-        return true;
+        return $this->providerRepository->deleteProvider($id);
     }
 
-    public function updateProvider($id, $request): Provider
+    public function updateProvider($id, $data): Provider
     {
-        $provider = Provider::findOrFail($id);
-
-
-        $provider->update($request);
-
-        return $provider;
+        return $this->providerRepository->updateProvider($id, $data);
     }
 
-    public function getProvider(string $request): Collection
+    public function getProvider(array $data): Collection
     {
-        $ids = explode(',', $request);
-        $providers = Provider::whereIn('id', $ids)->get();
-        return $providers;
+        return $this->providerRepository->getProvider($data);
     }
 
-    public function getAllProviders(): array
+    public function getAllProviders(): Collection
     {
-        $providers = Provider::where('active', '1')
-        ->get()
-        ->toArray();
-
-        return $providers;
+        return $this->providerRepository->getAllProviders();
     }
 }

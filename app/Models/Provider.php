@@ -27,7 +27,7 @@ class Provider extends Model
         'number',
         'city',
         'state',
-        'zipcode',
+        'cep',
         'created_at',
         'updated_at',
         'created_by',

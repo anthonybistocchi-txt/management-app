@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('cnpj', 20)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('email')->nullable();
-            $table->enum('active', [0, 1])->default(1);
+            $table->boolean('active')->default(1);
             $table->string('cep', 10)->nullable();
             $table->string('street')->nullable();
             $table->string('number', 10)->nullable();
