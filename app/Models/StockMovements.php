@@ -18,7 +18,7 @@ class StockMovements extends Model
     protected $fillable = [
         'product_id',
         'quantity_moved',
-        'location_id',
+        // 'location_id',
         'previous_quantity',
         'new_quantity',
         'description',
@@ -32,10 +32,10 @@ class StockMovements extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(ProductLocation::class, 'location_id');
-    }
+    // public function location(): BelongsTo
+    // {
+    //     return $this->belongsTo(ProductLocation::class, 'location_id');
+    // }
 
     public function creator(): BelongsTo
     {

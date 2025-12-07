@@ -17,20 +17,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');  // testado e funcionando
         
+
         Route::prefix('users')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('users.index');
-            Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
-            Route::post('/', [UserController::class, 'store'])->name('users.store');
-            Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
-            Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+            Route::get('/all', [UserController::class, 'getAllUsers'])->name('users.index');
+            Route::post('/get', [UserController::class, 'getUser'])->name('users.show');
+            Route::put('/update/{id}', [UserController::class, 'updateUser'])->name('users.update');  // testado e funcionando
+            Route::post('/create', [UserController::class, 'createUser'])->name('users.store');
+            Route::delete('/delete/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
         });
 
         Route::prefix('providers')->group(function () {
-            Route::get('/getProvider', [ProviderController::class, 'getProvider'])->name('get.provider');
-            Route::get('/getAllProvider', [ProviderController::class, 'getAllProviders'])->name('getAll.Provider');
-            Route::post('/createProvider', [ProviderController::class, 'createProvider'])->name('create.provider');
-            Route::put('/updateProvider/{id}', [ProviderController::class, 'updateProvider'])->name('update.provider');
-            Route::delete('/deleteProvider/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.provider');
+            Route::get('/all', [ProviderController::class, 'getAllProviders'])->name('providers.index');
+            Route::post('/get', [ProviderController::class, 'getProvider'])->name('providers.show');
+            Route::put('/update/{id}', [ProviderController::class, 'updateProvider'])->name('providers.update');  // testado e funcionando
+            Route::post('/create', [ProviderController::class, 'createProvider'])->name('providers.store');
+            Route::delete('/delete/{id}', [ProviderController::class, 'deleteProvider'])->name('providers.destroy');
         });
 
         Route::prefix('products')->group(function () {

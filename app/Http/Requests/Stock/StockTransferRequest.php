@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 namespace App\Http\Requests\Stock;
 
@@ -37,4 +37,4 @@ class StockTransferRequest extends FormRequest
             'type.in'                   => 'The operation type is invalid (must be "transfer").',
         ];
     }
-}
+} 

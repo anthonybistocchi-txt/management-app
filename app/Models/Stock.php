@@ -17,7 +17,7 @@ class Stock extends Model
     protected $fillable = [
         'product_id',
         'quantity',
-        'location_id',
+        // 'location_id',
         'updated_by',
         'created_by',
         'deleted_by',
@@ -28,8 +28,8 @@ class Stock extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(ProductLocation::class, 'location_id');
-    }
+    // public function location(): BelongsTo
+    // {
+    //     return $this->belongsTo(ProductLocation::class, 'location_id');
+    // }
 }
