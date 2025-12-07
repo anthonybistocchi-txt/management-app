@@ -8,45 +8,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductLocation extends Model
-{
-    use SoftDeletes;
-    use Userstamps;
+// class ProductLocation extends Model
+// {
+//     use SoftDeletes;
+//     use Userstamps;
 
-    protected $table = 'products_locations';
+//     protected $table = 'products_locations';
 
-    protected $fillable = [
-        'name',
-        'address',
-        'city',
-        'state',
-        'cep',
-        'product_id',
-        'updated_by',
-        'created_by',
-        'deleted_by',
-    ];
+//     protected $fillable = [
+//         'name',
+//         'address',
+//         'city',
+//         'state',
+//         'cep',
+//         'product_id',
+//         'updated_by',
+//         'created_by',
+//         'deleted_by',
+//     ];
 
 
-    protected $casts = [
-        'created_at'        => 'datetime:d-m-Y H:i:s',
-        'updated_at'        => 'datetime:d-m-Y H:i:s',
-        'deleted_at'        => 'datetime:d-m-Y H:i:s',
+//     protected $casts = [
+//         'created_at'        => 'datetime:d-m-Y H:i:s',
+//         'updated_at'        => 'datetime:d-m-Y H:i:s',
+//         'deleted_at'        => 'datetime:d-m-Y H:i:s',
 
-    ];
+//     ];
 
-    protected function cep(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => preg_replace('/[^0-9]/', '', $value),
+//     protected function cep(): Attribute
+//     {
+//         return Attribute::make(
+//             set: fn($value) => preg_replace('/[^0-9]/', '', $value),
 
-            get: fn($value) => preg_replace('/(\d{5})(\d{3})/', '$1-$2', $value)
-        );
-    }
+//             get: fn($value) => preg_replace('/(\d{5})(\d{3})/', '$1-$2', $value)
+//         );
+//     }
 
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
+//     public function product(): BelongsTo
+//     {
+//         return $this->belongsTo(Product::class);
+//     }
 
-}
+// }

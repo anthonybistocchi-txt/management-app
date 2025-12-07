@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\getProductsByIdsRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,8 +32,8 @@ class ProductController extends Controller
                 'code'    => 200
             ]);
 
-        } catch (\Exception $e) {
-            return $this->errorResponse('Error fetching products', $e);
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error fetching products', $error);
         }
     }
 
@@ -39,6 +41,15 @@ class ProductController extends Controller
     {
         try {
             $product = $this->productService->getProduct($id);
+
+            if (!$product) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Product not found',
+                    'code'    => 404
+                ]);
+            }
+            
             return response()->json([
                 'status'  => true,
                 'message' => "Success",
@@ -46,8 +57,8 @@ class ProductController extends Controller
                 'code'    => 200
             ]);
 
-        } catch (\Exception $e) {
-            return $this->errorResponse('Error retrieving product', $e);
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error retrieving product', $error);
         }
     }
 
@@ -63,8 +74,8 @@ class ProductController extends Controller
                 'code'    => 201
             ]);
 
-        } catch (\Exception $e) {
-            return $this->errorResponse('Error creating product', $e);
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error creating product', $error);
         }
     }
 
@@ -80,22 +91,29 @@ class ProductController extends Controller
                 'code'    => 200
             ]);
 
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $error) {
             return response()->json([
                 'status'  => false,
                 'message' => 'Product not found',
                 'code'    => 404
             ]);
-        } catch (\Exception $e) {
-            return $this->errorResponse('Error updating product', $e);
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error updating product', $error);
         }
     }
 
     public function destroy($id): JsonResponse
     {
         try {
+            $deleted = $this->productService->deleteProduct($id);
 
-            $this->productService->deleteProduct($id);
+            if (!$deleted) {
+                 return response()->json([
+                    'status'  => false,
+                    'message' => 'Product not found or could not be deleted',
+                    'code'    => 404
+                ]);
+            }
 
             return response()->json([
                 'status'  => true,
@@ -103,17 +121,35 @@ class ProductController extends Controller
                 'code'    => 200
             ]);
 
-        } catch (\Exception $e) {
-            return $this->errorResponse('Error deleting product', $e);
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error deleting product', $error);
         }
     }
 
-    private function errorResponse($message, \Exception $e)
+    public function getProductsByIds(getProductsByIdsRequest $request): JsonResponse
+    {
+        try {
+            $data     = $request->validated();
+            $products = $this->productService->getProductsByIds($data['ids']);
+
+            return response()->json([
+                'status'  => true,
+                'message' => "Success",
+                'data'    => $products,
+                'code'    => 200
+            ]);
+
+        } catch (\Exception $error) {
+            return $this->errorResponse('Error fetching products by IDs', $error);
+        }
+    }
+    
+    private function errorResponse($message, \Exception $error)
     {
         return response()->json([
             'status'  => false,
             'message' => $message,
-            'error'   => $e->getMessage(),
+            'error'   => $error->getMessage(),
             'code'    => 500 
         ]);
     }

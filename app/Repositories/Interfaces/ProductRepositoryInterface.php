@@ -14,5 +14,5 @@ interface ProductRepositoryInterface
     public function find(int $id): ?Product;
     public function findByIds(array $ids): Collection;
     public function getAll(): Collection;
-    public function updateLocation(Product $product, int $locationId): void;
+    // public function updateLocation(Product $product, int $locationId): void;
 }
