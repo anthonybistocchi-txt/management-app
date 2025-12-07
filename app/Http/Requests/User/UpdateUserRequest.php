@@ -35,14 +35,14 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'       => 'The name field is required.',
-            'email.required'      => 'The email field is required.',
-            'email.email'         => 'The email must be a valid email address.',
-            'email.unique'        => 'The email has already been taken.',
-            'password.min'        => 'The new password must be at least 8 characters.',
+            'name.required'         => 'The name field is required.',
+            'email.required'        => 'The email field is required.',
+            'email.email'           => 'The email must be a valid email address.',
+            'email.unique'          => 'The email has already been taken.',
+            'password.min'          => 'The new password must be at least 8 characters.',
             'type_user_id.required' => 'The user type field is required.',
             'type_user_id.exists'   => 'The selected user type is invalid.',
-            'active.in'           => 'The active value is invalid (accepted: 0 or 1).',
+            'active.in'             => 'The active value is invalid (accepted: 0 or 1).',
         ];
     }
 }

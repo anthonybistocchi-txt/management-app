@@ -2,63 +2,41 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UserService
 {
-    public function createUser($request): User
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        $request['password'] = Hash::make($request['password']);
+        $this->userRepository = $userRepository;
+    }
 
-        $user = User::create($request);
-
-        return $user;
+    public function createUser(array $data): User
+    {
+        return $this->userRepository->createUser($data);
     }
 
     public function deleteUser(int $id): bool
     {
-        $user = User::findOrFail($id);
-
-        $user->active = 0;
-        $user->save();
-
-        $user->delete();
-
-        return true;
+        return $this->userRepository->deleteUser($id);
     }
 
-    public function updateUser($id, $request): User
+    public function updateUser(int $id, array $data): User
     {
-        $user = User::findOrFail($id);
-
-
-        if (isset($request['password']) && $request['password']) {
-            $request['password'] = Hash::make($request['password']);
-        } else {
-            unset($request['password']); // remove do array
-        }
-
-        $user->update($request);
-
-        return $user;
+        return $this->userRepository->updateUser($id, $data);
     }
 
-    public function getUser(string $request): Collection
+    public function getUser(array $ids): Collection
     {
-        $ids = explode(',', $request);
-        $users = User::whereIn('id', $ids)->get();
-        return $users;
+        return $this->userRepository->getUser($ids);
     }
 
-    public function getAllUsers(): array
+    public function getAllUsers(): Collection
     {
-        $users = User::where('active', '1')
-        ->get()
-        ->toArray();
-        return $users;
+        return $this->userRepository->getAllUsers();
     }
 }

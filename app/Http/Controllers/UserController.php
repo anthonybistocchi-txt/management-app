@@ -2,83 +2,79 @@
 
 namespace App\Http\Controllers;
 
-;
+use App\Http\Requests\User\GetIdsUserRequest;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function createUser(CreateUserRequest $request, UserService $userService): JsonResponse
+
+    protected $userService;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+    public function createUser(CreateUserRequest $request): JsonResponse
     {
         try {
-            $dataValidated = $request->validated();
-            $user          = $userService->createUser($dataValidated);
+            $user = $this->userService->createUser($request->validated());
             
             return response()->json([
-                'status'     => true,
-                'message'    => 'user create with successful',
-                'data'       => $user,
-                'code'       => 201
+                'status'  => true,
+                'message' => 'User created successfully',
+                'data'    => $user,
+                'code'    => 201
             ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status'   => false,
-                'message'  => 'invalid data',
-                'errors'   => $e->getMessage(),
-                'code'     => 422
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'     => false,
-                'message'    => 'error to create user',
-                'error'      => $e->getMessage(),
-                'code'       => 500
-            ]);
-        }
-    }
-
-    public function deleteUser($id, UserService $userService): JsonResponse
-    {
-        try {
-             $userService->deleteUser($id);
-
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'user deleted successfully',
-                    'code'     => 200
-                ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to delete user',
+                'message' => 'Error creating user',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
         }
     }
 
-    public function updateUser($id, UpdateUserRequest $request, UserService $userService): JsonResponse
+
+    public function deleteUser(int $id): JsonResponse
     {
         try {
-            $dataValidated = $request->validated();
-            $user          = $userService->updateUser($id, $dataValidated);
+          
+            $this->userService->deleteUser($id);
 
             return response()->json([
                 'status'  => true,
-                'message' => 'user updated with sucessful',
+                'message' => 'User deleted successfully',
+                'code'    => 200
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error deleting user',
+                'error'   => $e->getMessage(),
+                'code'    => 500
+            ]);
+        }
+    }
+
+    public function updateUser(int $id, UpdateUserRequest $request): JsonResponse
+    {
+        try {
+            $user = $this->userService->updateUser($id, $request->validated());
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'User updated successfully',
                 'data'    => $user,
                 'code'    => 200
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
-                'message' => 'error to update user',
+                'message' => 'Error updating user',
                 'error'   => $e->getMessage(),
                 'code'    => 500
             ]);
@@ -86,34 +82,18 @@ class UserController extends Controller
     }
 
 
-    public function getUser(Request $request, UserService $userService): JsonResponse
+    public function getUser(GetIdsUserRequest $request, UserService $userService): JsonResponse
     {
-
-        if (!$request->has('id') || empty($request->id)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'id parameter is required',
-                'code'    => 400
-            ]);
-        }
-
         try {
-            $users = $userService->getUser($request->id);
+            $data  = $request->validated();
+            $users = $userService->getUser($data['ids']);
 
-            if ($users->isEmpty()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'not found users',
-                    'code'    => 404
-                ]);
-            }
-
-            return response()->json([
-                'status'  => true,
-                'message' => 'sucess',
-                'data'    => $users,
-                'code'    => 200
-            ]);
+        return response()->json([
+            'status'  => true,
+            'message' => 'success', // corrigido typo 'sucess'
+            'data'    => $users,
+            'code'    => 200
+        ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
@@ -132,7 +112,7 @@ class UserController extends Controller
             if (empty($users)) {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'not found users',
+                    'message' => 'no users found',
                     'code'    => 404
 
                 ]);
