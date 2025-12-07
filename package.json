@@ -3,18 +3,36 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
-        "axios": "^1.11.0",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^2.0.0",
+        "laravel-vite-plugin": "^1.0.0",
         "tailwindcss": "^4.0.0",
-        "vite": "^7.0.4"
+        "typescript": "^5.9.3",
+        "vite": "^5.0.0"
     },
     "dependencies": {
-        "jquery": "^3.7.1"
-    }
+        "apexcharts": "^5.3.6",
+        "axios": "^1.13.2",
+        "datatables.net": "^2.3.5",
+        "datatables.net-dt": "^2.3.5",
+        "jquery": "^3.7.1",
+        "sweetalert2": "^11.26.4"
+    },
+    "name": "laravel",
+    "version": "1.0.0",
+    "description": "Management system built with Laravel (back-end) and HTML, Bootstrap, JavaScript + TypeScript (front-end).",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/anthonybistocchi-txt/management-app.git"
+    },
+    "bugs": {
+        "url": "https://github.com/anthonybistocchi-txt/management-app/issues"
+    },
+    "homepage": "https://github.com/anthonybistocchi-txt/management-app#readme",
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
 }

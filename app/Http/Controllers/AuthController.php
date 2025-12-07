@@ -17,6 +17,7 @@ class AuthController extends Controller
         $this->loginService = $loginService;
     }
 
+
     public function login(LoginRequest $request): JsonResponse
     {
         try {    
@@ -60,4 +61,5 @@ class AuthController extends Controller
             'code'    => 200,
         ]);
     }
+
 }
