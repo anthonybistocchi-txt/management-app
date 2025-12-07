@@ -1,31 +1,35 @@
 <?php
 
+// app/Services/ProductService.php
 namespace App\Services;
 
-use App\Models\Product;
-use App\Models\ProductLocation;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductService
 {
-    public function __construct(protected StockService $stockService) {}
+    // Injeção de Dependência da INTERFACE, não da classe concreta
+    public function __construct(
+        protected ProductRepositoryInterface $productRepository,
+        protected StockService $stockService
+    ) {}
 
-    public function createProduct($request)
+    public function createProduct(array $data)
     {
+        return DB::transaction(function () use ($data) {
+            // 1. Cria o produto via repositório
+            $product = $this->productRepository->create($data);
 
-        return DB::transaction(function () use ($request) {
-            $product = Product::create($request);
-
-            if (!empty($request['quantity']) && $request['quantity'] > 0) {
-                $this->stockService->in( [
+            // 2. Regra de Negócio: Se tem quantidade inicial, move estoque
+            if (!empty($data['quantity']) && $data['quantity'] > 0) {
+                $this->stockService->in([
                     'product_id'  => $product->id,
-                    'quantity'    => $request['quantity'],
-                    'location_id' => $request['location_id'] ?? null,
-                    'description' => $request['description'] ?? '',
+                    'quantity'    => $data['quantity'],
+                    'location_id' => $data['location_id'] ?? null,
+                    'description' => $data['description'] ?? '',
                     'type'        => 'in',
-                    'provider_id' => $request['provider_id'],
+                    'provider_id' => $data['provider_id'],
                 ]);
             }
 
@@ -33,55 +37,59 @@ class ProductService
         });
     }
 
-    public function updateProduct($id, $request)
+    public function updateProduct(int $id, array $data)
     {
+        return DB::transaction(function () use ($id, $data) {
+            $product = $this->productRepository->find($id);
 
-        return DB::transaction(function () use ($id, $request) {
-            $product = Product::findOrFail($id);
-            $product->update($request);
+            if (!$product) {
+                throw new ModelNotFoundException("Product not found");
+            }
 
-            if (!empty($request['location_id'])) {
-                $productLocation = ProductLocation::where('product_id', $product->id)->first();
+            // Atualiza dados básicos
+            $this->productRepository->update($id, $data);
 
-                $productLocation->update([
-                    'location_id' => $request['location_id'],
-                ]);
+            // Atualiza Localização (delegado ao repository)
+            if (!empty($data['location_id'])) {
+                $this->productRepository->updateLocation($product, $data['location_id']);
+            }
 
-            if (!empty($request['quantity']) && $request['quantity'] > 0) {
-                $this->stockService->in( [
+            // Regra de Estoque
+            if (!empty($data['quantity']) && $data['quantity'] > 0) {
+                $this->stockService->in([
                     'product_id'  => $product->id,
-                    'quantity'    => $request['quantity'],
-                    'location_id' => $request['location_id'] ?? null,
-                    'description' => $request['description'] ?? '',
+                    'quantity'    => $data['quantity'],
+                    'location_id' => $data['location_id'] ?? null,
+                    'description' => $data['description'] ?? 'Update adjustment',
                     'type'        => 'in',
-                    'provider_id' => $request['provider_id'] ?? $product->provider_id,
+                    'provider_id' => $data['provider_id'] ?? $product->provider_id,
                 ]);
             }
 
-                return $product->load('location');
-            }
+            return $product->refresh()->load('location');
         });
     }
-    
-    public function deleteProduct($id): bool
+
+    public function deleteProduct(int $id): bool
     {
         return DB::transaction(function () use ($id) {
-            $product = Product::findOrFail($id);
-            $product->location()->delete();
-            $product->stock()->delete();
-            $product->delete();
-
+            $deleted = $this->productRepository->delete($id);
+            
+            if (!$deleted) {
+                throw new ModelNotFoundException("Product not found");
+            }
             return true;
         });
     }
 
-    public function getProduct(string $data): Collection
+    public function getProduct(string $ids)
     {
-        return Product::whereIn('id', explode(',', $data))->get();
+        $idArray = explode(',', $ids);
+        return $this->productRepository->findByIds($idArray);
     }
 
-    public function getAllProducts(): array
+    public function getAllProducts()
     {
-        return Product::all()->toArray();
+        return $this->productRepository->getAll();
     }
 }

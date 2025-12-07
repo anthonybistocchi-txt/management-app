@@ -34,11 +34,11 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('products')->group(function () {
-            Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
-            Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
-            Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
-            Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
-            Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
+            Route::get('/', [ProductController::class, 'index'])->name('products.index');
+            Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
+            Route::post('/', [ProductController::class, 'store'])->name('products.store');
+            Route::put('/{id}', [ProductController::class, 'update'])->name('products.update');
+            Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
         });
 
 Route::prefix('stock')->group(function () {
