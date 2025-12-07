@@ -19,6 +19,7 @@ class StockController extends Controller
     {
         $this->service = $stockService;
     }
+    
     public function in(StockInRequest $request): JsonResponse
     {
         try {
