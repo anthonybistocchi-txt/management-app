@@ -15,12 +15,12 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function createProduct(array $data)
+    public function createProduct(array $data): Product
     {
         return $this->productRepository->create($data);
     }
 
-    public function getAllProducts()
+    public function getAllProducts(): Collection
     {
         return $this->productRepository->getAll();
     }
