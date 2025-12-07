@@ -18,16 +18,15 @@ class ProductService
     public function createProduct(array $data)
     {
         return DB::transaction(function () use ($data) {
-            // 1. Cria o produto via repositório
+
             $product = $this->productRepository->create($data);
 
-            // 2. Regra de Negócio: Se tem quantidade inicial, move estoque
             if (!empty($data['quantity']) && $data['quantity'] > 0) {
                 $this->stockService->in([
                     'product_id'  => $product->id,
                     'quantity'    => $data['quantity'],
                     'location_id' => $data['location_id'] ?? null,
-                    'description' => $data['description'] ?? '',
+                    'description' => $data['description'] ?? null,
                     'type'        => 'in',
                     'provider_id' => $data['provider_id'],
                 ]);
@@ -46,15 +45,12 @@ class ProductService
                 throw new ModelNotFoundException("Product not found");
             }
 
-            // Atualiza dados básicos
             $this->productRepository->update($id, $data);
 
-            // Atualiza Localização (delegado ao repository)
             if (!empty($data['location_id'])) {
                 $this->productRepository->updateLocation($product, $data['location_id']);
             }
 
-            // Regra de Estoque
             if (!empty($data['quantity']) && $data['quantity'] > 0) {
                 $this->stockService->in([
                     'product_id'  => $product->id,
