@@ -45,23 +45,14 @@ class UserController extends Controller
     public function deleteUser($id, UserService $userService): JsonResponse
     {
         try {
-            $user = $userService->deleteUser($id);
+             $userService->deleteUser($id);
 
-            if ($user) {
                 return response()->json([
                     'status'   => true,
-                    'message'  => 'user delete with successful',
+                    'message'  => 'user deleted successfully',
                     'code'     => 200
                 ]);
-            }
 
-            return response()->json([
-                'status'  => true,
-                'error'   => 'error to delete user',
-                'message' => 'user not found',
-                'code'    => 404
-
-            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status'  => false,
@@ -76,26 +67,13 @@ class UserController extends Controller
     {
         try {
             $dataValidated = $request->validated();
-            $user = $userService->updateUser($id, $dataValidated);
+            $user          = $userService->updateUser($id, $dataValidated);
 
             return response()->json([
                 'status'  => true,
                 'message' => 'user updated with sucessful',
                 'data'    => $user,
                 'code'    => 200
-            ]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'user not found',
-                'code'    => 404
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'invalid data',
-                'errors'  => $e->errors(), // Mostra os erros
-                'code'    => 422
             ]);
         } catch (\Exception $e) {
             return response()->json([

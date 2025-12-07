@@ -1,5 +1,6 @@
  <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
@@ -9,11 +10,13 @@ use App\Http\Controllers\StockController;
 
 
 
-    // Route::middleware(['auth'])->group(function () {
-    //     Route::prefix('index')->group(function () {
-    //         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('get.dashboard');
-    //     });
-
+Route::middleware(['auth'])->group(function () {
+    
+    
+});
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+        
         Route::prefix('users')->group(function () {
             Route::get('/getUser', [UserController::class, 'getUser'])->name('get.user');
             Route::get('/getAllUsers', [UserController::class, 'getAllUsers'])->name('getAll.user');

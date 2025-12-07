@@ -1,7 +1,7 @@
-INSERT INTO type_user (id, name) VALUES
-(1, 'Admin'),
-(2, 'Gestor'),
-(3, 'Colaborador');
+    INSERT INTO type_user (id, name) VALUES
+    (1, 'Admin'),
+    (2, 'Gestor'),
+    (3, 'Colaborador');
 
 INSERT INTO providers (name, cnpj, phone, email, address_street, address_number, address_city, address_state, address_zipcode, created_at, updated_at) VALUES
 ('TechPower Distribuidora', '12.345.678/0001-90', '(11) 98888-1111', 'contato@techpower.com', 'Rua das Indústrias', '123', 'São Paulo', 'SP', '01000-000', NOW(), NOW()),
