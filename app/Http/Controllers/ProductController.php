@@ -144,13 +144,4 @@ class ProductController extends Controller
         }
     }
     
-    private function errorResponse($message, \Exception $error)
-    {
-        return response()->json([
-            'status'  => false,
-            'message' => $message,
-            'error'   => $error->getMessage(),
-            'code'    => 500 
-        ]);
-    }
 }
