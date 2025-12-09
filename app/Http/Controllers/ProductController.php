@@ -20,7 +20,7 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(): JsonResponse
+    public function getAllProducts(): JsonResponse
     {
         try {
             $products = $this->productService->getAllProducts();
@@ -37,7 +37,7 @@ class ProductController extends Controller
         }
     }
 
-    public function show($id): JsonResponse
+    public function getProduct($id): JsonResponse
     {
         try {
             $product = $this->productService->getProduct($id);
@@ -62,7 +62,7 @@ class ProductController extends Controller
         }
     }
 
-    public function store(CreateProductRequest $request): JsonResponse
+    public function createProduct(CreateProductRequest $request): JsonResponse
     {    
         try {
             $product = $this->productService->createProduct($request->validated());
@@ -79,7 +79,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update(UpdateProductRequest $request, $id): JsonResponse
+    public function updateProduct(UpdateProductRequest $request, $id): JsonResponse
     {
         try {
             $product = $this->productService->updateProduct($id, $request->validated());
@@ -102,7 +102,7 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy($id): JsonResponse
+    public function deleteProduct($id): JsonResponse
     {
         try {
             $deleted = $this->productService->deleteProduct($id);

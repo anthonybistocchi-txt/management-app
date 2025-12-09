@@ -38,12 +38,12 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('products')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('products.index');
-        Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
-        Route::post('/', [ProductController::class, 'store'])->name('products.store');     // testado e funcionando
-        Route::put('/{id}', [ProductController::class, 'update'])->name('products.update');
-        Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-        Route::post('/ids', [ProductController::class, 'getProductsByIds'])->name('products.byIds');
+        Route::get('/', [ProductController::class, 'getAllProducts'])->name('products.getAll');  
+        Route::get('/{id}', [ProductController::class, 'getProduct'])->name('products.getProduct');
+        Route::post('/', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
+        Route::put('/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
+        Route::delete('/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+        Route::post('/ids', [ProductController::class, 'getProductsByIds'])->name('products.getProductsByIds');
     });
 
     Route::prefix('stock')->group(function () {
@@ -55,9 +55,9 @@ Route::middleware(['auth'])->group(function () {
     ///////// Views Routes /////////
 
     Route::prefix('/')->group(function () {
-        Route::get('login', [AuthController::class, 'showLogin'])->name('login');
-        Route::get('create-user', [AuthController::class, 'showCreateUser'])->name('createUser');
-        Route::get('reset-password', [AuthController::class, 'showResetPassword'])->name('resetPassword');
+        Route::get('login', [ViewsController::class, 'showLogin'])->name('login');
+        Route::get('create-user', [ViewsController::class, 'showCreateUser'])->name('createUser');
+        Route::get('reset-password', [ViewsController::class, 'showResetPassword'])->name('resetPassword');
     });
 
     Route::prefix('index')->group(function () {
