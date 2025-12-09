@@ -22,14 +22,14 @@
                 <div class="relative hidden lg:flex w-1/2 flex-col items-center justify-center bg-gray-100 dark:bg-background-dark p-12 text-center">
                     <div class="absolute inset-0 bg-gradient-to-br from-primary/80 to-secondary/60 opacity-90 dark:opacity-70"></div>
                     <div class="relative z-10 flex flex-col items-center gap-6">
-                        <span class="material-symbols-outlined text-white text-8xl">inventory_2</span>
+                        <img src="{{ asset('images/logo.jpg') }}" alt="Logo ABCode" id="logo-img">
                         <h1 class="text-5xl font-black text-white leading-tight tracking-tighter">
                             Centralize tarefas<br>Simplifique processos<br>Aumente resultados
                         </h1>
-                        <p class="text-lg font-medium text-white/80 max-w-md">A maneira mais simples de administrar suas vendas</p>
+                        <p class="text-lg font-medium text-white/80 max-w-md">A maneira mais simples de administrar o seu negócio</p>
                     </div>
                 </div>
-
+    
                 <div class="flex w-full lg:w-1/2 flex-col items-center justify-center p-6 sm:p-12 bg-background-light dark:bg-background-dark">
                     <div class="layout-content-container flex flex-col max-w-md w-full flex-1 justify-center">
                         
@@ -90,4 +90,13 @@
         </div>
     </div>
 </body>
+
+<style>
+
+    #logo-img {
+        border-radius: 50px !important;
+        max-width: 20rem !important;
+        max-height: 55rem !important;
+    }
+</style>
 </html>

@@ -1,6 +1,4 @@
-// 1. IMPORTANTE: Adicione esta linha!
 import $ from 'jquery'; 
-
 import { Toast } from '../../components/swal';
 import { AuthService } from "../../services/AuthService";
 
@@ -11,8 +9,9 @@ $(document).ready(() => {
     const $submitButton     = $('#submit-button');
     const $buttonVisibility = $('#button-visibility');
 
-    $buttonVisibility.on('click', () => {
+    $buttonVisibility.off('click').on('click', () => {
         console.log('Clicou no botão de visibilidade');
+        
         const currentType = $inputPassword.attr('type');
         const newType     = currentType === 'password' ? 'text' : 'password';
         
@@ -21,9 +20,9 @@ $(document).ready(() => {
         $buttonVisibility.find('span').text(newType === 'password' ? 'visibility' : 'visibility_off');
     });
 
-    $form.on('submit', async function (e) {
-        console.log('Tentando enviar o formulário de login');
+    $form.off('submit').on('submit', async function (e) {
         e.preventDefault();
+        console.log('Tentando enviar o formulário de login');
 
         const usernameValue = $inputUsername.val() as string;
         const passwordValue = $inputPassword.val() as string;
@@ -38,7 +37,7 @@ $(document).ready(() => {
 
         try {
             await AuthService.login({
-                name: usernameValue,
+                name: usernameValue, 
                 password: passwordValue
             });
             
@@ -52,9 +51,7 @@ $(document).ready(() => {
             Toast.error(error.message);
 
             $submitButton.prop('disabled', false).text(originalText);
-            
             $inputPassword.val('').trigger('focus');
         }
     });
-
-}); 
+});
