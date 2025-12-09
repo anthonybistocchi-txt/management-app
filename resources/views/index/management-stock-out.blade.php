@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
+@vite(['resources/ts/pages/index/management-stock-out.ts'])
+@vite(['resources/ts/app.ts', 'resources/css/app.css'])
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />

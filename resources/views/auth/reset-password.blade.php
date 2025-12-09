@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="light" lang="pt-BR">
 @vite (['resources/ts/app.ts', 'resources/css/app.css'])
+@vite("resources/ts/reset-password.ts")
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
