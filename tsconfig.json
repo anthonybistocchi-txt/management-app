@@ -9,5 +9,5 @@
     "isolatedModules": true,
     "esModuleInterop": true
   },
-  "include": ["resources/**/*"]
+  "include": ["resources/**/*", "tailwind.config.js"]
 }

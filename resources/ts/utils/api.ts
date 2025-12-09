@@ -1,8 +1,19 @@
 import axios from 'axios';
 
-export const api = axios.create({
-    baseURL: '/api',
+const api = axios.create({
+    baseURL: '/',
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json',
     },
 });
+
+api.interceptors.request.use((config) => {
+    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (token) {
+        config.headers['X-CSRF-TOKEN'] = token;
+    }
+    return config;
+});
+
+export default api;
