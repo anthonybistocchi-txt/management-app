@@ -23,17 +23,17 @@ class LoginService
      * @throws ValidationException
      */
 
-    public function execute(array $credentials, string $ip, bool $remember = false): bool
+    public function login(array $credentials, string $ip): bool
     {
-        $throttleKey = Str::transliterate(Str::lower($credentials['email']) . '|' . $ip);
+        $throttleKey = Str::transliterate(Str::lower($credentials['username']) . '|' . $ip);
 
         $this->checkTooManyAttempts($throttleKey);
 
-        if (! Auth::attempt($credentials, $remember)) {
+        if (! Auth::attempt($credentials)) {
             RateLimiter::hit($throttleKey);
             
             throw ValidationException::withMessages([
-                'email' => ['wrong credentials provided.'],
+                'username' => ['wrong credentials provided.'],
             ]);
         }
 

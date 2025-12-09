@@ -21,10 +21,9 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try {    
-                $this->loginService->execute(
+                $this->loginService->login(
                     $request->validated(),
                              $request->ip(),
-                       $request->boolean('remember')
                 );
 
             return response()->json([

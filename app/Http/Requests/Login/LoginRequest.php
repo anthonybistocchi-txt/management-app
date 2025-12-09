@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     {
         $this->merge([
             // Converte para minúsculo e remove espaços antes e depois
-            'email' => Str::lower(trim($this->input('email'))),
+            'name' => Str::lower(trim($this->input('name'))),
         ]);
     }
 
@@ -35,7 +35,7 @@ class LoginRequest extends FormRequest
     {
         return [
             // Usar array [] ao invés de pipe | é considerado mais limpo e seguro para regex
-            'email'    => ['required', 'email'],
+            'username'     => ['required', 'username'],
             'password' => ['required', 'string', 'min:8', 'max:200'],
         ];
     }
@@ -46,8 +46,7 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required'    => 'The email field is required.',
-            'email.email'       => 'The email must be a valid email address.',
+            'username.required' => 'The username field is required.',
             'password.required' => 'The password field is required.',
             'password.min'      => 'The password must be at least :min characters.',
         ];
@@ -66,7 +65,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
+            'username' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
@@ -74,10 +73,10 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Cria uma chave única para o Rate Limiter baseada no IP e Email.
+     * Cria uma chave única para o Rate Limiter baseada no IP e Username.
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('username')).'|'.$this->ip());
     }
 }
