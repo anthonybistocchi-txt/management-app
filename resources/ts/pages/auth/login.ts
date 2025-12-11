@@ -8,9 +8,9 @@ $(document).ready(() => {
     const $inputPassword    = $('#password'); 
     const $submitButton     = $('#submit-button');
     const $buttonVisibility = $('#button-visibility');
-
+    
+    
     $buttonVisibility.off('click').on('click', () => {
-        console.log('Clicou no botão de visibilidade');
         
         const currentType = $inputPassword.attr('type');
         const newType     = currentType === 'password' ? 'text' : 'password';
@@ -19,16 +19,20 @@ $(document).ready(() => {
         
         $buttonVisibility.find('span').text(newType === 'password' ? 'visibility' : 'visibility_off');
     });
-
+    
     $form.off('submit').on('submit', async function (e) {
         e.preventDefault();
-        console.log('Tentando enviar o formulário de login');
 
         const usernameValue = $inputUsername.val() as string;
         const passwordValue = $inputPassword.val() as string;
-
+        
         if (!usernameValue || !passwordValue) {
             Toast.error('Por favor, preencha todos os campos.');
+            return;
+        }
+        
+        if (passwordValue.length < 6 || passwordValue.length > 20 || usernameValue.length < 3 || usernameValue.length > 20) {
+            Toast.error('E-mail ou senha inválidos.');
             return;
         }
 
@@ -37,9 +41,10 @@ $(document).ready(() => {
 
         try {
             await AuthService.login({
-                name: usernameValue, 
+                username: usernameValue, 
                 password: passwordValue
             });
+
             
             Toast.success('Login realizado com sucesso!');
 
@@ -48,10 +53,10 @@ $(document).ready(() => {
             }, 1500);
 
         } catch (error: any) {
-            Toast.error(error.message);
-
             $submitButton.prop('disabled', false).text(originalText);
             $inputPassword.val('').trigger('focus');
+
+            throw Toast.error('E-mail ou senha inválidos.');
         }
     });
 });

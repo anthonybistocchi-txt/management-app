@@ -18,6 +18,13 @@ class UpdateUserRequest extends FormRequest
 
         return [
             'name'         => 'sometimes|required|string|max:255',
+            'username'     => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($userId)
+            ],
             'email'        => [
                 'sometimes',
                 'required',
@@ -36,6 +43,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name.required'         => 'The name field is required.',
+            'username.required'     => 'The username field is required.',
             'email.required'        => 'The email field is required.',
             'email.email'           => 'The email must be a valid email address.',
             'email.unique'          => 'The email has already been taken.',

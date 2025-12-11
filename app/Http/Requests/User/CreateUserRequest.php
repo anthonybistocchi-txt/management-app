@@ -15,8 +15,9 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name'         => 'required|string|max:255',
+            'username'     => 'required|string|max:255|unique:users',
             'email'        => 'required|string|email|max:255|unique:users',
-            'password'     => 'required|string|min:8',
+            'password'     => 'required|string|min:6',
             'type_user_id' => 'required|integer|exists:type_user,id',
             'cpf'          => 'required|string|max:14|unique:users',
         ];
@@ -26,6 +27,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name.required'         => 'The name field is required.',
+            'username.required'     => 'The username field is required.',
             'email.required'        => 'The email field is required.',
             'email.email'           => 'The email must be a valid email address.',
             'email.unique'          => 'The email has already been taken.',

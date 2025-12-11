@@ -2,54 +2,44 @@ import api from "../utils/api";
 import { LoginCredentials } from "../types/LoginCredentials";
 import { Toast } from "../components/swal";
 
-export const AuthService = {
+const handleError = (error: any) => {
+    const status = error?.response?.status;
 
+    const messages: Record<number, string> = {
+        422: "Credenciais inválidas. Verifique seu usuário e senha.",
+        404: "Serviço de autenticação não encontrado.",
+        419: "Sessão expirada. Atualize a página e tente novamente.",
+        500: "Erro interno do servidor. Tente novamente mais tarde.",
+    };
+
+    if (messages[status]) {
+        Toast.error(messages[status]);
+    } else {
+        Toast.error("Ocorreu um erro inesperado.");
+    }
+};
+
+export const AuthService = {
     async login(credentials: LoginCredentials) {
         try {
-
-            const response = await api.post('login', credentials);
-
+            const response = await api.post("login", credentials);
             if (response.status === 200) return response.data;
-
         } catch (error: any) {
-            if (error.response.status === 422) {
-                Toast.error("Credenciais inválidas. Verifique seu usuário e senha.");
-                return;
-            }
-
-            if (error.response.status === 404) {
-                Toast.error("Serviço de autenticação não encontrado.");
-                return;
-            }
-
-            if (error.response.status === 422) {
-                Toast.error("Credenciais inválidas. Verifique seu usuário e senha.");
-                return;
-            }
-            
-            if (error.response.status === 419) {
-                Toast.error("Sessão expirada. Atualize a página e tente novamente.");
-                return;
-            }
-            if(error.response.status === 500) {
-                Toast.info("Erro interno do servidor. Tente novamente mais tarde.");
-                return;
-            }
+            Toast.error("Falha na autenticação. Verifique suas credenciais e tente novamente." + handleError(error));
+            throw error;
         }
     },
 
     async logout() {
         try {
-            const response = await api.post('logout');
+            const response = await api.post("logout");
             if (response.status === 200) {
                 Toast.success("Logout realizado com sucesso.");
                 return true;
             }
         } catch (error: any) {
-            if (error.response.status === 500) {
-                Toast.info("Erro interno do servidor. Tente novamente mais tarde.");
-            }
+            handleError(error);
             return false;
         }
-    }
+    },
 };

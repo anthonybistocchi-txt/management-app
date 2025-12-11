@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     {
         $this->merge([
             // Converte para minúsculo e remove espaços antes e depois
-            'name' => Str::lower(trim($this->input('name'))),
+            'username' => Str::lower(trim($this->input('username'))),
         ]);
     }
 
@@ -34,9 +34,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Usar array [] ao invés de pipe | é considerado mais limpo e seguro para regex
-            'username'     => ['required', 'username'],
-            'password' => ['required', 'string', 'min:8', 'max:200'],
+            'username' => ['required', 'string', 'min:3', 'max:50', 'regex:/^[a-zA-Z0-9._-]+$/'], // regra criada para adaptar username com a mesma validacao do email pelo laravel
+            'password' => ['required', 'string', 'min:6', 'max:200'],
         ];
     }
 
