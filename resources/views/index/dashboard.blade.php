@@ -69,31 +69,9 @@
                 </div>
             </div>
         </aside>
+        
         <!-- Main Content -->
         <div class="flex flex-col flex-1 overflow-y-auto">
-            <!-- TopNavBar -->
-            <header
-                class="flex items-center justify-between whitespace-nowrap border-b border-border-light dark:border-border-dark px-8 py-4 bg-surface-light dark:bg-surface-dark sticky top-0 z-10">
-                <div class="flex flex-1 items-center gap-4">
-                    <label class="relative flex items-center w-full max-w-md">
-                        <span
-                            class="material-symbols-outlined absolute left-4 text-text-light-secondary dark:text-text-dark-secondary">search</span>
-                        <input
-                            class="form-input flex w-full min-w-0 flex-1 rounded-lg border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-11 placeholder:text-text-light-secondary dark:placeholder:text-text-dark-secondary pl-12 pr-4 text-sm focus:border-primary focus:ring-primary"
-                            placeholder="Procurar produtos, usuários, relatórios..." type="text" />
-                    </label>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button
-                        class="flex cursor-pointer items-center justify-center rounded-lg h-10 w-10 bg-transparent text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/10 hover:text-primary">
-                        <span class="material-symbols-outlined text-2xl">notifications</span>
-                    </button>
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-                        data-alt="User avatar with a gradient background"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEhK40Hlsml_ED2RHjhnEgjapmZcvEwkrGV5AVlszEm2zionyu3Bo_vlgL4dVmUUisiNDb05Cle5MdM9KBnSglXQdjYtoT6oEZihw0_Mx8TTfxJtAZzATHikXa1H8L5XrMBCzi1-om6gD6RVnDhUup-eenVU4v5rvhrLGizn2XkXVHL75CxFm_RWUVQtOt3MRVDVEazccccmWgwMRu5dPaBiB4NRmANzfEhS_-3BgcRszzRK9nwaA668BvQ29ezpgH03WOCRJZR_M");'>
-                    </div>
-                </div>
-            </header>
             <main class="flex-1 p-8">
                 <!-- PageHeading & Chips -->
                 <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
