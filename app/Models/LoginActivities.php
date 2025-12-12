@@ -11,8 +11,8 @@ class LoginActivities extends Model
     protected $fillable = [
         'user_id',
         'ip_address',
-        'login_at',
-        'logout_at',
+        'action',
+        'action_at',
     ];
 
     public $timestamps = false;

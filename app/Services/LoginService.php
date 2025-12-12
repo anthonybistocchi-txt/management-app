@@ -44,17 +44,13 @@ class LoginService
         $user = Auth::user();
 
         
-        LoginActivities::where('user_id', $user->id)
-            ->whereNull('logout_at')
-            ->update(['logout_at' => now()]);
-
-        
         LoginActivities::create([
             'user_id'    => $user->id,
-            'ip_address' => $ip,
-            'login_at'   => now(),
-            
+            'ip_address' => request()->ip(),
+            'action'     => 'login',
+            'action_at'  => now(),
         ]);
+
         return true;
     }
 
@@ -65,11 +61,11 @@ class LoginService
     {
         $user = Auth::user(); 
 
-        if ($user) {
-            LoginActivities::where('user_id', $user->id)
-                ->whereNull('logout_at')
-                ->update(['logout_at' => now()]);
-        }
+        LoginActivities::create([
+            'user_id'    => $user->id,
+            'ip_address' => request()->ip(),
+            'action'     => 'logout',
+        ]);
 
         Auth::logout();
         Session::invalidate();

@@ -16,8 +16,8 @@ public function up(): void
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->string('ip_address', 45)->nullable();
-        $table->timestamp('login_at');
-        $table->timestamp('logout_at')->nullable(); 
+        $table->enum('action', ['login', 'logout']);
+        $table->timestamp('action_at');
     });
 }
 
