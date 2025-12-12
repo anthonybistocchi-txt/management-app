@@ -79,15 +79,15 @@
                         class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold leading-tight tracking-tight">
                         Dashboard</h2>
                     <div class="flex gap-2">
-                        <button
+                        <button id="last_7_days"
                             class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 text-sm font-medium hover:border-primary hover:text-primary">
                             <span>Últimos 7 dias</span>
                         </button>
-                        <button
+                        <button id="last_30_days"
                             class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/10 text-primary px-4 text-sm font-semibold">
                             <span>Últimos 30 dias</span>
                         </button>
-                        <button
+                        <button id="last_year"
                             class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark px-4 text-sm font-medium hover:border-primary hover:text-primary">
                             <span>Este Ano</span>
                         </button>
@@ -99,25 +99,25 @@
                         class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Produtos
                             em Estoque</p>
-                        <p class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">1,234</p>
+                        <p id="products_stock" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">1,234</p>
                     </div>
                     <div
                         class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Usuários
                             Ativos</p>
-                        <p class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">567</p>
+                        <p id="active_users" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">567</p>
                     </div>
                     <div
                         class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Vendas do
                             Mês</p>
-                        <p class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">R$ 25.480</p>
+                        <p id="sales_month" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">R$ 25.480</p>
                     </div>
                     <div
                         class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Alertas
                             de Estoque Baixo</p>
-                        <p class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">12</p>
+                        <p id="low_stock_alerts" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold">12</p>
                     </div>
                 </div>
                 <!-- Charts -->
