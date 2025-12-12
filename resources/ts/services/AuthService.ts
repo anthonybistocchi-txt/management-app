@@ -1,44 +1,49 @@
-import api from "../utils/api";
-import { LoginCredentials } from "../types/LoginCredentials";
+import api from "../Utils/api";
+import { AxiosError } from "axios";
+import { LoginCredentials } from "../types/Auth/LoginCredentials";
 import { Toast } from "../components/swal";
 
-const handleError = (error: any) => {
-    const status = error?.response?.status;
+const handleError = (error: unknown): string => {
+    if (error instanceof AxiosError) {
+        const status = error.response?.status;
 
-    const messages: Record<number, string> = {
-        422: "Credenciais inválidas. Verifique seu usuário e senha.",
-        404: "Serviço de autenticação não encontrado.",
-        419: "Sessão expirada. Atualize a página e tente novamente.",
-        500: "Erro interno do servidor. Tente novamente mais tarde.",
-    };
+        const messages: Record<number, string> = {
+            422: "Credenciais inválidas. Verifique seu usuário e senha.",
+            404: "Serviço de autenticação não encontrado.",
+            419: "Sessão expirada. Atualize a página e tente novamente.",
+            500: "Erro interno do servidor. Tente novamente mais tarde.",
+        };
 
-    if (messages[status]) {
-        Toast.error(messages[status]);
-    } else {
-        Toast.error("Ocorreu um erro inesperado.");
+        return messages[status ?? 0] || "Ocorreu um erro inesperado.";
     }
+
+    return "Erro inesperado.";
 };
 
 export const AuthService = {
     async login(credentials: LoginCredentials) {
         try {
-            const response = await api.post("login", credentials);
-            if (response.status === 200) return response.data;
-        } catch (error: any) {
-            Toast.error("Falha na autenticação. Verifique suas credenciais e tente novamente." + handleError(error));
+            const { data } = await api.post("/login", credentials);
+            
+            return data;
+        } catch (error) {
+            const message = handleError(error);
+            Toast.error(message);
+
             throw error;
         }
     },
 
-    async logout() {
+    async logout(): Promise<boolean> {
         try {
-            const response = await api.post("logout");
-            if (response.status === 200) {
-                Toast.success("Logout realizado com sucesso.");
-                return true;
-            }
-        } catch (error: any) {
-            handleError(error);
+            await api.post("/logout");
+            Toast.success("Logout realizado com sucesso.");
+
+            return true;
+        } catch (error) {
+            const message = handleError(error);
+            Toast.error(message);
+            
             return false;
         }
     },

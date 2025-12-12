@@ -1,20 +1,20 @@
 import "../css/app.css";
 
 // Utils
-import "./utils/api";
+import "./Utils/api";
 import "./components/swal";
 
 // Auth pages
-import "./pages/auth/login";
-import "./pages/auth/reset-password";
+import "./pages/Auth/login";
+import "./pages/Auth/reset-password";
 
 // Index pages
 import "./pages/admin/dashboard";
 import "./pages/admin/users";
-import "./pages/index/providers";
-import "./pages/index/products";
-import "./pages/index/stock-in";
-import "./pages/index/stock-out";
+import "./pages/Index/providers";
+import "./pages/Index/products";
+import "./pages/Index/stock-in";
+import "./pages/Index/stock-out";
 import "./pages/admin/movements";
 import "./pages/admin/users";
 import $ from 'jquery';

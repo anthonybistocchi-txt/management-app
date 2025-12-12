@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 
 <html class="light" lang="pt-BR">
-@vite(['resources/ts/pages/index/dashboard.ts'])
+@vite(['resources/ts/pages/admin/dashboard.ts'])
 @vite(['resources/ts/app.ts', 'resources/css/app.css'])
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -61,9 +60,9 @@
                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDpQYKI-kH0WVVLDzsz6gKPLx2_Frb-JsyLKHWiNdfrn0ZUj1AJMeV4RIwN-f8OBg8xv7gN7_YGYAS5yNH46g0VdS_48-efTHR_ASsMUwR4fKahJL5X8i9Ej8--n8g9aeplu-l7AEzaUNprNlmEiJ6s5LzMi3o1R-4PI-N4L7fCwOtqxZWHz7i-s0kqHr1wJE2slw3PJjimGyf0Yn3rXoaoU6bE-otAiL7M6hyJ8Z2VStcGd9b2mtANOO2E6WNFCfiXd37MYxgyXt8");'>
                 </div>
                 <div class="flex flex-col">
-                    <p class="text-text-light-primary dark:text-text-dark-primary text-sm font-semibold leading-normal">
+                    <p id="user_name" class="text-text-light-primary dark:text-text-dark-primary text-sm font-semibold leading-normal">
                         Ana do Usuário</p>
-                    <p
+                    <p id="type_user_id"
                         class="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-normal">
                         Admin</p>
                 </div>
@@ -127,7 +126,7 @@
                         class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <h3 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
                             Movimentações de Estoque</h3>
-                        <div class="flex-1">
+                        <div id="moviments_stock_chart" class="flex-1">
                             <img alt="A line chart showing stock entries in green and stock exits in blue over the last 30 days, with peaks and valleys indicating activity."
                                 class="w-full h-full object-contain"
                                 data-alt="Gráfico de linha de movimentações de estoque"
@@ -139,7 +138,7 @@
                         class="flex flex-col rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <h3 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
                             Usuários por Tipo</h3>
-                        <div class="flex-1 flex items-center justify-center">
+                        <div id="type_user_chart" class="flex-1 flex items-center justify-center">
                             <img alt="A donut chart displaying user distribution by type. The largest segment is 'Standard Users' in blue, followed by 'Managers' in teal, and a smaller segment for 'Admins' in purple."
                                 class="w-full h-full max-h-64 object-contain"
                                 data-alt="Gráfico de rosca de usuários por tipo"
@@ -151,7 +150,7 @@
                         class="lg:col-span-3 flex flex-col rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                         <h3 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
                             Vendas por Categoria</h3>
-                        <div class="flex-1">
+                        <div id="sales_category_chart" class="flex-1">
                             <img alt="A vertical bar chart comparing sales across different product categories. 'Eletrônicos' has the highest bar in blue, followed by 'Vestuário' in teal, and 'Alimentos' in orange."
                                 class="w-full h-full object-contain"
                                 data-alt="Gráfico de barras de vendas por categoria"
