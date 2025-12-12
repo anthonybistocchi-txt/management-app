@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Dashboard com KPIs e Gráficos</title>
+    <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
     <link
@@ -15,37 +15,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
-                        "surface-light": "#ffffff",
-                        "surface-dark": "#1a2530",
-                        "text-light-primary": "#101922",
-                        "text-dark-primary": "#f6f7f8",
-                        "text-light-secondary": "#6b7280",
-                        "text-dark-secondary": "#9ca3af",
-                        "border-light": "#e5e7eb",
-                        "border-dark": "#374151"
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Manrope', sans-serif;
-        }
-    </style>
 </head>
 
 <body
@@ -53,7 +22,7 @@
     <div class="flex h-screen">
         <!-- SideNavBar -->
         <aside
-            class="flex flex-col w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark p-4">
+            class="flex flex-col w-64 bg-surface-blue text-text-white p-4">
             <div class="flex items-center gap-3 px-2 mb-8">
                 <span class="material-symbols-outlined text-primary text-3xl">database</span>
                 <h1 class="text-text-light-primary dark:text-text-dark-primary text-xl font-bold">Sistema de Gestão</h1>
