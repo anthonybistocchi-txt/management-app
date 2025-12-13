@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Auth;
+use Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -50,7 +52,18 @@ class UserSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-            // 👉 segue o mesmo padrão até o usuário 50
+            [
+                'name' => 'Anthony Bistocchi',
+                'username' => 'anthony.bistocchi',
+                'email' => 'anthony.bistocchi@example.com',
+                'password' => Hash::make('123456'),
+                'type_user_id' => 2,
+                'cpf' => '44444121866',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
     }
 }
