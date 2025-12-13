@@ -3,37 +3,54 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        User::truncate();
+        $now = Carbon::now();
+        $password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
 
-        // 1. Criar o usuário Admin principal
-        User::create([
-            'name'         => 'Admin do Sistema',
-            'email'        => 'admin@example.com',
-            'password'     => Hash::make('password'), // Mude para uma senha segura
-            'type_user_id' => 1, // 'Admin' (do TypeUserSeeder)
-            'cpf'          => '00000000000',
-            'active'       => 1,
-            'created_by'   => 1, // Ele mesmo
-            'updated_by'   => 1, // Ele mesmo
+        DB::table('users')->insert([
+            [
+                'name' => 'Ana Silva',
+                'username' => 'ana.silva',
+                'email' => 'ana.silva@example.com',
+                'password' => $password,
+                'type_user_id' => 1,
+                'cpf' => '00000000001',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Bruno Costa',
+                'username' => 'bruno.costa',    
+                'email' => 'bruno.costa@example.com',
+                'password' => $password,
+                'type_user_id' => 1,
+                'cpf' => '00000000002',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Carla Dias',
+                'username' => 'carla.dias',
+                'email' => 'carla.dias@example.com',
+                'password' => $password,
+                'type_user_id' => 2,
+                'cpf' => '00000000003',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            // 👉 segue o mesmo padrão até o usuário 50
         ]);
-
-        // 2. Criar usuários de exemplo
-        User::factory()->count(10)->create([
-            'type_user_id' => 3, // 'Estoquista'
-            'created_by'   => 1,   // Criado pelo Admin
-            'updated_by'   => 1,   // Atualizado pelo Admin
-        ]);
-
     }
 }
