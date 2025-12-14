@@ -1,0 +1,38 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DashboardRequest;
+use App\Services\DashboardService;
+use Illuminate\Http\JsonResponse;
+
+    
+class DashboardController extends Controller
+{
+    protected $dashboardService;
+
+    public function __construct(DashboardService $service)
+    {
+        $this->dashboardService = $service;
+    }
+    public function getDashboardData(DashboardRequest $request): JsonResponse
+    {
+        try {
+            $validated = $request->validated();
+            $data      = $this->dashboardService->getDashboardData($validated);
+    
+            return response()->json([
+                'status'  => true,
+                'message' => 'Dashboard data retrieved successfully',
+                'data'    => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error retrieving dashboard data: ' . $e->getMessage(),
+                'data'    => null
+            ], 500);
+        }
+    }
+}

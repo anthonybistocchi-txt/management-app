@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\views\ViewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\StockController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 
@@ -19,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');  // testado e funcionando
+
+    Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
 
 
     Route::prefix('users')->group(function () {

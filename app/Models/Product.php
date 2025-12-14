@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    //use Userstamps;
 
     protected $table = 'products';
 
@@ -17,12 +16,10 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'provider_id',
+        'category_products_id', 
         'created_by',
         'updated_by',
         'deleted_by',
-        'created_at',
-        'updated_at',
     ];
 
     protected $casts = [
@@ -32,24 +29,12 @@ class Product extends Model
         'deleted_at'     => 'datetime:d-m-Y H:i:s',
     ];
 
-    public function provider(): BelongsTo
-    {
-        return $this->belongsTo(Provider::class, 'provider_id');
-    }
-
-    // public function location() {
-    //     return $this->hasOne(ProductLocation::class);
-    // }
-
-    public function stock() {
-        return $this->hasOne(Stock::class);
-    }
-
 
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+    
 
     public function updater(): BelongsTo
     {
