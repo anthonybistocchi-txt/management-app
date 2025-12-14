@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\StockMovements;
 use Illuminate\Support\Facades\DB;
 
 class DashboardRepository 
@@ -13,32 +12,28 @@ class DashboardRepository
             'product_top_sale' => $this->getProductTopSale($dateFrom, $dateTo),
             'moviments_sales'  => $this->getMovimentsSales($dateFrom, $dateTo),
             'total_sales'      => $this->getTotalSales($dateFrom, $dateTo),
+            'sales_categorys'  => $this->getSalesCategorys($dateFrom, $dateTo)
         ];
     }
 
-
-private function getProductTopSale($dateFrom, $dateTo)
-{
-    // TROCAMOS: StockMovements::join POR DB::table('stock_movements')->join
-    // Isso evita que o Laravel tente criar Models e estoure a memória.
-    
-    return DB::table('stock_movements')
-        ->join('products', 'stock_movements.product_id', '=', 'products.id') // O '=' é obrigatório!
-        ->select(
-            'products.id', 
-            'products.name', 
-            DB::raw('SUM(stock_movements.quantity_moved) as total_sold')
-        )
-        ->where('stock_movements.type', 'out') 
-        ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
-        ->groupBy('products.id', 'products.name') 
-        ->orderByDesc('total_sold')
-        ->first();
-}
+    private function getProductTopSale($dateFrom, $dateTo)
+    {
+        return DB::table('stock_movements')
+            ->join('products', 'stock_movements.product_id', '=', 'products.id') 
+            ->select(
+                'products.id', 
+                'products.name', 
+                DB::raw('SUM(stock_movements.quantity_moved) as total_sold')
+            )
+            ->where('stock_movements.type', 'out') 
+            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->groupBy('products.id', 'products.name') 
+            ->orderByDesc('total_sold')
+            ->first();
+    }
 
     private function getMovimentsSales($dateFrom, $dateTo)
     {
-        // Retorna a soma (int/float) ou 0 se não houver nada
         return DB::table('stock_movements')
         ->join('products', 'stock_movements.product_id', '=', 'products.id') 
         ->select('products.name',
@@ -47,17 +42,32 @@ private function getProductTopSale($dateFrom, $dateTo)
         ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
         ->where('stock_movements.type', '=', 'out')
         ->orderBy('stock_movements.created_at', 'asc')
-        ->get()
-        ->toArray();
-        
+        ->get();
     }
 
     private function getTotalSales($dateFrom, $dateTo)
     {
-        // Retorna a soma (int/float) ou 0 se não houver nada
         return DB::table('stock_movements')
-        ->whereBetween('created_at', [$dateFrom, $dateTo])
-        ->where('type', '=', 'out')
-        ->sum('quantity_moved');
+        ->join('products', 'stock_movements.product_id', '=', 'products.id') 
+        ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+        ->where('stock_movements.type', '=', 'out')
+        ->sum(DB::raw('products.price * stock_movements.quantity_moved'));
+    }
+
+    private function getSalesCategorys($dateFrom, $dateTo)
+    {
+        return DB::table('stock_movements')
+        ->join('products', 'stock_movements.product_id', '=', 'products.id') 
+        ->join('category_products', 'products.category_products_id', '=', 'category_products.id') 
+        ->select(
+            'category_products.name as category_name',
+            DB::raw('SUM(stock_movements.quantity_moved) as total_quantity'),
+            DB::raw('SUM(products.price * stock_movements.quantity_moved) as total_sales')
+        )
+        ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+        ->where('stock_movements.type', '=', 'out')
+        ->groupBy('category_products.name')
+        ->orderByDesc('total_sales')
+        ->get();
     }
 }

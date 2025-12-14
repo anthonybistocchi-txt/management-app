@@ -24,15 +24,14 @@ class StockMovements extends Model
         'description',
         'type',
         'provider_id',
-        'created_by',
     ];
 
     protected $casts = [
-        'created_at'     => 'datetime:d-m-Y H:i:s',
-        'updated_at'     => 'datetime:d-m-Y H:i:s',
-        'deleted_at'     => 'datetime:d-m-Y H:i:s',
+        'quantity_moved'  => 'integer',
+        'created_at'      => 'datetime:d-m-Y H:i:s',
+        'updated_at'      => 'datetime:d-m-Y H:i:s',
+        'deleted_at'      => 'datetime:d-m-Y H:i:s',
     ];
-
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
