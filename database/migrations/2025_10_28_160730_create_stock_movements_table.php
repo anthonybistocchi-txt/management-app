@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('location_id')->references('id')->on('products_locations')->onDelete('set null');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
         });
     }
 

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->bigInteger('price');
-            $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('providers');
+            $table->unsignedBigInteger('category_products_id');
+            $table->foreign('category_products_id')->references('id')->on('category_products');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();

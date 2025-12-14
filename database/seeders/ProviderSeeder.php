@@ -51,8 +51,7 @@ class ProviderSeeder extends Seeder
                 'cep' => '30000-000',
                 'created_at' => $now,
                 'updated_at' => $now,
-            ],
-            // 👉 segue o mesmo padrão para os demais registros
+            ]
         ]);
     }
 }
