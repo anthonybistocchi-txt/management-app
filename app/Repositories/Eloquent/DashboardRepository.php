@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardRepository 
@@ -12,7 +13,8 @@ class DashboardRepository
             'product_top_sale' => $this->getProductTopSale($dateFrom, $dateTo),
             'moviments_sales'  => $this->getMovimentsSales($dateFrom, $dateTo),
             'total_sales'      => $this->getTotalSales($dateFrom, $dateTo),
-            'sales_categorys'  => $this->getSalesCategorys($dateFrom, $dateTo)
+            'sales_categorys'  => $this->getSalesCategorys($dateFrom, $dateTo),
+            'user_logged'      => $this->getUser(),
         ];
     }
 
@@ -69,5 +71,15 @@ class DashboardRepository
         ->groupBy('category_products.name')
         ->orderByDesc('total_sales')
         ->get();
+    }
+
+    private function getUser(): array 
+    {
+        $user     = Auth::user();
+
+        return [
+            'username'      => $user->username,
+            'type_user_id'  => $user->type_user_id,
+        ];
     }
 }
