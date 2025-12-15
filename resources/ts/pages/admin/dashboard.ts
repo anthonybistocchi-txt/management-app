@@ -46,7 +46,7 @@ $(document).ready(() => {
     $btn_submit.on('click', async function(e) {
         e.preventDefault();
 
-        if (!startFilter || !endFilter || $datePickerId.val() === '') {
+        if (!startFilter || !endFilter) {
             Toast.info("Selecione uma data completa"); 
             return;
         }
@@ -66,7 +66,6 @@ $(document).ready(() => {
                 if (data.product_top_sale) {
                     $topSellingProduct.text(data.product_top_sale.name);
                 } 
-
               
                 if (data.user_logged) {
                     $username.text(data.user_logged.username);

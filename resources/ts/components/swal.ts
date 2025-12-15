@@ -14,9 +14,7 @@ const ToastMixin = Swal.mixin({
     showConfirmButton: false,
     timer: 3500,
     timerProgressBar: true,
-    background: 'transparent', // Dica: use transparent se for controlar o bg via classe 'popup'
-    
-    // ESTA É A MÁGICA: Permite que o alerta cresça para caber o texto
+    background: 'transparent', 
     width: 'auto', 
     
     didOpen: (toast) => {
@@ -29,7 +27,6 @@ export const Toast = {
     success(message: string) {
         ToastMixin.fire({
             icon: 'success',
-            // Adicionamos um padding extra no título para garantir que não fique apertado
             title: `<span class="px-2">${message}</span>`,
             iconColor: '#23b315ff',
             customClass: {
