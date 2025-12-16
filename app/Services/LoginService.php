@@ -2,33 +2,95 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
+use App\Models\LoginActivities;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // Importação correta da Facade
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class LoginService
 {
-    public function loginAttempt(Request $data)
+    /**
+     * Executa o processo de login completo e atualiza a sessão.
+     *
+     * @param array $credentials
+     * @param string $ip
+     * @param bool $remember
+     * @return bool
+     * @throws ValidationException
+     */
+
+    public function login(array $credentials, string $ip): bool
     {
-        $credentials = $data->validate([
-            'email'    => 'required|email',
-            'password' => 'required|min:6|max:200',
-        ]);
+        $throttleKey = Str::transliterate(Str::lower($credentials['username']) . '|' . $ip);
 
-        if (Auth::attempt($credentials)) {
-            $data->session()->regenerate();
+        $this->checkTooManyAttempts($throttleKey);
 
-            return true;
+        if (! Auth::attempt($credentials)) {
+            RateLimiter::hit($throttleKey);
+            
+            throw ValidationException::withMessages([
+                'username' => ['wrong credentials provided.'],
+            ]);
         }
 
-        return false;
+        RateLimiter::clear($throttleKey);
+
+        Session::regenerate();
+
+        $user = Auth::user();
+
+        
+        LoginActivities::create([
+            'user_id'    => $user->id,
+            'ip_address' => request()->ip(),
+            'action'     => 'login',
+            'action_at'  => now(),
+        ]);
+
+        return true;
     }
 
-
-    public function logout(Request $data): void
+    /**
+     * Realiza o Logout.
+     */
+    public function logout(): bool
     {
-        Auth::logout();
+        $user = Auth::user(); 
 
-        $data->session()->invalidate();
-        $data->session()->regenerateToken();
+        LoginActivities::create([
+            'user_id'    => $user->id,
+            'ip_address' => request()->ip(),
+            'action'     => 'logout',
+        ]);
+
+        Auth::logout();
+        Session::invalidate();
+        Session::regenerateToken();
+
+        return true;
+
+    }
+
+    /**
+     * Verifica e lança exceção do Rate Limiter.
+     */
+    private function checkTooManyAttempts(string $key): void
+    {
+        if (! RateLimiter::tooManyAttempts($key, 5)) {
+            return;
+        }
+
+        $seconds = RateLimiter::availableIn($key);
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
     }
 }

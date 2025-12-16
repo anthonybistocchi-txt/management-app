@@ -19,6 +19,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'cpf',
         'password',
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'deleted_by',
         'updated_by',
         'created_by',
-        'is_active',
+        'active',
         'type_user_id',
     ];
 
@@ -67,13 +68,5 @@ class User extends Authenticatable
         );
     }
 
-    public function users()
-    {
-        return $this->hasMany(User::class, 'type_user_id');
-    }
 
-    public function typeUser()
-    {
-        return $this->belongsTo(TypeUser::class, 'type_user_id');
-    }
 }

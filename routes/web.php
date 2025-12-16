@@ -1,47 +1,78 @@
- <?php
+<?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\views\ViewsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\StockController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 
-    // Route::middleware(['auth'])->group(function () {
-    //     Route::prefix('index')->group(function () {
-    //         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('get.dashboard');
-    //     });
 
-        Route::prefix('users')->group(function () {
-            Route::get('/getUser', [UserController::class, 'getUser'])->name('get.user');
-            Route::get('/getAllUsers', [UserController::class, 'getAllUsers'])->name('getAll.user');
-            Route::post('/createUser', [UserController::class, 'createUser'])->name('create.user');
-            Route::put('/updateUser/{id}', [UserController::class, 'updateUser'])->name('update.user');
-            Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
-        });
+Route::middleware(['auth'])->group(function () {
 
-        Route::prefix('providers')->group(function () {
-            Route::get('/getProvider', [ProviderController::class, 'getProvider'])->name('get.provider');
-            Route::get('/getAllProvider', [ProviderController::class, 'getAllProviders'])->name('getAll.Provider');
-            Route::post('/createProvider', [ProviderController::class, 'createProvider'])->name('create.provider');
-            Route::put('/updateProvider/{id}', [ProviderController::class, 'updateProvider'])->name('update.provider');
-            Route::delete('/deleteProvider/{id}', [ProviderController::class, 'deleteProvider'])->name('delete.provider');
-        });
 
-        Route::prefix('products')->group(function () {
-            Route::get('/getProduct', [ProductController::class, 'getProduct'])->name('get.product');
-            Route::get('/getAllProduct', [ProductController::class, 'getAllProducts'])->name('getAll.product');
-            Route::post('/createProduct', [ProductController::class, 'createProduct'])->name('create.product');
-            Route::put('/updateProduct/{id}', [ProductController::class, 'updateProduct'])->name('update.product');
-            Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('delete.product');
-        });
-
-Route::prefix('stock')->group(function () {
-    Route::post('/in', [StockController::class, 'in'])->name('stock.in');
-    Route::post('/out', [StockController::class, 'out'])->name('stock.out');
-    Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
 });
 
+
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');  // testado e funcionando
+
+    Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
+
+
+    Route::prefix('users')->group(function () {
+        Route::get('/all', [UserController::class, 'getAllUsers'])->name('users.index');
+        Route::post('/get', [UserController::class, 'getUser'])->name('users.show');
+        Route::put('/update/{id}', [UserController::class, 'updateUser'])->name('users.update');  // testado e funcionando
+        Route::post('/create', [UserController::class, 'createUser'])->name('users.store');
+        Route::delete('/delete/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
+    });
+
+    Route::prefix('providers')->group(function () {
+        Route::get('/all', [ProviderController::class, 'getAllProviders'])->name('providers.index');
+        Route::post('/get', [ProviderController::class, 'getProvider'])->name('providers.show');
+        Route::put('/update/{id}', [ProviderController::class, 'updateProvider'])->name('providers.update');  // testado e funcionando
+        Route::post('/create', [ProviderController::class, 'createProvider'])->name('providers.store');
+        Route::delete('/delete/{id}', [ProviderController::class, 'deleteProvider'])->name('providers.destroy');
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'getAllProducts'])->name('products.getAll');  
+        Route::get('/{id}', [ProductController::class, 'getProduct'])->name('products.getProduct');
+        Route::post('/', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
+        Route::put('/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
+        Route::delete('/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+        Route::post('/ids', [ProductController::class, 'getProductsByIds'])->name('products.getProductsByIds');
+    });
+
+    Route::prefix('stock')->group(function () {
+        Route::post('/in', [StockController::class, 'in'])->name('stock.in');
+        Route::post('/out', [StockController::class, 'out'])->name('stock.out');
+        Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
+    });
+
+    ///////// Views Routes /////////
+
+    Route::prefix('/')->group(function () {
+        Route::get('login', [ViewsController::class, 'showLogin'])->name('login');
+        Route::get('create-user', [ViewsController::class, 'showCreateUser'])->name('createUser');
+        Route::get('reset-password', [ViewsController::class, 'showResetPassword'])->name('resetPassword');
+    });
+
+    Route::prefix('index')->group(function () {
+        Route::get('/dashboard', [ViewsController::class, 'showDashboard'])->name('dashboard');
+        Route::get('/users', [ViewsController::class, 'showUsers'])->name('users');
+        Route::get('/providers', [ViewsController::class, 'showProviders'])->name('providers');
+        Route::get('/products', [ViewsController::class, 'showProducts'])->name('products');
+        Route::get('/stock-in', [ViewsController::class, 'showStock'])->name('stock');
+        Route::get('/stock-out', [ViewsController::class, 'showStockOut'])->name('stockOut');
+        Route::get('/movements', [ViewsController::class, 'showMovements'])->name('movements');
+        Route::get('/register-user', [ViewsController::class, 'showCreateUser'])->name('registerUser');
+        Route::get('/register-provider', [ViewsController::class, 'showCreateProvider'])->name('registerProvider');
+    });
 // });

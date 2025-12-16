@@ -21,13 +21,13 @@ class Provider extends Model
         'cnpj',
         'phone',
         'email',
-        'is_active',
+        'active',
         'deleted_at',
-        'address_street',
-        'address_number',
-        'address_city',
-        'address_state',
-        'address_zipcode',
+        'street',
+        'number',
+        'city',
+        'state',
+        'cep',
         'created_at',
         'updated_at',
         'created_by',
@@ -58,11 +58,6 @@ class Provider extends Model
             }
         );
     }
-    
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class, 'provider_id');
-    }
 
     public function creator(): BelongsTo
     {
@@ -78,6 +73,4 @@ class Provider extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
-
-
 }

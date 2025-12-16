@@ -3,59 +3,45 @@
 namespace App\Services;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use App\Repositories\Eloquent\ProductRepository;
+use Illuminate\Support\Collection;
 
 class ProductService
 {
-    public function createProduct(Request $request): Product
+    protected $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
     {
-        $data = $request->validate([
-            'name'           => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            'price'          => 'required|integer|min:0',
-            'provider_id'    => 'required|exists:providers,id',
-        ]);
-
-        $product = Product::create($data);
-
-        return $product;
+        $this->productRepository = $productRepository;
     }
 
-    public function deleteProduct($id): bool
+    public function createProduct(array $data): Product
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-
-        return true;
+        return $this->productRepository->create($data);
     }
 
-    public function updateProduct($id, Request $request): Product
+    public function getAllProducts(): Collection
     {
-        $product = Product::findOrFail($id);
-
-        $data = $request->validate([
-            'name'           => 'sometimes|string|max:255',
-            'description'    => 'sometimes|string',
-            'price'          => 'sometimes|integer|min:0',
-            'provider_id'    => 'sometimes|exists:products,id',
-        ]);
-
-        $product->update($data);
-
-        return $product;
+        return $this->productRepository->getAll();
     }
 
-    public function getProduct(string $data): Collection
+    public function getProduct($id): Collection|Product|null
     {
-        $ids = explode(',', $data);
-        $product = Product::whereIn('id', $ids)->get();
-        return $product;
+        return $this->productRepository->find($id);
+    }
+    
+    public function updateProduct($id, array $data): Collection|Product|null
+    {
+        return $this->productRepository->update($id, $data);
     }
 
-    public function getAllProducts(): array
+    public function deleteProduct($id): bool|null
     {
-        $products = Product::all();
-        return $products->toArray();    
+        return $this->productRepository->delete($id);
+    }
+
+    public function getProductsByIds(array $ids)
+    {
+        return $this->productRepository->findByIds($ids);
     }
 }

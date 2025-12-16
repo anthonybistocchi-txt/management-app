@@ -2,29 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\TypeUser;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TypeUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        TypeUser::truncate();
-
-        TypeUser::create([
-            'name' => 'Admin'
-        ]);
-
-        TypeUser::create([
-            'name' => 'Gestor'
-        ]);
-
-        TypeUser::create([
-            'name' => 'User'
+        $now = Carbon::now();
+        // Atenção: Se sua tabela for 'type_users' (plural), mude abaixo.
+        DB::table('type_user')->insert([
+            ['id' => 1, 'name' => 'Admin', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 2, 'name' => 'Gestor', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 3, 'name' => 'Colaborador', 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }

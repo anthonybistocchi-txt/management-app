@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('username')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->unsignedBigInteger('type_user_id');
             $table->string('cpf')->unique();
-            $table->boolean('is_active')->default(1);
+            $table->boolean('active')->default(1);
             $table->foreign('type_user_id')->references('id')->on('type_user');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();

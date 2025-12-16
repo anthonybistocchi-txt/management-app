@@ -2,58 +2,80 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Auth;
+use Hash;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash; // Use Hash::make
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::truncate();
+        $now = Carbon::now();
+        $password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
 
-        // Seus usuários manuais (corrigi bcrypt para Hash::make)
-        User::create([
-            'name'          => 'Admin',
-            'email'         => 'admin.dev@gmail.com',
-            'password'      => Hash::make('password123'),
-            'cpf'           => '12345678901',
-            'is_active'     => 1,
-            'id_type_user'  => 1
+        DB::table('users')->insert([
+            [
+                'name' => 'Ana Silva',
+                'username' => 'ana.silva',
+                'email' => 'ana.silva@example.com',
+                'password' => $password,
+                'type_user_id' => 3,
+                'cpf' => '00000000001',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Bruno Costa',
+                'username' => 'bruno.costa',    
+                'email' => 'bruno.costa@example.com',
+                'password' => $password,
+                'type_user_id' => 1,
+                'cpf' => '00000000002',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Carla Dias',
+                'username' => 'carla.dias',
+                'email' => 'carla.dias@example.com',
+                'password' => $password,
+                'type_user_id' => 2,
+                'cpf' => '00000000003',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Anthony Bistocchi',
+                'username' => 'anthony.bistocchi',
+                'email' => 'anthony.bistocchi@example.com',
+                'password' => Hash::make('123456'),
+                'type_user_id' => 1,
+                'cpf' => '44444121866',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Maria Eduarda Salgueiro',
+                'username' => 'maria.salgueiro',
+                'email' => 'maria.salgueiro@example.com',
+                'password' => Hash::make('123456'),
+                'type_user_id' => 2,
+                'cpf' => '44444121867',
+                'active' => 1,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
-        // ... (Gestor e User) ...
-        User::create([
-            'name'          => 'Gestor',
-            'email'         => 'gestor.dev@gmail.com',
-            'password'      => Hash::make('password123'),
-            'cpf'           => '10987654321',
-            'is_active'     => 1,
-            'id_type_user'  => 2
-        ]);
-        User::create([
-            'name'          => 'User',
-            'email'         => 'user@gmail.com',
-            'password'      => Hash::make('password123'),
-            'cpf'           => '19283746500',
-            'is_active'     => 1,
-            'id_type_user'  => 3
-        ]);
-
-        
-        // 👇 SEU FACTORY CALL, AGORA MUITO MAIS LIMPO 👇
-        // A factory vai cuidar do name, email, cpf, etc.
-        // O state() vai cuidar APENAS das variações.
-        User::factory()
-            ->count(50) 
-            ->state(new Sequence(
-                fn(Sequence $sequence) => [
-                    // Apenas o que você quer variar
-                    'is_active'     => fake()->numberBetween(0, 1),
-                    'id_type_user'  => fake()->numberBetween(1, 3),
-                ]
-            ))
-            ->create();
     }
 }

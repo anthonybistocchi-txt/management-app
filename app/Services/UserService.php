@@ -2,89 +2,41 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-
-use function Symfony\Component\Clock\now;
+use App\Models\User;
 
 class UserService
 {
-    public function createUser(Request $request): User
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        $data = $request->validate([
-            'name'         => 'required|string|max:255',
-            'email'        => 'required|string|email|max:255|unique:users',
-            'password'     => 'required|string|min:8',
-            'type_user_id' => 'required|integer|exists:type_user,id',
-            'cpf'          => 'required|string|max:14|unique:users',
-        ]);
+        $this->userRepository = $userRepository;
+    }
 
-        $data['password'] = Hash::make($data['password']);
-
-        $user = User::create($data);
-
-        return $user;
+    public function createUser(array $data): User
+    {
+        return $this->userRepository->createUser($data);
     }
 
     public function deleteUser(int $id): bool
     {
-        $user = User::findOrFail($id);
-
-        $user->is_active = 0;
-        $user->save();
-
-        $user->delete();
-
-        return true;
+        return $this->userRepository->deleteUser($id);
     }
 
-    public function updateUser($id, Request $request): User
+    public function updateUser(int $id, array $data): User
     {
-        $user = User::findOrFail($id);
-
-        $data = $request->validate([
-            'name'         => 'sometimes|required|string|max:255',
-            'email'        => [
-                'sometimes',
-                'required',
-                'string',
-                'email',
-                'max:255',
-                // ignora o email do ID deste usuário
-                Rule::unique('users')->ignore($user->id)
-            ],
-            'password'     => 'sometimes|nullable|string|min:8',
-            'type_user_id' => 'sometimes|required|integer|exists:type_user,id',
-            'is_active'    => ['sometimes', 'required', Rule::in(['0', '1'])],
-        ]);
-
-
-        if (isset($data['password']) && $data['password']) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']); // remove do array
-        }
-
-        $user->update($data);
-
-        return $user;
+        return $this->userRepository->updateUser($id, $data);
     }
 
-    public function getUser(string $data): Collection
+    public function getUser(array $ids): Collection
     {
-        $ids = explode(',', $data);
-        $users = User::whereIn('id', $ids)->get();
-        return $users;
+        return $this->userRepository->getUser($ids);
     }
 
-    public function getAllUsers(): array
+    public function getAllUsers(): Collection
     {
-        $users = User::where('is_active', '1')
-            ->get()
-            ->toArray();
-        return $users;
+        return $this->userRepository->getAllUsers();
     }
 }

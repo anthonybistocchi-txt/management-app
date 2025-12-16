@@ -17,26 +17,21 @@ class StockMovements extends Model
 
     protected $fillable = [
         'product_id',
-        'quantity',
+        'quantity_moved',
         'location_id',
         'previous_quantity',
         'new_quantity',
         'description',
         'type',
         'provider_id',
-        'created_by',
     ];
 
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(ProductLocation::class, 'location_id');
-    }
-
+    protected $casts = [
+        'quantity_moved'  => 'integer',
+        'created_at'      => 'datetime:d-m-Y H:i:s',
+        'updated_at'      => 'datetime:d-m-Y H:i:s',
+        'deleted_at'      => 'datetime:d-m-Y H:i:s',
+    ];
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

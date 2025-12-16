@@ -1,18 +1,17 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import path from 'path';
 
 export default defineConfig({
-    build: {
-        outDir: 'public/build',
-        manifest: true,
-    },
     plugins: [
         laravel({
-            input: [
-              'resources/js/login/index.ts',
-            ],
+            input: ['resources/ts/app.ts'],
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/ts'), // O @ aponta para a pasta TS
+        },
+    },
 });
-
