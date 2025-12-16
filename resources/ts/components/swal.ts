@@ -1,10 +1,7 @@
 import Swal from 'sweetalert2';
 
 const baseCustomClass = {
-    // Adicione 'w-auto' e 'max-w-[90vw]' para ele crescer mas respeitar a tela do celular
     popup: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-xl w-auto max-w-[90vw]',
-    
-    // Remova o 'whitespace-nowrap' daqui para evitar a rolagem forçada
     title: 'text-gray-800 dark:text-gray-100 font-display', 
 };
 
@@ -14,7 +11,7 @@ const ToastMixin = Swal.mixin({
     showConfirmButton: false,
     timer: 3500,
     timerProgressBar: true,
-    background: 'transparent', 
+    background: 'bg-white dark:bg-gray-800', 
     width: 'auto', 
     
     didOpen: (toast) => {

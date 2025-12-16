@@ -36,14 +36,22 @@ class DashboardRepository
 
     private function getMovimentsSales($dateFrom, $dateTo)
     {
-        return DB::table('stock_movements')
-        ->join('products', 'stock_movements.product_id', '=', 'products.id') 
-        ->select('products.name',
-            'stock_movements.quantity_moved',
-            'stock_movements.created_at')
+
+    return DB::table('stock_movements')
+        ->join('products', 'stock_movements.product_id', '=', 'products.id')
+        ->select(
+            DB::raw('DATE(stock_movements.created_at) as sell_date'),
+            
+            'products.name',
+            
+            DB::raw('SUM(stock_movements.quantity_moved) as total_sold')
+        )
         ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
         ->where('stock_movements.type', '=', 'out')
-        ->orderBy('stock_movements.created_at', 'asc')
+        
+        ->groupBy(DB::raw('DATE(stock_movements.created_at)'), 'products.name')
+        
+        ->orderBy('sell_date', 'asc')
         ->get();
     }
 

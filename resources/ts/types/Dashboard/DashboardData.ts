@@ -1,4 +1,3 @@
-// Interfaces baseadas no JSON que você mostrou
 interface DashboardData {
     user_logged: {
         username: string;
@@ -10,9 +9,8 @@ interface DashboardData {
         total_sold: string;
     };
     moviments_sales: Array<{
-        name: string;
-        quantity_moved: number;
-        created_at: string;
+        total_sold: number;
+        sell_date: string;
     }>;
     total_sales: string;
     sales_categorys: Array<{
@@ -26,4 +24,10 @@ interface ApiResponse {
     status: boolean;
     message: string;
     data: DashboardData;
+}
+
+interface CategoryData {
+    category_name: string;
+    total_quantity: string; 
+    total_sales: string; 
 }

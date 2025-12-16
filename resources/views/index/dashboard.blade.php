@@ -62,10 +62,10 @@
                 <div class="flex flex-col">
                     <p id="user_name"
                         class="text-text-light-primary dark:text-text-dark-primary text-sm font-semibold leading-normal">
-                        </p>
+                    </p>
                     <p id="type_user_id"
                         class="text-text-light-secondary dark:text-text-dark-secondary text-xs font-normal leading-normal">
-                        </p>
+                    </p>
                 </div>
             </div>
         </aside>
@@ -133,34 +133,36 @@
                     </div> -->
                 </div>
                 <!-- Charts -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Line Chart -->
-                    <div
-                        class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                        <h3 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-                            Movimentações das vendas</h3>
-                        <div id="moviments_sales_chart" class="flex-1">
-                            <img alt="A line chart showing stock entries in green and stock exits in blue over the last 30 days, with peaks and valleys indicating activity."
-                                class="w-full h-full object-contain"
-                                data-alt="Gráfico de linha de movimentações de estoque"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaSRlKAAoGmWvcxY3SrQZfaFJFodRpK6az3JJD6sWrXEii8rrMjD9A6-Jcxx5PJ7XcZfSxrfGpyED9e-tY0idDZqpyB5Sf9e3fIjBGptBoBU7IxvlIAj2Y4CEEGXFzDOx305ycOcabEycQmRX-pHiB12pXPbf69Dn5mujEjAhjfJ1kBpQpGrIYtZ-mjpxf0_iCuIskwYqTXizYnnvxT2sK0RbQi110u1RSDsPSC5GqLlbyZfWsTS8wIPNtyasradLc_YqICcEBpZc" />
-                        </div>
-                    </div>
-                    <!-- Donut Chart -->
-                    <div
-                        class="flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                        <h3 class="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-                            Vendas por Categoria</h3>
-                        <div id="type_user_chart" class="flex-1 flex items-center justify-center">
-                            <img alt="A donut chart displaying user distribution by type. The largest segment is 'Standard Users' in blue, followed by 'Managers' in teal, and a smaller segment for 'Admins' in purple."
-                                class="w-full h-full max-h-64 object-contain"
-                                data-alt="Gráfico de rosca de usuários por tipo"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjtuHTpMl3uQ7yyZKfCAWaGT1U4EYt0Ys23F0SUt66TkMvGH920nob2Wl0ktsULd8uWgJsXp2mG_ehjpabM5fdVrvy3RpEty9JQKnK9xi0ZSeQHjSmuRMXaWc75KKoQi_rXhJUqx_ZTJ9Mf9XE9RWymm9At-nLxmAdziL80CUNk_AFUtdBRnkEOF8B16WprSp-AxHiD-uOlX-Wxz4dA704CMsLtJ65l9HJbmMrQY8RMJIq1o3qroBZAKSQcw-dT-EUewR253ZTn48" />
+                <div
+                    class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark mb-5">
+                    <div class="w-full">
+                        <h3 class="text-lg dark:text-text-dark-primary mb-2">Vendas</h3>
+                        <div class="relative w-full h-64">
+                            <canvas id="moviments_sales_chart"></canvas>
                         </div>
                     </div>
                 </div>
-            </main>
+
+                <div
+                    class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+
+                    <h3 class="text-lg font-semibold dark:text-text-dark-primary mb-6">Vendas por categorias</h3>
+
+                    <div class="flex flex-col md:flex-row items-center gap-6 h-full">
+
+                        <div class="relative w-full md:w-5/12 h-64 flex justify-center items-center">
+                            <canvas id="sales_category_chart"></canvas>
+                        </div>
+
+                        <div id="sales_category_legend"
+                            class="w-full md:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-4 content-center">
+
+                        </div>
+                    </div>
+                </div>
         </div>
+        </main>
+    </div>
     </div>
 </body>
 

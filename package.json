@@ -21,6 +21,7 @@
     "dependencies": {
         "apexcharts": "^5.3.6",
         "axios": "^1.13.2",
+        "chart.js": "^4.5.1",
         "datatables.net": "^2.3.5",
         "datatables.net-dt": "^2.3.5",
         "flatpickr": "^4.6.13",

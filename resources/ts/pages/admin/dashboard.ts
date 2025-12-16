@@ -5,30 +5,33 @@ import "flatpickr/dist/flatpickr.css";
 import { DashboardService } from '../../services/DashboardService';
 import { Toast } from '../../components/swal';
 import { formatPrice } from '../../types/Utils/FormatPrice';
+import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGraphic';
+import { graphicSalesByCategory } from '../../components/graphicAdm/categoriesGraphic';
 
 
 $(document).ready(() => {
-    // --- SELETORES ---
     const $username            = $('#user_name');
     const $typeUserId          = $('#type_user_id');
     const $totalSales          = $('#total_sales');
     const $topSellingProduct   = $('#top_selling_product');
-    const $movimentsSalesChart = $('#moviments_sales_chart');
     const $salesCategoryChart  = $('#sales_category_chart');
     const $datePickerId        = $("#date_range_picker"); 
     const $btn_submit          = $("#btn_submit");
+    const originalText         = $btn_submit.html();
 
-    let startFilter: string | null = null;
-    let endFilter:   string | null = null;
+    let startFilter: string;
+    let endFilter:   string;
 
-    // const today = new Date();
-    // const fourteen = new Date();
-    // fourteen.setDate(today.getDate() - 14);
+    const today        = new Date();
+    const sevenDaysAgo = new Date();
+
+    sevenDaysAgo.setDate(today.getDate() - 7);
 
     flatpickr($datePickerId, {
         mode: "range",
         dateFormat: "d/m/Y",
         locale: Portuguese, 
+        defaultDate: [sevenDaysAgo, today],
         onReady: (dates, str, instance) => {
             if (dates.length === 2) {
                 startFilter = instance.formatDate(dates[0], "Y-m-d");
@@ -45,13 +48,11 @@ $(document).ready(() => {
 
     $btn_submit.on('click', async function(e) {
         e.preventDefault();
-
         if (!startFilter || !endFilter) {
             Toast.info("Selecione uma data completa"); 
             return;
         }
 
-        const originalText = $btn_submit.html();
         $btn_submit.html('Buscando...').prop('disabled', true);
 
         try {
@@ -59,7 +60,6 @@ $(document).ready(() => {
 
             if (response.status && response.data) {
                 const data = response.data;
-                console.log("Dados do dashboard recebidos:", data);
 
                 $totalSales.text(formatPrice(data.total_sales));
 
@@ -78,20 +78,18 @@ $(document).ready(() => {
                         $typeUserId.text('Usuário');
                     }
                 }
-
-                updateCharts(data.moviments_sales, data.sales_categorys);
+                
+                graphicMovimentsSales(data.moviments_sales);
+                graphicSalesByCategory(data.sales_categorys);
             }
 
         } catch (error) {
             console.error("Fluxo interrompido:", error);
+            Toast.error("Erro ao buscar dados.");
+            
         } finally {
             $btn_submit.html(originalText).prop('disabled', false);
         }
     });
 
-    
-    function updateCharts(movements: any[], categories: any[]) {
-        console.log("Dados recebidos para gráficos:", movements, categories);
- 
-    }
 });
