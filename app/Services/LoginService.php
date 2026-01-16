@@ -3,13 +3,9 @@
 namespace App\Services;
 
 use App\Models\LoginActivities;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Importação correta da Facade
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Str;
 
 class LoginService
 {
@@ -48,11 +44,11 @@ class LoginService
     }
 
 
-    public function logout(): void
+    public function logout(string $ip): void
     {
         LoginActivities::create([
             'user_id'    => Auth::id(),
-            'ip_address' => request()->ip(),
+            'ip_address' => $ip,
             'action'     => 'logout',
         ]);
 

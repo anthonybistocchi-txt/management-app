@@ -8,21 +8,18 @@ use App\Models\User;
 
 class UserService
 {
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        protected UserRepository $userRepository
+    ) {}
 
     public function createUser(array $data): User
     {
         return $this->userRepository->createUser($data);
     }
 
-    public function deleteUser(int $id): bool
+    public function deleteUser(int $id): void
     {
-        return $this->userRepository->deleteUser($id);
+        $this->userRepository->deleteUser($id);
     }
 
     public function updateUser(int $id, array $data): User

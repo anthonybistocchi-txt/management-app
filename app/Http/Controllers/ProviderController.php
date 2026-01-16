@@ -14,7 +14,6 @@ use Illuminate\Validation\ValidationException;
 
 class ProviderController extends Controller
 {
-
     protected $providerService;
 
     public function __construct(ProviderService $providerService)
