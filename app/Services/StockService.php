@@ -11,7 +11,6 @@ use App\Repositories\Eloquent\StockMovementsReposytory;
 
 class StockService
 {
-
     public function __construct(
         protected StockRepository $stockRepository,
         protected StockMovementsReposytory $stockMovementsRepository

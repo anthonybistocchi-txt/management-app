@@ -3,26 +3,18 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Stock;
-use App\Models\StockMovements;
-use Auth;
-
 class StockRepository
 {
-    protected $model;
-    public function __construct(Stock $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(protected Stock $model){}
 
     public function incrementStock($productId, $locationId, $quantity): Stock
     {
-        // Busca ou cria
         $stock = Stock::firstOrCreate(
             ['product_id' => $productId, 'location_id' => $locationId],
             ['quantity' => 0]
         );
         
-        // Dica: refresh() garante que pegamos o dado mais recente após o firstOrCreate
+        //  garante que pega o dado mais recente após o firstOrCreate
         $stock->refresh(); 
         
         $stock->quantity += $quantity;
@@ -33,7 +25,7 @@ class StockRepository
 
 
 
-    public function stockOut(array $data)
+    public function stockOut(array $data): Stock
     {
         $stock = Stock::where('product_id', $data['product_id'])
             ->where('location_id', $data['location_id'])
@@ -48,7 +40,7 @@ class StockRepository
 
         return $stock;
     }
-    public function stockTransfer(array $data)
+    public function stockTransfer(array $data): array
     {
         $transferOutStock = $this->stockOut([
             'product_id'  => $data['product_id'],

@@ -8,12 +8,7 @@ use Illuminate\Support\Collection;
 
 class ProductService
 {
-    protected $productRepository;
-
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
+    public function __construct(protected ProductRepository $productRepository){}
 
     public function createProduct(array $data): Product
     {
@@ -30,7 +25,7 @@ class ProductService
         return $this->productRepository->find($id);
     }
     
-    public function updateProduct($id, array $data): Collection|Product|null
+    public function updateProduct($id, array $data): bool
     {
         return $this->productRepository->update($id, $data);
     }

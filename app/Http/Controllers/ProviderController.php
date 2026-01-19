@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\CreateProviderRequest;
-use App\Http\Requests\Provider\DeleteProviderRequest;
 use App\Http\Requests\Provider\GetProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
 use App\Services\ProviderService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+
 
 class ProviderController extends Controller
 {

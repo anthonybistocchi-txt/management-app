@@ -6,12 +6,7 @@ use App\Repositories\Eloquent\DashboardRepository;
 
 class DashboardService 
 {
-    protected $dashboardRepository;
-
-    public function __construct(DashboardRepository $dashboardRepository)
-    {
-        $this->dashboardRepository = $dashboardRepository;
-    }
+    public function __construct(protected DashboardRepository $dashboardRepository){}
 
     public function getDashboardData(array $filters = []): array
     {

@@ -7,9 +7,7 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\getProductsByIdsRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {

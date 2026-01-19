@@ -8,8 +8,6 @@ use App\Http\Requests\Stock\StockOutRequest;
 use App\Http\Requests\Stock\StockTransferRequest;
 use App\Services\StockService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class StockController extends Controller
 {

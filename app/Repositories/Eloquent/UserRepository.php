@@ -3,27 +3,25 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-
-
 class UserRepository
 {
-    public function getUser(array $ids)
+    public function getUser(array $ids): Collection
     {
         return User::whereIn('id', $ids)->get();
     }
 
-    public function getAllUsers()
+    public function getAllUsers(): Collection
     {
         return User::where('active', 1)->get();
        
     }
 
-    public function createUser(array $data)
+    public function createUser(array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
+        $data['password']   = Hash::make($data['password']);
         $data['created_by'] = Auth::id(); 
 
         return User::create($data);
@@ -33,12 +31,7 @@ class UserRepository
     {
         $user = User::findOrFail($id);
 
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
-
+        $data['password']   = $data['password'] ?? Hash::make($data['password']);  
         $data['updated_by'] = Auth::id();
         
         $user->update($data);
@@ -46,7 +39,7 @@ class UserRepository
         return $user->refresh(); 
     }
 
-    public function deleteUser($id): bool
+    public function deleteUser(int $id): bool
     {
         $user = User::findOrFail($id);
 
