@@ -12,8 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'session.context' => \App\Http\Middleware\EnsureSessionContext::class,
-            'user.active'     => \App\Http\Middleware\EnsureUserIsActive::class,
+            'admin.or.gestor'     => \App\Http\Middleware\AdminAndGestorMiddleware::class,
+            'auth' => \App\Http\Middleware\AuthenticatedMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

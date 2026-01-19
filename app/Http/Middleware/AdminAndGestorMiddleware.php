@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsActive
+class AdminAndGestorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class EnsureUserIsActive
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if(!$user || !$user->active) {
+        if($user->type_user_id !== 1 && $user->type_user_id !== 2) {
             auth()->logout();
             return redirect('/login')->withErrors(['Your account is inactive. Please contact support.', 403]);
         }

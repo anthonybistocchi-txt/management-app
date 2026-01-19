@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\LoginService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function __construct(protected LoginService $loginService) {}
 

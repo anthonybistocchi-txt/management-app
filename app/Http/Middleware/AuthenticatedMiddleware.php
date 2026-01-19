@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureSessionContext
+class AuthenticatedMiddleware
 {
     /**
      * Handle an incoming request.
