@@ -11,60 +11,58 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    use ApiResponse;
 
-    public function __construct(
-        protected UserService $service
-    ) {}
+    public function __construct(protected UserService $service) {}
 
     public function createUser(CreateUserRequest $request): JsonResponse
     {
         $user = $this->service->createUser($request->validated());
 
-        return $this->successResponse(
-            data: ['user' => $user],
-            message: 'User created successfully',
-            code: 201
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'User created successfully',
+        ], 201);
     }
 
     public function deleteUser(int $id): JsonResponse
     {
         $this->service->deleteUser($id);
 
-        return $this->successResponse(
-            data: ['user' => $id],
-            message: 'User deleted successfully'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'User deleted successfully',
+        ], 200);
     }
 
     public function updateUser(int $id, UpdateUserRequest $request): JsonResponse
     {
-        $user = $this->service->updateUser($id, $request->validated());
+        $this->service->updateUser($id, $request->validated());
 
-        return $this->successResponse(
-            data: ['user' => $user],
-            message: 'User updated successfully'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'User updated successfully',
+        ], 200);
     }
 
     public function getUser(GetIdsUserRequest $request): JsonResponse
     {
         $users = $this->service->getUser($request->validated());
 
-        return $this->successResponse(
-            data: ['users' => $users],
-            message: 'Users retrieved successfully'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'Users retrieved successfully',
+            'data'    => ['users' => $users]
+        ], 200);
     }
 
     public function getAllUsers(): JsonResponse
     {
         $users = $this->service->getAllUsers();
 
-        return $this->successResponse(
-            data: ['users' => $users],
-            message: 'Users retrieved successfully'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'Users retrieved successfully',
+            'data'    => ['users' => $users]
+        ], 200);
     }
 }

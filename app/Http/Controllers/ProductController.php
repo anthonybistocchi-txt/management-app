@@ -13,12 +13,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    protected $productService;
-
-    public function __construct(ProductService $productService)
-    {
-        $this->productService = $productService;
-    }
+    public function __construct(protected ProductService $productService){}
 
     public function getAllProducts(): JsonResponse
     {
@@ -29,11 +24,13 @@ class ProductController extends Controller
                 'status'  => true,
                 'message' => "Success",
                 'data'    => $products,
-                'code'    => 200
-            ]);
+            ],200);
 
         } catch (\Exception $error) {
-            return $this->errorResponse('Error fetching products', $error);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error fetching products',
+            ],500);
         }
     }
 
@@ -41,24 +38,18 @@ class ProductController extends Controller
     {
         try {
             $product = $this->productService->getProduct($id);
-
-            if (!$product) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'Product not found',
-                    'code'    => 404
-                ]);
-            }
             
             return response()->json([
                 'status'  => true,
                 'message' => "Success",
                 'data'    => $product,
-                'code'    => 200
-            ]);
+            ],200);
 
         } catch (\Exception $error) {
-            return $this->errorResponse('Error retrieving product', $error);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error fetching product',
+            ],500);
         }
     }
 
@@ -71,11 +62,13 @@ class ProductController extends Controller
                 'status'  => true,
                 'message' => "Product created successfully",
                 'data'    => $product,
-                'code'    => 201
-            ]);
+            ],201);
 
         } catch (\Exception $error) {
-            return $this->errorResponse('Error creating product', $error);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error creating product',
+            ],500);
         }
     }
 
@@ -88,59 +81,50 @@ class ProductController extends Controller
                 'status'  => true,
                 'message' => "Product updated successfully",
                 'data'    => $product,
-                'code'    => 200
-            ]);
-
-        } catch (ModelNotFoundException $error) {
+            ],200);
+        } catch (\Exception $error) {
             return response()->json([
                 'status'  => false,
-                'message' => 'Product not found',
-                'code'    => 404
-            ]);
-        } catch (\Exception $error) {
-            return $this->errorResponse('Error updating product', $error);
+                'message' => 'Error updating product',
+            ],500);
         }
     }
 
     public function deleteProduct($id): JsonResponse
     {
         try {
-            $deleted = $this->productService->deleteProduct($id);
-
-            if (!$deleted) {
-                 return response()->json([
-                    'status'  => false,
-                    'message' => 'Product not found or could not be deleted',
-                    'code'    => 404
-                ]);
-            }
+            $this->productService->deleteProduct($id);
 
             return response()->json([
                 'status'  => true,
                 'message' => 'Product deleted successfully',
-                'code'    => 200
-            ]);
+            ],200);
 
         } catch (\Exception $error) {
-            return $this->errorResponse('Error deleting product', $error);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error deleting product',
+            ],500);
         }
     }
 
     public function getProductsByIds(getProductsByIdsRequest $request): JsonResponse
     {
         try {
-            $data     = $request->validated();
-            $products = $this->productService->getProductsByIds($data['ids']);
+            $products = $this->productService->getProductsByIds($request->validated());
 
             return response()->json([
                 'status'  => true,
                 'message' => "Success",
                 'data'    => $products,
-                'code'    => 200
-            ]);
+                
+            ],200);
 
         } catch (\Exception $error) {
-            return $this->errorResponse('Error fetching products by IDs', $error);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Error fetching products',
+            ],500);
         }
     }
     

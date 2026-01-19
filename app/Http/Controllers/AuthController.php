@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\LoginService;
-use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    use ApiResponse;
     public function __construct(protected LoginService $loginService) {}
 
     public function login(Request $request): JsonResponse
@@ -20,19 +18,19 @@ class LoginController extends Controller
             $request->ip()
         );
 
-        return $this->successResponse(
-            data: [],
-            message: 'Login realizado com sucesso'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'Login realizado com sucesso',
+        ],200);
     }
 
     public function logout(): JsonResponse
     {
         $this->loginService->logout(request()->ip());
 
-        return $this->successResponse(
-            data: [],
-            message: 'Logout realizado com sucesso'
-        );
+        return response()->json([
+            'status'  => true,
+            'message' => 'Logout realizado com sucesso',
+        ],200);
     }
 }

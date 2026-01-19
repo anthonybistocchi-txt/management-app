@@ -9,12 +9,8 @@ use Illuminate\Http\JsonResponse;
     
 class DashboardController extends Controller
 {
-    protected $dashboardService;
-
-    public function __construct(DashboardService $service)
-    {
-        $this->dashboardService = $service;
-    }
+    public function __construct(protected DashboardService $dashboardService){}
+    
     public function getDashboardData(DashboardRequest $request): JsonResponse
     {
         try {
