@@ -1,11 +1,11 @@
-import api from "../Utils/api";
+import api from "../../Utils/api";
 import { AxiosError } from "axios";
-import { Toast } from "../components/swal";
+import { Toast } from "../../components/swal";
 
-export const DashboardService = {
-    async getDashboard(date_from: string, date_to: string) {
+export const ProductService = {
+    async createProduct(productData: any) {
         try {
-            const { data } = await api.post("/dashboard", { date_from, date_to });
+            const { data } = await api.post("/products", productData);
             return data;
         } catch (error) {
             const message =
