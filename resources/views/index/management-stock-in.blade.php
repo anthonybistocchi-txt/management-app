@@ -154,26 +154,48 @@
                                         <select id="providers"
                                             class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal">
                                             <option>Selecione um fornecedor</option>
-                                            <option value="cliente1">Cliente A</option>
-                                            <option value="cliente2">Cliente B</option>
                                         </select>
                                     </label>
                                 </div>
-                                <div class="md:col-span-2">
-                                    <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
-                                            Data da Entrada
-                                        </p>
 
-                                        <input id="date_picker" type="text" placeholder="Selecione a data" class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg 
-                                        border border-[#cfdbe7] dark:border-slate-700 
-                                        bg-background-light dark:bg-slate-800 
-                                        text-[#0d141b] dark:text-slate-200 
-                                        placeholder:text-[#4c739a] 
-                                        focus:border-primary focus:outline-0 
-                                        focus:ring-2 focus:ring-primary/20 
-                                        p-3 text-base font-normal" />
-                                    </label>
+                                <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                                    <div class="{{ env('HAS_SUBSIDIARIES') ? 'md:col-span-1' : 'md:col-span-2' }}">
+                                        <label class="flex flex-col">
+                                            <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                                Data da Entrada
+                                            </p>
+                                            <input id="date_picker" type="text" placeholder="Selecione a data" class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg 
+                                            border border-[#cfdbe7] dark:border-slate-700 
+                                            bg-background-light dark:bg-slate-800 
+                                            text-[#0d141b] dark:text-slate-200 
+                                            placeholder:text-[#4c739a] 
+                                            focus:border-primary focus:outline-0 
+                                            focus:ring-2 focus:ring-primary/20 
+                                            p-3 text-base font-normal" />
+                                        </label>
+                                    </div>
+
+                                    @if (env('HAS_SUBSIDIARIES'))
+                                                        <div class="md:col-span-1">
+                                                            <label class="flex flex-col">
+                                                                <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                                                    Localização*
+                                                                </p>
+                                                                <select id="locations" class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg 
+                                                                    border border-[#cfdbe7] dark:border-slate-700 
+                                                                    bg-background-light dark:bg-slate-800 
+                                                                    text-[#0d141b] dark:text-slate-200 
+                                                                    placeholder:text-[#4c739a] 
+                                                                    focus:border-primary focus:outline-0 
+                                                                    focus:ring-2 focus:ring-primary/20 
+                                                                    p-3 text-base font-normal">
+                                                                    <option>Selecione uma Localização</option>
+                                                                </select>
+                                                            </label>
+                                                        </div>
+                                    @endif
+
                                 </div>
 
                                 <div class="md:col-span-2">
@@ -192,7 +214,7 @@
                                         type="button">Cancelar</button>
                                     <button id="btn-save"
                                         class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold min-w-0 px-6"
-                                        type="submit">Salvar Saída</button>
+                                        type="submit">Salvar</button>
                                 </div>
                             </form>
                         </div>
@@ -245,8 +267,8 @@
                    text-[#0d141b] dark:text-slate-200
                    placeholder:text-slate-400
                    focus:border-primary focus:outline-none
-                   focus:ring-2 focus:ring-primary/20" >
-                        <option>Selecione um fornecedor</option>
+                   focus:ring-2 focus:ring-primary/20">
+                        <option  >Selecione um fornecedor</option>
                     </select>
                 </div>
 

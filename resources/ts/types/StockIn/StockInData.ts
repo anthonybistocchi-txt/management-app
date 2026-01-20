@@ -24,5 +24,13 @@ interface ProductData {
     name: string;
 }
 
+interface FormStockInData {
+    product_id: number;
+    quantity: number;
+    provider_id: number;
+    date: string;
+    observations?: string | null;
+}
+
 
 

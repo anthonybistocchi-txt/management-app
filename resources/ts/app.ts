@@ -13,7 +13,7 @@ import "./pages/admin/dashboard";
 import "./pages/admin/users";
 import "./pages/Index/providers";
 import "./pages/Index/products";
-import "./pages/Index/stock-in";
+import "./pages/index/Stock-in/stock-in";
 import "./pages/Index/stock-out";
 import "./pages/admin/movements";
 import "./pages/admin/users";
