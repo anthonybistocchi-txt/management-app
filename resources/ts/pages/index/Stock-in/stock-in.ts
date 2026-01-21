@@ -1,36 +1,31 @@
+import $, { get } from "jquery";
 import flatpickr from "flatpickr";
 import { Portuguese } from "flatpickr/dist/l10n/pt";
-import $ from "jquery";
 import { openModal } from "../../../utils/openModal";
 import { closeModal } from "../../../utils/CloseModal";
-
-// Importando nossos novos controladores
-import { getProviders } from "./getProviders"; 
-import { getProducts } from "./getProducts"; 
-import { StockInForm } from "./stockInForm"; 
+import { getProviders } from "./Api/getProviders"; 
+import { getProducts } from "./Api/getProducts"; 
+import { StockInForm } from "./Api/stockInForm"; 
+import { getUserLogged } from "./Api/getUserLogged";
 
 $(document).ready(() => {
+    const $modalProduct        = $('#modal-product');
+    const $btnOpenModal        = $('#btn-add-product');
+    const $btnCloseModal       = $('#close-modal, #cancel-modal');
+    const $modalProviderSelect = $('#provider-new-product');
 
-    const UI = {
-        modal: {
-            container:      $('#modal-product'),
-            btnOpen:        $('#btn-add-product'),
-            btnClose:       $('#close-modal, #cancel-modal'),
-            selectProvider: $('#provider-new-product')
-        },
-        form: {
-            selectProduct:  $('#products'),
-            selectProvider: $('#providers'),
-            inputQty:       $('#quantity'),
-            inputDate:      $('#date_picker'),
-            inputObs:       $('#observations'),
-            btnSave:        $('#btn-save')
-        }
-    };
+    const $mainProductSelect  = $('#products');
+    const $mainProviderSelect = $('#providers');
+    const $usernameInput      = $('#username');
+    const $type_user_idInput  = $('#type_user_id');
+    const $mainQtyInput       = $('#quantity');
+    const $mainDateInput      = $('#date_picker'); 
+    const $mainObsInput       = $('#observations');
+    const $btnSave            = $('#btn-save');
 
     let dateValue: string = "";
-
     const today = new Date();
+
     flatpickr("#date_picker", {
         dateFormat: "Y-m-d",
         altInput: true,
@@ -46,27 +41,26 @@ $(document).ready(() => {
         }
     });
 
-    getProducts.loadProducts(UI.form.selectProduct);
+    getProducts.loadProducts($mainProductSelect);
+    getProviders.loadProviders([$mainProviderSelect, $modalProviderSelect]);
+    getUserLogged.loadUserLogged([$usernameInput, $type_user_idInput]);
 
-    getProviders.loadProviders([UI.form.selectProvider, UI.modal.selectProvider]);
-
-    UI.modal.btnOpen.on('click', function() {
-        
-        openModal(UI.modal.container);
+    $btnOpenModal.on('click', function() {
+        openModal($modalProduct);
     });
 
-    UI.modal.btnClose.on('click', function() {
-        closeModal(UI.modal.container);
+    $btnCloseModal.on('click', function() {
+        closeModal($modalProduct);
     });
 
-    UI.form.btnSave.on('click', (event) => {
+    $btnSave.on('click', (event) => {
         StockInForm.handleSubmit(event, {
-            $product:  UI.form.selectProduct,
-            $qty:      UI.form.inputQty,
-            $provider: UI.form.selectProvider,
-            $obs:      UI.form.inputObs,
-            $date:     UI.form.inputDate,
-            $btn:      UI.form.btnSave
+            $product:  $mainProductSelect,
+            $qty:      $mainQtyInput,
+            $provider: $mainProviderSelect,
+            $obs:      $mainObsInput,
+            $date:     $mainDateInput,
+            $btn:      $btnSave
         }, dateValue);
     });
 });

@@ -1,6 +1,6 @@
-import { ProductService } from "../../../services/StockInService.ts/GetProductService";
-import { ApiResponse } from "../../../types/Utils/ApiResponse";
-import { Toast } from "../../../components/swal";
+import { ProductService } from "../../../../services/StockInService.ts/GetProductService";
+import { ApiResponse } from "../../../../types/Utils/ApiResponse";
+import { Toast } from "../../../../components/swal";
 
 interface ProductData {
     id: number;
@@ -13,7 +13,7 @@ export const getProducts = {
         try {
             const response: ApiResponse<ProductData[]> = await ProductService.getProducts();
 
-            if (response.success && response.data) {
+            if (response.status && response.data) {
                 const products = response.data;
                 
                 $selectElement.empty();

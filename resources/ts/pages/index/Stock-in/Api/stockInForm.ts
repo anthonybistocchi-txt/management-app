@@ -1,6 +1,5 @@
-import { SubmitStockInService } from "../../../services/StockInService.ts/SubmitService";
-import { Toast } from "../../../components/swal";
-import { ApiResponse } from "../../../types/Utils/ApiResponse";
+import { SubmitStockInService } from "../../../../services/StockInService.ts/SubmitService";
+import { Toast } from "../../../../components/swal";
 
 export const StockInForm = {
     async handleSubmit(
@@ -33,10 +32,10 @@ export const StockInForm = {
 
         try {
             const requestData: FormStockInData = {
-                product_id: productId,
-                quantity: quantity,
-                provider_id: providerId,
-                date: finalDate,
+                product_id:   productId,
+                quantity:     quantity,
+                provider_id:  providerId,
+                date:         finalDate,
                 observations: obs || null
             };
 
@@ -52,7 +51,7 @@ export const StockInForm = {
                 elements.$date.val('');
                 
             } else {
-                Toast.error(response.message || "Erro ao enviar entrada de estoque.");
+                Toast.error("Erro ao enviar entrada de estoque.");
             }
 
         } catch (error) {

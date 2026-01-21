@@ -102,7 +102,7 @@
                             </div>
                             <div class="flex flex-col text-sm">
                                 <h1 id="username" class="font-medium text-[#0d141b] dark:text-slate-200"></h1>
-                                <p id="type_user_id" class="text-[#4c739a] dark:text-slate-400">Administrador</p>
+                                <p id="type_user_id" class="text-[#4c739a] dark:text-slate-400"></p>
                             </div>
                         </div>
                     </div>
@@ -131,9 +131,6 @@
                                         <select id="products"
                                             class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal">
                                             <option>Selecione um produto</option>
-                                            <option value="produto1">Produto A - SKU-001</option>
-                                            <option value="produto2">Produto B - SKU-002</option>
-                                            <option value="produto3">Produto C - SKU-003</option>
                                         </select>
                                     </label>
                                 </div>
