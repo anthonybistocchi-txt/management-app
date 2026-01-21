@@ -4,7 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use Auth;
 use Illuminate\Support\Facades\DB;
-
 class DashboardRepository 
 {
     public function getDashboardData($dateFrom, $dateTo): array
@@ -83,7 +82,7 @@ class DashboardRepository
 
     private function getUser(): array 
     {
-        $user     = Auth::user();
+        $user = Auth::user();
 
         return [
             'username'      => $user->username,

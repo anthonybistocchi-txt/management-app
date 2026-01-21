@@ -28,32 +28,52 @@
             </div>
             <div class="flex flex-col flex-1">
                 <div class="flex flex-col gap-2">
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary" href="#">
+
+                    {{-- Dashboard --}}
+                    <a href="{{ route('dashboard') }}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary">
                         <span class="material-symbols-outlined">dashboard</span>
                         <p class="text-sm font-semibold">Dashboard</p>
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary text-text-light-secondary dark:text-text-dark-secondary"
-                        href="#">
+
+                    {{-- Entrada de estoque --}}
+                    <a href="{{ route('stock') }}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
                         <span class="material-symbols-outlined">inventory_2</span>
-                        <p class="text-sm font-medium">Estoque</p>
+                        <p class="text-sm font-medium">Entrada de stock</p>
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary text-text-light-secondary dark:text-text-dark-secondary"
-                        href="#">
+
+                    {{-- Usuários --}}
+                    <a href="{{ route('users') }}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
                         <span class="material-symbols-outlined">group</span>
                         <p class="text-sm font-medium">Usuários</p>
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary text-text-light-secondary dark:text-text-dark-secondary"
-                        href="#">
+
+                    {{-- Registrar venda --}}
+                    <a href="{{ route('stockOut') }}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
+                        <span class="material-symbols-outlined">inventory_2</span>
+                        <p class="text-sm font-medium">Registrar venda</p>
+                    </a>
+
+                    {{-- Relatórios (ainda não existe) --}}
+                    <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 opacity-50 cursor-not-allowed">
                         <span class="material-symbols-outlined">summarize</span>
                         <p class="text-sm font-medium">Relatórios</p>
                     </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary text-text-light-secondary dark:text-text-dark-secondary"
-                        href="#">
-                        <span class="material-symbols-outlined">settings</span>
-                        <p class="text-sm font-medium">Configurações</p>
+
+                    {{-- Fornecedores --}}
+                    <a href="{{ route('providers') }}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
+                        <span class="material-symbols-outlined">group</span>
+                        <p class="text-sm font-medium">Fornecedores</p>
                     </a>
+
                 </div>
             </div>
+
             <div class="flex items-center gap-3">
                 <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
                     data-alt="User avatar with a gradient background"

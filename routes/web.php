@@ -3,27 +3,21 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\views\ViewsController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\StockController;
+use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
-
-
 
 Route::middleware(['auth'])->group(function () {
 
 
 });
 
-
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');  // testado e funcionando
-
+    Route::post('/logout', [AuthController::class, 'logout']);  // testado e funcionando
     Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
-
 
     Route::prefix('users')->group(function () {
         Route::get('/all', [UserController::class, 'getAllUsers'])->name('users.index');

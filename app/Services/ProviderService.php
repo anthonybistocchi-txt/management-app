@@ -8,15 +8,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProviderService
 {
+    public function __construct(protected ProviderRepository $providerRepository){}
 
-    protected $providerRepository;
-
-    public function __construct(ProviderRepository $providerRepository)
-    {
-        $this->providerRepository = $providerRepository;
-    }
-
-    
     public function createProvider($data): Provider
     {
         return $this->providerRepository->createProvider($data);
@@ -27,7 +20,7 @@ class ProviderService
         return $this->providerRepository->deleteProvider($id);
     }
 
-    public function updateProvider($id, $data): Provider
+    public function updateProvider($id, $data): bool
     {
         return $this->providerRepository->updateProvider($id, $data);
     }

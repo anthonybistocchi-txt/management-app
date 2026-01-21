@@ -2,16 +2,10 @@
 
 namespace App\Repositories\Eloquent;
 use App\Models\StockMovements;
-
 class StockMovementsReposytory
 {
-    protected $model;
-    public function __construct(StockMovements $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(protected StockMovements $model){}
     
-
     public function logEntry($stock, $quantity, $data, $userId): StockMovements
     {
         return StockMovements::create([

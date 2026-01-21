@@ -2,11 +2,12 @@ import $ from 'jquery';
 import flatpickr from "flatpickr";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import "flatpickr/dist/flatpickr.css";
-import { DashboardService } from '../../services/DashboardService';
+import { DashboardService } from '../../Services/DashboardService'; 
 import { Toast } from '../../components/swal';
 import { formatPrice } from '../../types/Utils/FormatPrice';
 import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGraphic';
 import { graphicSalesByCategory } from '../../components/graphicAdm/categoriesGraphic';
+import { ApiResponse } from '../../types/Utils/ApiResponse';
 
 
 $(document).ready(() => {
@@ -56,7 +57,7 @@ $(document).ready(() => {
         $btn_submit.html('Buscando...').prop('disabled', true);
 
         try {
-            const response: ApiResponse = await DashboardService.getDashboard(startFilter, endFilter);
+            const response: ApiResponse<DashboardData> = await DashboardService.getDashboard(startFilter, endFilter);
 
             if (response.status && response.data) {
                 const data = response.data;

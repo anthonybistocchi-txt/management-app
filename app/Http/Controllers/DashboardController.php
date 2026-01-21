@@ -5,21 +5,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DashboardRequest;
 use App\Services\DashboardService;
 use Illuminate\Http\JsonResponse;
-
-    
 class DashboardController extends Controller
 {
-    protected $dashboardService;
+    public function __construct(protected DashboardService $dashboardService){}
 
-    public function __construct(DashboardService $service)
-    {
-        $this->dashboardService = $service;
-    }
     public function getDashboardData(DashboardRequest $request): JsonResponse
     {
         try {
-            $validated = $request->validated();
-            $data      = $this->dashboardService->getDashboardData($validated);
+            $data = $this->dashboardService->getDashboardData($request->validated());
     
             return response()->json([
                 'status'  => true,

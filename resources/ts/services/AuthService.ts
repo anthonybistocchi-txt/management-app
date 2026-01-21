@@ -1,4 +1,4 @@
-import api from "../utils/api";
+import api from "../Utils/api";
 import { LoginCredentials } from "../types/Auth/LoginCredentials";
 import { Toast } from "../components/swal";
 import { handleError } from "../utils/ApiHandleError";

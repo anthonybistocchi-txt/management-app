@@ -20,12 +20,6 @@ interface DashboardData {
     }>;
 }
 
-interface ApiResponse {
-    status: boolean;
-    message: string;
-    data: DashboardData;
-}
-
 interface CategoryData {
     category_name: string;
     total_quantity: string; 
