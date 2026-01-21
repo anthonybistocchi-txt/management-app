@@ -2,7 +2,7 @@ import $ from 'jquery';
 import flatpickr from "flatpickr";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import "flatpickr/dist/flatpickr.css";
-import { DashboardService } from '../../services/DashboardService';
+import { DashboardService } from '../../Services/DashboardService'; 
 import { Toast } from '../../components/swal';
 import { formatPrice } from '../../types/Utils/FormatPrice';
 import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGraphic';
