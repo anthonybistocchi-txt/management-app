@@ -1,12 +1,15 @@
-import $, { get } from "jquery";
+import $ from "jquery";
 import flatpickr from "flatpickr";
-import { Portuguese } from "flatpickr/dist/l10n/pt";
-import { openModal } from "../../../utils/openModal";
-import { closeModal } from "../../../utils/CloseModal";
-import { getProviders } from "./Api/getProviders"; 
-import { getProducts } from "./Api/getProducts"; 
-import { StockInForm } from "./Api/stockInForm"; 
-import { getUserLogged } from "./Api/getUserLogged";
+import { Portuguese } from "flatpickr/dist/l10n/pt"; 
+
+import { openModal } from "../../../Utils/openModal";
+import { closeModal } from "../../../Utils/CloseModal"; 
+import { getProductsController } from "../../../Controllers/Products/getProducts";
+import { getProvidersController } from "../../../Controllers/Providers/getProviders";
+import { getUserLoggedController } from "../../../Controllers/User/getUserLogged";
+import { StockInFormController } from "../../../Controllers/StockIn/stockInForm";
+
+
 
 $(document).ready(() => {
     const $modalProduct        = $('#modal-product');
@@ -22,6 +25,10 @@ $(document).ready(() => {
     const $mainDateInput      = $('#date_picker'); 
     const $mainObsInput       = $('#observations');
     const $btnSave            = $('#btn-save');
+
+    getProductsController.loadProducts($mainProductSelect);
+    getProvidersController.loadProviders([$mainProviderSelect, $modalProviderSelect]);
+    getUserLoggedController.loadUserLogged($usernameInput, $type_user_idInput);
 
     let dateValue: string = "";
     const today = new Date();
@@ -41,10 +48,6 @@ $(document).ready(() => {
         }
     });
 
-    getProducts.loadProducts($mainProductSelect);
-    getProviders.loadProviders([$mainProviderSelect, $modalProviderSelect]);
-    getUserLogged.loadUserLogged([$usernameInput, $type_user_idInput]);
-
     $btnOpenModal.on('click', function() {
         openModal($modalProduct);
     });
@@ -54,7 +57,7 @@ $(document).ready(() => {
     });
 
     $btnSave.on('click', (event) => {
-        StockInForm.handleSubmit(event, {
+        StockInFormController.handleSubmit(event, {
             $product:  $mainProductSelect,
             $qty:      $mainQtyInput,
             $provider: $mainProviderSelect,

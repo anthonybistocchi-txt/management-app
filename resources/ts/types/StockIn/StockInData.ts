@@ -6,20 +6,7 @@ interface StockInData {
     stock_in_date: string;
 }
 
-interface NewProductData {
-    name: string;
-    description?: string;
-    quantity: number;
-    provider_id: number;
-    date: string;
-}
-
 interface ProviderData {
-    id: number;
-    name: string;
-}
-
-interface ProductData {
     id: number;
     name: string;
 }

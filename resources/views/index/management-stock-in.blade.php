@@ -116,10 +116,10 @@
                                 <p class="text-base text-[#4c739a] dark:text-slate-400">Preencha os campos abaixo para
                                     registrar a entrada de itens no estoque.</p>
                             </div>
-                            <button id="btn-add-product"
+                            <!-- <button id="btn-add-product"
                                 class="flex h-12 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold">
                                 Adicionar novo produto
-                            </button>
+                            </button> -->
                         </div>
                         <div
                             class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-8 shadow-sm">

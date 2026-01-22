@@ -1,11 +1,10 @@
 import api from "../../Utils/api";
 import { AxiosError } from "axios";
-import { Toast } from "../../components/swal";
 
 export const UserLoggedService = {
     async UserLogged() {
         try {
-            const { data } = await api.get("/users/logged", {});
+            const { data } = await api.get("users/logged", {});
             return data;
         } catch (error) {
             const message =

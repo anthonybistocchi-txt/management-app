@@ -1,6 +1,6 @@
 import $ from 'jquery'; 
-import { Toast } from '../../components/swal';
-import { AuthService } from '../../Services/AuthService';
+import { Toast } from '../../components/Swal/swal';
+import { AuthService } from '../../Services/Auth/AuthService';
 
 $(document).ready(() => {
     const $form             = $('#form-login');

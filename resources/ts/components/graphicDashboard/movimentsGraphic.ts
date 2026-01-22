@@ -1,4 +1,3 @@
-// 1. IMPORTAÇÃO CORRETA (Resolve o erro "linear is not a registered scale")
 import Chart from "chart.js/auto"; 
 import $ from "jquery";
 import { dateformat } from "../../types/Utils/DateRange";
