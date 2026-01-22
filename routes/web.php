@@ -20,15 +20,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
 
     Route::prefix('users')->group(function () {
-        Route::get('/all', [UserController::class, 'getAllUsers'])->name('users.index');
-        Route::post('/get', [UserController::class, 'getUser'])->name('users.show');
+        Route::get('/getAll', [UserController::class, 'getAllUsers'])->name('users.index');
+        Route::post('/get', [UserController::class, 'getUsers'])->name('users.show');
+        Route::get('/logged', [UserController::class, 'getUserLogged'])->name('users.logged');
         Route::put('/update/{id}', [UserController::class, 'updateUser'])->name('users.update');  // testado e funcionando
         Route::post('/create', [UserController::class, 'createUser'])->name('users.store');
         Route::delete('/delete/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
     });
 
     Route::prefix('providers')->group(function () {
-        Route::get('/all', [ProviderController::class, 'getAllProviders'])->name('providers.index');
+        Route::get('/getAll', [ProviderController::class, 'getAllProviders'])->name('providers.index');
         Route::post('/get', [ProviderController::class, 'getProvider'])->name('providers.show');
         Route::put('/update/{id}', [ProviderController::class, 'updateProvider'])->name('providers.update');  // testado e funcionando
         Route::post('/create', [ProviderController::class, 'createProvider'])->name('providers.store');
@@ -36,12 +37,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('products')->group(function () {
-        Route::get('/', [ProductController::class, 'getAllProducts'])->name('products.getAll');  
-        Route::get('/{id}', [ProductController::class, 'getProduct'])->name('products.getProduct');
-        Route::post('/', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
-        Route::put('/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
-        Route::delete('/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
-        Route::post('/ids', [ProductController::class, 'getProductsByIds'])->name('products.getProductsByIds');
+        Route::get('/getAll', [ProductController::class, 'getAllProducts'])->name('products.getAll');  
+        Route::get('/get', [ProductController::class, 'getProduct'])->name('products.getProduct');
+        Route::post('/create', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
+        Route::put('/update/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
+        Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
     });
 
     Route::prefix('stock')->group(function () {
