@@ -5,6 +5,7 @@ import "flatpickr/dist/flatpickr.css";
 import { Toast } from '../../components/Swal/swal';
 import { getUserLoggedController } from '../../Controllers/User/getUserLogged';
 import { DashboardController } from '../../Controllers/Dashboard/Dashboard';
+import { DatePicker } from '../../components/DatePicker/flatpickr';
 
 $(document).ready(() => {
     const $username            = $('#user_name');
@@ -21,28 +22,9 @@ $(document).ready(() => {
     let startFilter: string;
     let endFilter:   string;
 
-    const today        = new Date();
-    const sevenDaysAgo = new Date();
-
-    sevenDaysAgo.setDate(today.getDate() - 7);
-
-    flatpickr($datePickerId, {
-        mode: "range",
-        dateFormat: "d/m/Y",
-        locale: Portuguese, 
-        defaultDate: [sevenDaysAgo, today],
-        onReady: (dates, str, instance) => {
-            if (dates.length === 2) {
-                startFilter = instance.formatDate(dates[0], "Y-m-d");
-                endFilter   = instance.formatDate(dates[1], "Y-m-d");
-            }
-        },
-        onChange: (dates, str, instance) => {
-            if (dates.length === 2) {
-                startFilter = instance.formatDate(dates[0], "Y-m-d");
-                endFilter   = instance.formatDate(dates[1], "Y-m-d");
-            }
-        }
+    DatePicker.initRange($datePickerId, (start, end) => {
+        startFilter = start;
+        endFilter   = end;
     });
 
     $btn_submit.on('click', async function(e) {

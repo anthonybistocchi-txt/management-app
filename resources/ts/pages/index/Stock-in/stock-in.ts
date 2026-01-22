@@ -8,6 +8,8 @@ import { getProductsController } from "../../../Controllers/Products/getProducts
 import { getProvidersController } from "../../../Controllers/Providers/getProviders";
 import { getUserLoggedController } from "../../../Controllers/User/getUserLogged";
 import { StockInFormController } from "../../../Controllers/StockIn/stockInForm";
+import { DatePicker } from "../../../components/DatePicker/flatpickr";
+import { Toast } from "../../../components/Swal/swal";
 
 
 
@@ -33,20 +35,7 @@ $(document).ready(() => {
     let dateValue: string = "";
     const today = new Date();
 
-    flatpickr("#date_picker", {
-        dateFormat: "Y-m-d",
-        altInput: true,
-        altFormat: "d/m/Y",
-        allowInput: true,
-        locale: Portuguese,
-        defaultDate: today,
-        onReady: (date, s, instance) => {
-            if (date.length > 0) dateValue = instance.formatDate(date[0], "Y-m-d");
-        },
-        onChange: (date, s, instance) => {
-            if (date.length > 0) dateValue = instance.formatDate(date[0], "Y-m-d");
-        }
-    });
+  const datePickerInstance = DatePicker.initSingle($mainDateInput, today)
 
     $btnOpenModal.on('click', function() {
         openModal($modalProduct);
@@ -57,6 +46,14 @@ $(document).ready(() => {
     });
 
     $btnSave.on('click', (event) => {
+        const selectedDate = datePickerInstance.selectedDates[0];
+        const dateValue    = datePickerInstance.formatDate(selectedDate, "Y-m-d");
+
+        if (!dateValue) {
+            Toast.error("Selecione uma data!");
+            return;
+        }
+
         StockInFormController.handleSubmit(event, {
             $product:  $mainProductSelect,
             $qty:      $mainQtyInput,
