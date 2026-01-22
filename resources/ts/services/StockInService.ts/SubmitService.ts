@@ -15,8 +15,7 @@ export const SubmitStockInService = {
                     ? error.response?.data?.message ?? "Erro ao enviar entrada de estoque."
                     : "Erro inesperado.";
 
-            Toast.error(message);
-            throw error;
+            console.error(message);
         }
     },
 };

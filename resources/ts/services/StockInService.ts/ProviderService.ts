@@ -13,8 +13,7 @@ export const ProviderService = {
                     ? error.response?.data?.message ?? "Erro ao carregar fornecedores."
                     : "Erro inesperado.";
 
-            Toast.error(message);
-            throw error;
+            console.error(message);
         }
     },
 };

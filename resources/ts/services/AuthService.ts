@@ -1,7 +1,7 @@
 import api from "../Utils/api";
 import { LoginCredentials } from "../types/Auth/LoginCredentials";
 import { Toast } from "../components/swal";
-import { handleError } from "../utils/ApiHandleError";
+import { handleError } from "../Utils/ApiHandleError";
 
 export const AuthService = {
     async login(credentials: LoginCredentials) {
@@ -10,10 +10,8 @@ export const AuthService = {
             
             return data;
         } catch (error) {
-            const message = handleError(error);
-            Toast.error(message);
-
-            throw error;
+            handleError(error);
+            console.error(error);
         }
     },
 
@@ -24,9 +22,8 @@ export const AuthService = {
 
             return true;
         } catch (error) {
-            const message = handleError(error);
-            Toast.error(message);
-            
+            handleError(error);
+            console.error(error);
             return false;
         }
     },

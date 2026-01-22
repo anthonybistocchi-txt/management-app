@@ -9,7 +9,6 @@ import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGrap
 import { graphicSalesByCategory } from '../../components/graphicAdm/categoriesGraphic';
 import { ApiResponse } from '../../types/Utils/ApiResponse';
 
-
 $(document).ready(() => {
     const $username            = $('#user_name');
     const $typeUserId          = $('#type_user_id');
@@ -58,6 +57,7 @@ $(document).ready(() => {
 
         try {
             const response: ApiResponse<DashboardData> = await DashboardService.getDashboard(startFilter, endFilter);
+            const userLogged: ApiResponse<UserLoggedData> = await UserLoggedService.UserLogged();
 
             if (response.status && response.data) {
                 const data = response.data;
@@ -68,12 +68,14 @@ $(document).ready(() => {
                     $topSellingProduct.text(data.product_top_sale.name);
                 } 
               
-                if (data.user_logged) {
-                    $username.text(data.user_logged.username);
+                if (userLogged.status && userLogged.data) {
+                    const user = userLogged.data;
+
+                    $username.text(user.username);
                     
-                    if (data.user_logged.type_user_id == 1) {
+                    if (user.type_user_id == 1) {
                         $typeUserId.text('Administrador');
-                    } else if (data.user_logged.type_user_id == 2) {
+                    } else if (user.type_user_id == 2) {
                         $typeUserId.text('Gestor');
                     } else {
                         $typeUserId.text('Usuário');

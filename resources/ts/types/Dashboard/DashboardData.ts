@@ -1,8 +1,4 @@
 interface DashboardData {
-    user_logged: {
-        username: string;
-        type_user_id: number | string;
-    };
     product_top_sale: {
         id: number;
         name: string;
