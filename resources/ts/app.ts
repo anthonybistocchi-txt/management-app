@@ -2,7 +2,7 @@ import "../css/app.css";
 
 // Utils
 import "./Utils/api";
-import "./components/swal";
+import "./components/Swal/swal";
 
 // Auth pages
 import "./pages/Auth/login";

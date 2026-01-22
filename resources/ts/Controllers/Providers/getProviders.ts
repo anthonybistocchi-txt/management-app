@@ -1,8 +1,7 @@
-import { ProviderService } from "../../../../services/StockInService.ts/ProviderService";
-import { ApiResponse } from "../../../../types/Utils/ApiResponse";
-import { Toast } from "../../../../components/swal";
+import { ProviderService } from "../../Services/Provider/getProviderService";
+import { ApiResponse } from "../../types/Utils/ApiResponse";
 
-export const getProviders = {
+export const getProvidersController = {
 
     async loadProviders($selectElements: JQuery<HTMLElement>[]) {
         try {
@@ -23,7 +22,6 @@ export const getProviders = {
             }
         } catch (error) {
             console.error("Erro fatal ao buscar fornecedores:", error);
-            Toast.error("Erro ao carregar lista de fornecedores.");
         }
     }
 };

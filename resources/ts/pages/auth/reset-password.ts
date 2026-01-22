@@ -1,5 +1,5 @@
 import "../../Utils/api";
-import "../../components/swal";
+import "../../components/Swal/swal";
 
 
 

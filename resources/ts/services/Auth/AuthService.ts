@@ -1,7 +1,7 @@
-import api from "../Utils/api";
-import { LoginCredentials } from "../types/Auth/LoginCredentials";
-import { Toast } from "../components/swal";
-import { handleError } from "../Utils/ApiHandleError";
+import api from "../../Utils/api";
+import { LoginCredentials } from "../../types/Auth/LoginCredentials";
+import { Toast } from "../../components/Swal/swal";
+import { handleError } from "../../Utils/ApiHandleError";
 
 export const AuthService = {
     async login(credentials: LoginCredentials) {

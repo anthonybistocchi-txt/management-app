@@ -1,7 +1,7 @@
-import { SubmitStockInService } from "../../../../services/StockInService.ts/SubmitService";
-import { Toast } from "../../../../components/swal";
+import { SubmitStockInService } from "../../Services/StockInService/SubmitService";
+import { Toast } from "../../components/Swal/swal";
 
-export const StockInForm = {
+export const StockInFormController = {
     async handleSubmit(
         event: JQuery.TriggeredEvent, 
         elements: {

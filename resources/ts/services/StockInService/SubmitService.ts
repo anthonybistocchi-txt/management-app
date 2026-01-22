@@ -1,6 +1,6 @@
 import api from "../../Utils/api";
 import { AxiosError } from "axios";
-import { Toast } from "../../components/swal";
+import { Toast } from "../../components/Swal/swal";
 
 export const SubmitStockInService = {
     async submitStockIn(requestData: FormStockInData) {

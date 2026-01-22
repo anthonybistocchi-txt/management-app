@@ -2,13 +2,9 @@ import $ from 'jquery';
 import flatpickr from "flatpickr";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import "flatpickr/dist/flatpickr.css";
-import { DashboardService } from '../../Services/DashboardService'; 
-import { Toast } from '../../components/swal';
-import { formatPrice } from '../../types/Utils/FormatPrice';
-import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGraphic';
-import { graphicSalesByCategory } from '../../components/graphicAdm/categoriesGraphic';
-import { ApiResponse } from '../../types/Utils/ApiResponse';
-import { UserLoggedService } from '../../Services/User/GetUserLogged';
+import { Toast } from '../../components/Swal/swal';
+import { getUserLoggedController } from '../../Controllers/User/getUserLogged';
+import { DashboardController } from '../../Controllers/Dashboard/Dashboard';
 
 $(document).ready(() => {
     const $username            = $('#user_name');
@@ -19,6 +15,8 @@ $(document).ready(() => {
     const $datePickerId        = $("#date_range_picker"); 
     const $btn_submit          = $("#btn_submit");
     const originalText         = $btn_submit.html();
+
+    getUserLoggedController.loadUserLogged($username, $typeUserId);
 
     let startFilter: string;
     let endFilter:   string;
@@ -56,44 +54,9 @@ $(document).ready(() => {
 
         $btn_submit.html('Buscando...').prop('disabled', true);
 
-        try {
-            const response: ApiResponse<DashboardData> = await DashboardService.getDashboard(startFilter, endFilter);
-            const userLogged: ApiResponse<UserLoggedData> = await UserLoggedService.UserLogged();
-
-            if (response.status && response.data) {
-                const data = response.data;
-
-                $totalSales.text(formatPrice(data.total_sales));
-
-                if (data.product_top_sale) {
-                    $topSellingProduct.text(data.product_top_sale.name);
-                } 
-              
-                if (userLogged.status && userLogged.data) {
-                    const user = userLogged.data;
-
-                    $username.text(user.username);
-                    
-                    if (user.type_user_id == 1) {
-                        $typeUserId.text('Administrador');
-                    } else if (user.type_user_id == 2) {
-                        $typeUserId.text('Gestor');
-                    } else {
-                        $typeUserId.text('Usuário');
-                    }
-                }
-                
-                graphicMovimentsSales(data.moviments_sales);
-                graphicSalesByCategory(data.sales_categorys);
-            }
-
-        } catch (error) {
-            console.error("Fluxo interrompido:", error);
-            Toast.error("Erro ao buscar dados.");
-            
-        } finally {
-            $btn_submit.html(originalText).prop('disabled', false);
-        }
+        await DashboardController.loadDashboard(startFilter, endFilter, $totalSales, $topSellingProduct);
     });
 
+    $btn_submit.trigger('click')
+    $btn_submit.html(originalText).prop('disabled', false);
 });
