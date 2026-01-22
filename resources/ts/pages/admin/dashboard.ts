@@ -8,6 +8,7 @@ import { formatPrice } from '../../types/Utils/FormatPrice';
 import { graphicMovimentsSales } from '../../components/graphicAdm/movimentsGraphic';
 import { graphicSalesByCategory } from '../../components/graphicAdm/categoriesGraphic';
 import { ApiResponse } from '../../types/Utils/ApiResponse';
+import { UserLoggedService } from '../../Services/User/GetUserLogged';
 
 $(document).ready(() => {
     const $username            = $('#user_name');
