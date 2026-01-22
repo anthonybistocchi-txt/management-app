@@ -23,12 +23,6 @@ interface ProductData {
     id: number;
     name: string;
 }
-interface UserLoggedData {
-    user: {
-        username: string;
-        type_user_id: number;
-    }
-}
 
 interface FormStockInData {
     product_id: number;

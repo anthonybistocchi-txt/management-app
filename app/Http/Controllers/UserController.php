@@ -6,6 +6,7 @@ use App\Http\Requests\User\GetIdsUserRequest;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
+use Auth;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -42,14 +43,14 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getUser(GetIdsUserRequest $request): JsonResponse
+    public function getUsers(GetIdsUserRequest $request): JsonResponse
     {
-        $users = $this->service->getUser($request->validated());
+        $users = $this->service->getUsers($request->validated());
 
         return response()->json([
             'status'  => true,
             'message' => 'Users retrieved successfully',
-            'data'    => ['users' => $users]
+            'data'    => $users
         ], 200);
     }
 
@@ -60,7 +61,18 @@ class UserController extends Controller
         return response()->json([
             'status'  => true,
             'message' => 'Users retrieved successfully',
-            'data'    => ['users' => $users]
+            'data'    => $users
+        ], 200);
+    }
+
+    public function getUserLogged(): JsonResponse
+    {
+        $user = $this->service->getUserLogged();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Logged user retrieved successfully',
+            'data'    => $user
         ], 200);
     }
 }

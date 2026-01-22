@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserRepository
 {
-    public function getUser(array $ids): Collection
+    public function getUsers(array $ids): Collection
     {
         return User::whereIn('id', $ids)->get();
     }

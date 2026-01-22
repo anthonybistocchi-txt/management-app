@@ -12,9 +12,7 @@ export const DashboardService = {
                 error instanceof AxiosError
                     ? error.response?.data?.message ?? "Erro ao carregar dashboard."
                     : "Erro inesperado.";
-
-            Toast.error(message);
-            throw error;
+            console.error(error);
         }
     },
 };
