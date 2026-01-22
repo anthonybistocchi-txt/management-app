@@ -3,35 +3,44 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\UserRepository;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
     public function __construct(protected UserRepository $userRepository) {}
 
-    public function createUser(array $data): User
+    public function createUser(array $data): void
     {
-        return $this->userRepository->createUser($data);
+        $this->userRepository->createUser($data);
     }
 
     public function deleteUser(int $id): void
     {
         $this->userRepository->deleteUser($id);
     }
-
-    public function updateUser(int $id, array $data): User
+    
+    public function updateUser(int $id, array $data): void
     {
-        return $this->userRepository->updateUser($id, $data);
+        $this->userRepository->updateUser($id, $data);
     }
 
-    public function getUser(array $ids): Collection
+    public function getUsers(array $ids): array
     {
-        return $this->userRepository->getUser($ids);
+        return $this->userRepository->getUsers($ids)->toArray();
     }
 
-    public function getAllUsers(): Collection
+    public function getAllUsers(): array
     {
-        return $this->userRepository->getAllUsers();
+        return $this->userRepository->getAllUsers()->toArray();
+    }
+
+    public function getUserLogged(): array 
+    {
+        $user = Auth::user();
+
+        return [
+            'username'      => $user->username,
+            'type_user_id'  => $user->type_user_id,
+        ];
     }
 }
