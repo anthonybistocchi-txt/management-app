@@ -10,28 +10,28 @@ class ProviderService
 {
     public function __construct(protected ProviderRepository $providerRepository){}
 
-    public function createProvider($data): Provider
+    public function create(array $data): Provider
     {
-        return $this->providerRepository->createProvider($data);
+        return $this->providerRepository->create($data);
     }
 
-    public function deleteProvider(int $id): bool
+    public function delete(int $id): bool
     {
-        return $this->providerRepository->deleteProvider($id);
+        return $this->providerRepository->delete($id);
     }
 
-    public function updateProvider($id, $data): bool
+    public function update(array $data): Provider
     {
-        return $this->providerRepository->updateProvider($id, $data);
+        return $this->providerRepository->update($data);
     }
 
-    public function getProvider(array $data): Collection
+    public function get(array $data): Collection
     {
-        return $this->providerRepository->getProvider($data);
+        return $this->providerRepository->get($data);
     }
 
-    public function getAllProviders(): Collection
+    public function getAll(): Collection
     {
-        return $this->providerRepository->getAllProviders();
+        return $this->providerRepository->getAll();
     }
 }

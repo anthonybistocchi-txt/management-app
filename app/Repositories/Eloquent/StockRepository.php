@@ -3,11 +3,12 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Stock;
-class StockRepository
+use App\Repositories\Interfaces\StockRepositoryInterface;
+class StockRepository implements StockRepositoryInterface
 {
     public function __construct(protected Stock $model){}
 
-    public function incrementStock(array $data): Stock
+    public function in(array $data): bool
     {
         $stock = Stock::firstOrCreate(
             ['product_id' => $data['product_id'], 'location_id' => $data['location_id']],
@@ -20,10 +21,10 @@ class StockRepository
         $stock->quantity += $data['quantity'];
         $stock->save();
         
-        return $stock;
+        return true;
     }
 
-    public function stockOut(array $data): Stock
+    public function out(array $data): bool
     {
         $stock = Stock::where('product_id', $data['product_id'])
             ->where('location_id', $data['location_id'])
@@ -36,25 +37,22 @@ class StockRepository
         $stock->quantity -= $data['quantity'];
         $stock->save();
 
-        return $stock;
+        return true;
     }
 
-    public function stockTransfer(array $data): array
+    public function transfer(array $data): bool
     {
-        $transferOutStock = $this->stockOut([
+        $this->out([
             'product_id'  => $data['product_id'],
             'location_id' => $data['from_location_id'],
             'quantity'    => $data['quantity'],
         ]);
-        $transferInStock = $this->incrementStock([
+        $this->in([
             'product_id'  => $data['product_id'],
             'location_id' => $data['to_location_id'],
             'quantity'    => $data['quantity'],
         ]);
 
-        return [
-            'from' => $transferOutStock,
-            'to'   => $transferInStock,
-        ];
+        return true;
     }
 }

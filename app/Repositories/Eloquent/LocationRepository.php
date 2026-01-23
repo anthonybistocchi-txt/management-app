@@ -1,8 +1,9 @@
 <?php
+namespace App\Repositories\Eloquent;
 
 use App\Models\Location;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class LocationRepository implements LocationRepositoryInterface
 {
@@ -11,13 +12,9 @@ class LocationRepository implements LocationRepositoryInterface
         return Location::all();
     }
 
-    public function getByIds(array $ids): Collection
+    public function get(array $id): ?Collection
     {
-        return Location::whereIn('id', $ids)->get();
-    }
-    public function get(int $id): ?Location
-    {
-        return Location::find($id);
+        return Location::whereIn('id', $id)->get();
     }
 
     public function create(array $data): Location

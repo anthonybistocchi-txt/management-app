@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetIdsUserRequest extends FormRequest
+class GetProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,8 @@ class GetIdsUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids'   => 'required',
-            'ids.*' => 'integer|exists:users,id',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'ids.required'   => 'The ids field is required.',
-            'ids.*.integer'  => 'Each id must be an integer.',
-            'ids.*.exists'   => 'One or more ids do not exist in the users table.',
+            'id'   => 'required|array',
+            'id.*' => 'integer|exists:products,id',
         ];
     }
 }

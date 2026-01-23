@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Provider;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class getProductsByIdsRequest extends FormRequest
+class DeleteProviderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,16 @@ class getProductsByIdsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'integer|exists:products,id',
+            'id' => 'required|integer|exists:providers,id',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'id.required' => 'The provider ID is required.',
+            'id.integer'  => 'The provider ID must be an integer.',
+            'id.exists'   => 'The specified provider does not exist.',
         ];
     }
 }

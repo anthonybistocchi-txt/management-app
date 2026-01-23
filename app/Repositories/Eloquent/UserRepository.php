@@ -3,24 +3,23 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
     public function get(array $id): Collection
     {
-        return User::find($id);
+        return User::whereIn('id', $id)
+            ->where('active', 1)
+            ->get();
     }
 
     public function getAll(): Collection
     {
-        return User::where('active', 1)->get();
-    }
-
-    public function getByIds(array $ids): Collection
-    {
-        return User::whereIn('id', $ids)->get();
+        return User::where('active', 1)
+            ->get();
     }
 
     public function create(array $data): User
@@ -34,8 +33,7 @@ class UserRepository
     public function update(array $data): User
     {
         $user = User::findOrFail($data['id']);
-
-        $data['password']   = $data['password'] ?? Hash::make($data['password']);  
+        
         $data['updated_by'] = Auth::id();
         
         $user->update($data);
@@ -50,7 +48,6 @@ class UserRepository
         $user->deleted_by = Auth::id();
         $user->active = 0;
         $user->save();
-        $user->delete();
 
         return $user->delete();
     }

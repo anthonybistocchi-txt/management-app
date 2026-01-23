@@ -22,7 +22,7 @@ class GetProviderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids' => 'required|array',
+            'ids'   => 'required|array',
             'ids.*' => 'integer|exists:providers,id',
         ];
     }
@@ -30,8 +30,8 @@ class GetProviderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'ids.required' => 'The provider IDDs are required.',
-            'ids.array'    => 'The provider IDs must be an array.',
+            'ids.required'   => 'The provider IDDs are required.',
+            'ids.array'      => 'The provider IDs must be an array.',
             'ids.*.integer'  => 'Each provider ID must be an integer.',
             'ids.*.exists'   => 'One or more specified providers do not exist.',
         ];

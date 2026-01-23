@@ -14,10 +14,10 @@ class StockService
         protected StockMovementsRepository $stockMovementsRepository
     ) {}
 
-    public function inputStock(array $data)
+    public function input(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $insertStock = $this->stockRepository->incrementStock(
+            $insertStock = $this->stockRepository->in(
                 $data
             );
 
@@ -31,10 +31,10 @@ class StockService
     }
 
             
-    public function outStock(array $data)
+    public function out(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->stockOut($data);
+            $stock = $this->stockRepository->out($data);
 
             $this->stockMovementsRepository->logExit(
                 $data, 
@@ -45,10 +45,10 @@ class StockService
         });
     }
 
-    public function transferStock(array $data)
+    public function transfer(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->stockTransfer($data);
+            $stock = $this->stockRepository->transfer($data);
 
             $this->stockMovementsRepository->logTransfer(
                 $data, 

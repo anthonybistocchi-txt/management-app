@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUserRequest extends FormRequest
+class DeleteUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,16 @@ class GetUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|array|exists:users,id',
+            'id' => 'required|integer|exists:users,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'id.required' => 'The id field is required.',
-            'id.integer'  => 'The id must be an integer.',
-            'id.exists'   => 'The specified user does not exist.',
+            'id.required' => 'O campo ID é obrigatório.',
+            'id.integer' => 'O campo ID deve ser um número inteiro.',
+            'id.exists' => 'O usuário com o ID fornecido não existe.',
         ];
     }
 }

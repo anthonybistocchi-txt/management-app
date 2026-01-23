@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUserRequest extends FormRequest
+class GetLocationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,16 @@ class GetUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|array|exists:users,id',
+            'id' => 'required|array|exists:locations,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'id.required' => 'The id field is required.',
-            'id.integer'  => 'The id must be an integer.',
-            'id.exists'   => 'The specified user does not exist.',
+            'id.required' => 'The location ID is required.',
+            'id.array'    => 'The location ID must be an array.',
+            'id.exists'   => 'The specified location does not exist.',
         ];
     }
 }

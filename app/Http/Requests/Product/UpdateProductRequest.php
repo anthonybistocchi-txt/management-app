@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
             'price'       => 'sometimes|numeric|decimal:0,2|min:0',
             'provider_id' => 'sometimes|exists:providers,id',
             'quantity'    => 'nullable|integer|min:0', 
-            // 'location_id' => 'nullable|exists:product_locations,id',
+            'location_id' => 'nullable|exists:product_locations,id',
             'address'     => 'nullable|string|max:255',
             'city'        => 'nullable|string|max:255',
             'state'       => 'nullable|string|max:255',
@@ -33,7 +33,7 @@ class UpdateProductRequest extends FormRequest
             'price.min'          => 'The price cannot be negative.',
             'provider_id.exists' => 'The selected provider is invalid.',
             'quantity.integer'   => 'The quantity must be an integer.',
-            // 'location_id.exists' => 'The selected location is invalid.',
+            'location_id.exists' => 'The selected location is invalid.',
         ];
     }
 }

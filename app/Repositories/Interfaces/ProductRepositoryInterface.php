@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 interface ProductRepositoryInterface
 {
     public function getAll(): Collection;
-    public function getByIds(array $ids): Collection;
-    public function get(int $id): ?Product;
+    public function get(array $id): ?Collection;
     public function create(array $data): Product;
     public function update(array $data): Product;
     public function delete(int $id): bool;

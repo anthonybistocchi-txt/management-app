@@ -13,14 +13,10 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::all();
     }
 
-    public function get(int $id): Product|null
+    public function get(array $id): Collection
     {
-        return Product::find($id);
-    }
-
-    public function getByIds(array $ids): Collection
-    {
-        return Product::whereIn('id', $ids)->get();
+        return Product::whereIn('id', $id)
+            ->get();
     }
 
     public function create(array $data): Product
@@ -30,15 +26,16 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function update(array $data): Product
     {
-        $product = $this->get($data['id']);
-        $product->update($data);
+        $product = Product::findOrFail($data['id']);
             
+        $product->update($data);
+
         return $product;
     }
 
     public function delete(int $id): bool
     {
-        $product = $this->get($id);
+        $product = Product::findOrFail($id);
 
         return $product->delete();
         

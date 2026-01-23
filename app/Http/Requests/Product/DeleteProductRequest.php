@@ -26,14 +26,6 @@ class DeleteProductRequest extends FormRequest
         ];
     }
 
-    public function all($keys = null)
-    {
-        //  para validar parâmetros da rota (URL) junto com o request
-        $data = parent::all();
-        $data['id'] = $this->route('id');
-        return $data;
-    }
-
     public function messages(): array
     {
         return [

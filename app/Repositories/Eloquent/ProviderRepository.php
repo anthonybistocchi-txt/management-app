@@ -31,19 +31,16 @@ class ProviderRepository implements ProviderRepositoryInterface
         return $provider;
     }
 
-    public function getByIds(array $ids): Collection
+    public function getAll(): Collection
     {
-        return Provider::whereIn('id', $ids)->get();
+        return Provider::where('active', 1)
+            ->get();
     }
 
-    public function getAllActives(): Collection
+    public function get(array $id): ?Collection
     {
-        return Provider::where('active', 1)->get();
-    }
-
-    public function get(int $id): ?Provider
-    {
-        return Provider::find($id);
+        return Provider::whereIn('id', $id)
+            ->get();
     }
 
 }

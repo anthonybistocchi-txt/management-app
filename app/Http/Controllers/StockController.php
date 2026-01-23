@@ -15,53 +15,33 @@ class StockController extends Controller
     
     public function in(StockInRequest $request): JsonResponse
     {
-        try {
-            $this->stockService->inputStock($request->validated());
+        $this->stockService->input($request->validated());
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'registered entry stock successfully',
-            ], 201  );
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error registering entry stock: ' . $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'registered entry stock successfully',
+        ], 201  );
     }
 
     public function out(StockOutRequest $request): JsonResponse
     {
-        try {
-            $this->stockService->outStock($request->validated());
+        $this->stockService->out($request->validated());
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'registered exit stock successfully',
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error registering exit stock: ' . $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'registered exit stock successfully',
+        ], 200);
+        
     }
 
     public function transfer(StockTransferRequest $request): JsonResponse
     {
-        
-        try {
-            $this->stockService->transferStock($request->validated());
+        $this->stockService->transfer($request->validated());
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'stock transferred successfully',
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error transferring stock: ' . $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'stock transferred successfully',
+        ], 200);
     }
 }
+              
