@@ -7,23 +7,21 @@ class StockRepository
 {
     public function __construct(protected Stock $model){}
 
-    public function incrementStock($productId, $locationId, $quantity): Stock
+    public function incrementStock(array $data): Stock
     {
         $stock = Stock::firstOrCreate(
-            ['product_id' => $productId, 'location_id' => $locationId],
+            ['product_id' => $data['product_id'], 'location_id' => $data['location_id']],
             ['quantity' => 0]
         );
         
         //  garante que pega o dado mais recente após o firstOrCreate
         $stock->refresh(); 
         
-        $stock->quantity += $quantity;
+        $stock->quantity += $data['quantity'];
         $stock->save();
         
         return $stock;
     }
-
-
 
     public function stockOut(array $data): Stock
     {
@@ -40,6 +38,7 @@ class StockRepository
 
         return $stock;
     }
+
     public function stockTransfer(array $data): array
     {
         $transferOutStock = $this->stockOut([
@@ -47,12 +46,11 @@ class StockRepository
             'location_id' => $data['from_location_id'],
             'quantity'    => $data['quantity'],
         ]);
-
-        $transferInStock = $this->incrementStock(
-            $data['product_id'],
-            $data['to_location_id'],
-            $data['quantity']
-        );
+        $transferInStock = $this->incrementStock([
+            'product_id'  => $data['product_id'],
+            'location_id' => $data['to_location_id'],
+            'quantity'    => $data['quantity'],
+        ]);
 
         return [
             'from' => $transferOutStock,

@@ -3,19 +3,18 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Provider;
-use Illuminate\Support\Collection;
-class ProviderRepository
+use App\Repositories\Interfaces\ProviderRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+class ProviderRepository implements ProviderRepositoryInterface
 {
-    public function __construct(protected Provider $model){}
-
-    public function createProvider(array $data): Provider
+    public function create(array $data): Provider
     {
-        return $this->model->create($data);
+        return Provider::create($data);
     }
     
-    public function deleteProvider($id): bool
+    public function delete(int $id): bool
     {
-        $provider = $this->model->findOrFail($id);
+        $provider = Provider::findOrFail($id);
 
         $provider->active = 0;
         $provider->save();
@@ -23,23 +22,28 @@ class ProviderRepository
         return $provider->delete();
     }
 
-    public function updateProvider($id, array $data): bool
+    public function update(array $data): Provider
     {
-        $provider = $this->model->findOrFail($id);
+        $provider = Provider::findOrFail($data['id']);
 
         $provider->update($data);
 
-        return true;
+        return $provider;
     }
 
-    public function getProvider(array $ids): Collection
+    public function getByIds(array $ids): Collection
     {
-        return $this->model->whereIn('id', $ids)->get();
+        return Provider::whereIn('id', $ids)->get();
     }
 
-    public function getAllProviders(): Collection
+    public function getAllActives(): Collection
     {
-        return $this->model->where('active', 1)->get();
+        return Provider::where('active', 1)->get();
+    }
+
+    public function get(int $id): ?Provider
+    {
+        return Provider::find($id);
     }
 
 }

@@ -2,18 +2,20 @@
 
 namespace App\Repositories\Eloquent;
 
-use Auth;
+
+use App\DTOs\DashboardData;
+use App\Repositories\Interfaces\DashboardRepositoryInterface;
 use Illuminate\Support\Facades\DB;
-class DashboardRepository 
+class DashboardRepository implements DashboardRepositoryInterface
 {
-    public function getDashboardData($dateFrom, $dateTo): array
+    public function getDashboardData($dateFrom, $dateTo): DashboardData
     {
-        return [
-            'product_top_sale' => $this->getProductTopSale($dateFrom, $dateTo),
-            'moviments_sales'  => $this->getMovimentsSales($dateFrom, $dateTo),
-            'total_sales'      => $this->getTotalSales($dateFrom, $dateTo),
-            'sales_categorys'  => $this->getSalesCategorys($dateFrom, $dateTo),
-        ];
+        return new DashboardData(
+            $this->getProductTopSale($dateFrom, $dateTo),
+            $this->getMovimentsSales($dateFrom, $dateTo),
+            $this->getTotalSales($dateFrom, $dateTo),
+            $this->getSalesCategorys($dateFrom, $dateTo),
+        );
     }
 
     private function getProductTopSale($dateFrom, $dateTo)

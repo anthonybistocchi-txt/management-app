@@ -8,18 +8,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserRepository
 {
-    public function getUsers(array $ids): Collection
+    public function get(array $id): Collection
+    {
+        return User::find($id);
+    }
+
+    public function getAll(): Collection
+    {
+        return User::where('active', 1)->get();
+    }
+
+    public function getByIds(array $ids): Collection
     {
         return User::whereIn('id', $ids)->get();
     }
 
-    public function getAllUsers(): Collection
-    {
-        return User::where('active', 1)->get();
-       
-    }
-
-    public function createUser(array $data): User
+    public function create(array $data): User
     {
         $data['password']   = Hash::make($data['password']);
         $data['created_by'] = Auth::id(); 
@@ -27,9 +31,9 @@ class UserRepository
         return User::create($data);
     }
 
-    public function updateUser(int $id, array $data): User
+    public function update(array $data): User
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($data['id']);
 
         $data['password']   = $data['password'] ?? Hash::make($data['password']);  
         $data['updated_by'] = Auth::id();
@@ -39,7 +43,7 @@ class UserRepository
         return $user->refresh(); 
     }
 
-    public function deleteUser(int $id): bool
+    public function delete(int $id): bool
     {
         $user = User::findOrFail($id);
 

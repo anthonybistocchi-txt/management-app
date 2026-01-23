@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\views\ViewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -41,6 +42,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/create', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
         Route::put('/update/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
         Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+    });
+
+    Route::prefix('locations')->group(function () {
+        Route::get('/getAll', [LocationController::class, 'getAllLocations'])->name('locations.getAll');  
+        Route::post('/create', [LocationController::class, 'createLocation'])->name('locations.createLocation');     
     });
 
     Route::prefix('stock')->group(function () {

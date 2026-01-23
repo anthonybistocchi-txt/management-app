@@ -3,44 +3,44 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
-class ProductRepository
-{
-    public function __construct(protected Product $model){}
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
+class ProductRepository implements ProductRepositoryInterface
+{
     public function getAll(): Collection
     {
-        return $this->model->all();
+        return Product::all();
     }
 
-    public function find($id): Collection|Product|null
+    public function get(int $id): Product|null
     {
-        return $this->model->find($id); // Retorna null se não achar, ou use findOrFail
+        return Product::find($id);
+    }
+
+    public function getByIds(array $ids): Collection
+    {
+        return Product::whereIn('id', $ids)->get();
     }
 
     public function create(array $data): Product
     {
-        return $this->model->create($data);
+        return Product::create($data);
     }
 
-    public function update($id, array $data): bool
+    public function update(array $data): Product
     {
-        $product = $this->find($id);
+        $product = $this->get($data['id']);
         $product->update($data);
             
-        return true;
+        return $product;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
-        $product = $this->find($id);
+        $product = $this->get($id);
 
         return $product->delete();
         
-    }
-
-    public function findByIds(array $ids): Collection
-    {
-        return $this->model->whereIn('id', $ids)->get();
     }
 }

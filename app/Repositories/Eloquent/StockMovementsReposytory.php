@@ -2,16 +2,18 @@
 
 namespace App\Repositories\Eloquent;
 use App\Models\StockMovements;
-class StockMovementsReposytory
+use App\Repositories\Interfaces\StockMovementsRepositoryInterface;
+
+class StockMovementsRepository implements StockMovementsRepositoryInterface
 {
     public function __construct(protected StockMovements $model){}
     
-    public function logEntry($stock, $quantity, $data, $userId): StockMovements
+    public function logEntry(array $data,int $userId): StockMovements
     {
         return StockMovements::create([
-                'product_id'        => $stock->product_id,
-                'location_id'       => $stock->location_id,
-                'quantity_moved'    => $quantity,
+                'product_id'        => $data['product_id'],
+                'location_id'       => $data['location_id'],
+                'quantity_moved'    => $data['quantity'],
                 'movement_type'     => 'in',
                 'description'       => $data['description'] ?? null,
                 'provider_id'       => $data['provider_id'] ?? null,
@@ -19,24 +21,24 @@ class StockMovementsReposytory
         ]);
     }
 
-    public function logExit($stock, $quantity, $data, $userId): StockMovements
+    public function logExit(array $data,int $userId): StockMovements
     {
         return StockMovements::create([
-                'product_id'        => $stock->product_id,
-                'location_id'       => $stock->location_id,
-                'quantity_moved'    => $quantity,
+                'product_id'        => $data['product_id'],
+                'location_id'       => $data['location_id'],
+                'quantity_moved'    => $data['quantity'],
                 'movement_type'     => 'out',
                 'description'       => $data['description'] ?? null,
                 'created_by'        => $userId,
         ]);
     }
 
-    public function logTransfer($stock, $quantity, $data, $userId): StockMovements
+    public function logTransfer(array $data,int $userId): StockMovements
     {
         return StockMovements::create([
-                'product_id'        => $stock->product_id,
+                'product_id'        => $data['product_id'],
                 'location_id'       => $data['to_location_id'],
-                'quantity_moved'    => $quantity,
+                'quantity_moved'    => $data['quantity'],
                 'movement_type'     => 'transfer',
                 'description'       => $data['description'] ?? null,
                 'created_by'        => $userId,

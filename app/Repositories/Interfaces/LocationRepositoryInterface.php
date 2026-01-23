@@ -1,15 +1,16 @@
 <?php
+
 namespace App\Repositories\Interfaces;
 
-use App\Models\Product;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
 
-interface ProductRepositoryInterface
+interface LocationRepositoryInterface
 {
     public function getAll(): Collection;
     public function getByIds(array $ids): Collection;
-    public function get(int $id): ?Product;
-    public function create(array $data): Product;
-    public function update(array $data): Product;
+    public function get(int $id): ?Location;
+    public function create(array $data): Location;
+    public function update(array $data): Location;
     public function delete(int $id): bool;
 }
