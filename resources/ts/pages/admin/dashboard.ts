@@ -8,14 +8,13 @@ import { DashboardController } from '../../Controllers/Dashboard/Dashboard';
 import { DatePicker } from '../../components/DatePicker/flatpickr';
 
 $(document).ready(() => {
-    const $username            = $('#user_name');
-    const $typeUserId          = $('#type_user_id');
-    const $totalSales          = $('#total_sales');
-    const $topSellingProduct   = $('#top_selling_product');
-    const $salesCategoryChart  = $('#sales_category_chart');
-    const $datePickerId        = $("#date_range_picker"); 
-    const $btn_submit          = $("#btn_submit");
-    const originalText         = $btn_submit.html();
+    const $username          = $('#user_name');
+    const $typeUserId        = $('#type_user_id');
+    const $totalSales        = $('#total_sales');
+    const $topSellingProduct = $('#top_selling_product');
+    const $datePickerId      = $("#date_range_picker"); 
+    const $btn_submit        = $("#btn_submit");
+    const originalText       = $btn_submit.html();
 
     getUserLoggedController.loadUserLogged($username, $typeUserId);
 
@@ -33,10 +32,12 @@ $(document).ready(() => {
             Toast.info("Selecione uma data completa"); 
             return;
         }
-
+        
         $btn_submit.html('Buscando...').prop('disabled', true);
 
         await DashboardController.loadDashboard(startFilter, endFilter, $totalSales, $topSellingProduct);
+
+        $btn_submit.html(originalText).prop('disabled', false);
     });
 
     $btn_submit.trigger('click')

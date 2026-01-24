@@ -23,7 +23,7 @@ export function graphicMovimentsSales(data: { total_sold: number; sell_date: str
         chartInstance.destroy();
         chartInstance = null;
     }
-
+    
     const labels = data.map(item => item.sell_date);
     const values = data.map(item => item.total_sold );
     

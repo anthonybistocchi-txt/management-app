@@ -1,64 +1,23 @@
-import { SubmitStockInService } from "../../Services/StockInService/SubmitService";
-import { Toast } from "../../components/Swal/swal";
+import { StockInService } from "../../services/StockInService/StockInService";
+import { ApiResponse } from "../../types/Utils/ApiResponse";
 
 export const StockInFormController = {
-    async handleSubmit(
-        event: JQuery.TriggeredEvent, 
-        elements: {
-            $product: JQuery,
-            $qty: JQuery,
-            $provider: JQuery,
-            $obs: JQuery,
-            $date: JQuery,
-            $btn: JQuery
-        },
-        dateValue: string
-    ) {
-        event.preventDefault();
-
-        const productId  = Number(elements.$product.val());
-        const quantity   = Number(elements.$qty.val());
-        const providerId = Number(elements.$provider.val());
-        const obs        = elements.$obs.val() as string;
-        const finalDate  = String(dateValue || elements.$date.val());
-
-        if (!productId || !quantity || !providerId || !finalDate) {
-            Toast.info("Por favor, preencha todos os campos obrigatórios.");
-            return;
-        }
-
-        
-        elements.$btn.html('Salvando...').prop('disabled', true);
+    async handleSubmit(productId: number, quantity: number, providerId: number, finalDate: string, description: string | null, locationId: number): Promise<void> {
 
         try {
-            const requestData: FormStockInData = {
-                product_id:   productId,
-                quantity:     quantity,
-                provider_id:  providerId,
-                date:         finalDate,
-                observations: obs || null
-            };
+            const response: ApiResponse<FormStockInData> = await StockInService.submitStockIn({
+                product_id: productId,
+                quantity: quantity,
+                provider_id: providerId,
+                date: finalDate,
+                description: description || null,
+                location_id: locationId
+            })
 
-            const response = await SubmitStockInService.submitStockIn(requestData);
-
-            if (response.success) {
-                Toast.success("Entrada salva com sucesso!");
-               
-                elements.$product.val('');
-                elements.$qty.val('');
-                elements.$provider.val('');
-                elements.$obs.val('');
-                elements.$date.val('');
-                
-            } else {
-                Toast.error("Erro ao enviar entrada de estoque.");
-            }
-
+            if (response.status) return;
+            
         } catch (error) {
-            console.error("Erro no submit:", error);
-            Toast.error("Erro crítico ao salvar. Contate o suporte.");
-        } finally {
-            elements.$btn.html('Salvar').prop('disabled', false);
+            console.error("Erro ao enviar entrada de estoque.");
         }
     }
 };

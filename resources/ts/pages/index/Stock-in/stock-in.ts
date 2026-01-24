@@ -1,15 +1,13 @@
-import $ from "jquery";
-import flatpickr from "flatpickr";
-import { Portuguese } from "flatpickr/dist/l10n/pt"; 
-
-import { openModal } from "../../../Utils/openModal";
-import { closeModal } from "../../../Utils/CloseModal"; 
+import $ from "jquery"; 
 import { getProductsController } from "../../../Controllers/Products/getProducts";
 import { getProvidersController } from "../../../Controllers/Providers/getProviders";
 import { getUserLoggedController } from "../../../Controllers/User/getUserLogged";
 import { StockInFormController } from "../../../Controllers/StockIn/stockInForm";
 import { DatePicker } from "../../../components/DatePicker/flatpickr";
 import { Toast } from "../../../components/Swal/swal";
+import { LocationController } from "../../../Controllers/Locations/Location";
+import { openModal } from "../../../utils/openModal";
+import { closeModal } from "../../../utils/CloseModal";
 
 
 
@@ -19,23 +17,26 @@ $(document).ready(() => {
     const $btnCloseModal       = $('#close-modal, #cancel-modal');
     const $modalProviderSelect = $('#provider-new-product');
 
-    const $mainProductSelect  = $('#products');
-    const $mainProviderSelect = $('#providers');
-    const $usernameInput      = $('#username');
-    const $type_user_idInput  = $('#type_user_id');
-    const $mainQtyInput       = $('#quantity');
-    const $mainDateInput      = $('#date_picker'); 
-    const $mainObsInput       = $('#observations');
-    const $btnSave            = $('#btn-save');
+    const $mainProductSelect    = $('#products');
+    const $mainProviderSelect   = $('#providers');
+    const $usernameInput        = $('#username');
+    const $type_user_idInput    = $('#type_user_id');
+    const $mainLocationSelect   = $('#locations');
+    const $mainQtyInput         = $('#quantity');
+    const $mainDateInput        = $('#date_picker'); 
+    const $mainDescriptionInput = $('#description');
+    const $btnSave              = $('#btn-save');
 
     getProductsController.loadProducts($mainProductSelect);
     getProvidersController.loadProviders([$mainProviderSelect, $modalProviderSelect]);
     getUserLoggedController.loadUserLogged($usernameInput, $type_user_idInput);
+    LocationController.loadLocations($mainLocationSelect);
 
-    let dateValue: string = "";
     const today = new Date();
 
-  const datePickerInstance = DatePicker.initSingle($mainDateInput, today)
+    const datePickerInstance = DatePicker.initSingle($mainDateInput, today)
+    const selectedDate       = datePickerInstance.selectedDates[0];
+    const dateValue          = datePickerInstance.formatDate(selectedDate, "Y-m-d");
 
     $btnOpenModal.on('click', function() {
         openModal($modalProduct);
@@ -45,22 +46,35 @@ $(document).ready(() => {
         closeModal($modalProduct);
     });
 
-    $btnSave.on('click', (event) => {
-        const selectedDate = datePickerInstance.selectedDates[0];
-        const dateValue    = datePickerInstance.formatDate(selectedDate, "Y-m-d");
+    $btnSave.on('click', async (event) => {
+        event.preventDefault();
 
         if (!dateValue) {
-            Toast.error("Selecione uma data!");
+            Toast.info("Selecione uma data!");
             return;
         }
 
-        StockInFormController.handleSubmit(event, {
-            $product:  $mainProductSelect,
-            $qty:      $mainQtyInput,
-            $provider: $mainProviderSelect,
-            $obs:      $mainObsInput,
-            $date:     $mainDateInput,
-            $btn:      $btnSave
-        }, dateValue);
+        const productId   = Number($mainProductSelect.val());
+        const quantity    = Number($mainQtyInput.val());
+        const providerId  = Number($mainProviderSelect.val());
+        const description = $mainDescriptionInput.val() as string;
+        const finalDate   = String(dateValue || $mainDateInput.val());
+        const locationId  = Number($mainLocationSelect.val());
+
+        if (!productId || !quantity || !providerId || !finalDate || !locationId) {
+            Toast.info("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        if (quantity <= 0) {
+            Toast.info("A quantidade deve ser maior que zero.");
+            return;
+        }
+
+        $btnSave.html('Salvando...').prop('disabled', true);
+
+        await StockInFormController.handleSubmit(productId, quantity, providerId, finalDate, description, locationId);
+
+        $btnSave.html('Salvar').prop('disabled', false);
     });
 });
