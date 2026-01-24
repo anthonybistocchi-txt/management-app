@@ -26,11 +26,10 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function update(array $data): Product
     {
-        $product = Product::findOrFail($data['id']);
-            
-        $product->update($data);
+        Product::where('id', $data['id'])
+            ->update($data);
 
-        return $product;
+        return Product::find($data['id']);
     }
 
     public function delete(int $id): bool
@@ -40,4 +39,5 @@ class ProductRepository implements ProductRepositoryInterface
         return $product->delete();
         
     }
+    
 }

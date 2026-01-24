@@ -19,7 +19,7 @@ class CreateProductRequest extends FormRequest
             'price'       => 'required|numeric|decimal:0,2|min:0',
             'provider_id' => 'required|exists:providers,id',
             'quantity'    => 'nullable|integer|min:0',
-            'location_id' => 'nullable|exists:product_locations,id',
+            'location_id' => 'nullable|exists:locations,id',
         ];
     }
 

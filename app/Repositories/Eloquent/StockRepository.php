@@ -10,32 +10,42 @@ class StockRepository implements StockRepositoryInterface
 
     public function in(array $data): bool
     {
-        $stock = Stock::firstOrCreate(
-            ['product_id' => $data['product_id'], 'location_id' => $data['location_id']],
-            ['quantity' => 0]
-        );
-        
-        //  garante que pega o dado mais recente após o firstOrCreate
-        $stock->refresh(); 
-        
-        $stock->quantity += $data['quantity'];
-        $stock->save();
-        
+
+        $query = Stock::where('product_id', $data['product_id'])
+            ->when($data['location_id'] ?? null, function ($query) use ($data) {
+                return $query->where('location_id', $data['location_id']);
+            })
+            ->first();
+
+        if ($query) {
+            $query->increment('quantity', $data['quantity']);
+
+            return true;
+        }
+
+        Stock::create([
+            'product_id'  => $data['product_id'],
+            'location_id' => $data['location_id'] ?? null,
+            'quantity'    => $data['quantity'],
+        ]); 
+
         return true;
     }
 
     public function out(array $data): bool
     {
-        $stock = Stock::where('product_id', $data['product_id'])
-            ->where('location_id', $data['location_id'])
+        $query = Stock::where('product_id', $data['product_id'])
+            ->when($data['location_id'] ?? null, function ($query) use ($data) {
+                return $query->where('location_id', $data['location_id']);
+            })
             ->firstOrFail();
 
-        if ($stock->quantity < $data['quantity']) {
+        if ($query->quantity < $data['quantity']) {
             throw new \Exception('Insufficient stock for the requested operation.');
         }
 
-        $stock->quantity -= $data['quantity'];
-        $stock->save();
+        $query->quantity -= $data['quantity'];
+        $query->save();
 
         return true;
     }
@@ -44,12 +54,12 @@ class StockRepository implements StockRepositoryInterface
     {
         $this->out([
             'product_id'  => $data['product_id'],
-            'location_id' => $data['from_location_id'],
+            'location_id' => $data['location_id'],
             'quantity'    => $data['quantity'],
         ]);
         $this->in([
             'product_id'  => $data['product_id'],
-            'location_id' => $data['to_location_id'],
+            'location_id' => $data['location_id'],
             'quantity'    => $data['quantity'],
         ]);
 

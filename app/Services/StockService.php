@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\StockRepository;
 use App\Repositories\Eloquent\StockMovementsRepository;
@@ -10,23 +10,24 @@ use App\Repositories\Eloquent\StockMovementsRepository;
 class StockService
 {
     public function __construct(
-        protected StockRepository $stockRepository,
-        protected StockMovementsRepository $stockMovementsRepository
+        protected StockRepository          $stockRepository,
+        protected StockMovementsRepository $stockMovementsRepository,
     ) {}
 
     public function input(array $data)
     {
+        $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
+     
         return DB::transaction(function () use ($data) {
-            $insertStock = $this->stockRepository->in(
-                $data
+            $this->stockRepository->in(
+                $data,
             );
 
             $this->stockMovementsRepository->logEntry(
                 $data, 
-                Auth::id()
             );
 
-            return $insertStock;
+            return;
         });
     }
 
@@ -34,14 +35,16 @@ class StockService
     public function out(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->out($data);
+            $this->stockRepository->out(
+                $data
+            );
 
             $this->stockMovementsRepository->logExit(
                 $data, 
-                Auth::id()
+
             );
 
-            return $stock;
+            return;
         });
     }
 
@@ -52,7 +55,6 @@ class StockService
 
             $this->stockMovementsRepository->logTransfer(
                 $data, 
-                Auth::id()
             );
 
             return $stock;

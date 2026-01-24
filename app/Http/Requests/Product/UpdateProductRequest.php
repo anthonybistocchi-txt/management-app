@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
             'price'       => 'sometimes|numeric|decimal:0,2|min:0',
             'provider_id' => 'sometimes|exists:providers,id',
             'quantity'    => 'nullable|integer|min:0', 
-            'location_id' => 'nullable|exists:product_locations,id',
+            'location_id' => 'nullable|exists:locations,id',
             'address'     => 'nullable|string|max:255',
             'city'        => 'nullable|string|max:255',
             'state'       => 'nullable|string|max:255',

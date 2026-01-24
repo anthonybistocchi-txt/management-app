@@ -19,9 +19,6 @@ class StockSeeder extends Seeder
                 'product_id' => $i,
                 'location_id' => $i, // Distribuindo um em cada lugar
                 'quantity' => rand(10, 100), // Quantidade aleatória
-                'created_by' => 1,
-                'created_at' => $now,
-                'updated_at' => $now,
             ]);
         }
     }

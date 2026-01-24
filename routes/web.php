@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('products')->group(function () {
         Route::get('/getAll', [ProductController::class, 'getAll'])->name('products.index');  
-        Route::get('/get', [ProductController::class, 'get'])->name('products.show');
+        Route::post('/get', [ProductController::class, 'get'])->name('products.show');
         Route::post('/create', [ProductController::class, 'create'])->name('products.store');     // testado e funcionando
         Route::put('/update/{id}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('products.destroy');
@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/create', [LocationController::class, 'create'])->name('locations.store');
         Route::put('/update', [LocationController::class, 'update'])->name('locations.update');
         Route::delete('/delete', [LocationController::class, 'delete'])->name('locations.destroy');
-        Route::get('/get', [LocationController::class, 'get'])->name('locations.show');
+        Route::post('/get', [LocationController::class, 'get'])->name('locations.show');
     });
     
     Route::prefix('admin')->group(function () {
