@@ -1,6 +1,4 @@
 import $ from 'jquery';
-import flatpickr from "flatpickr";
-import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import "flatpickr/dist/flatpickr.css";
 import { Toast } from '../../components/Swal/swal';
 import { getUserLoggedController } from '../../Controllers/User/getUserLogged';

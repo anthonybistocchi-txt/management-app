@@ -1,22 +1,22 @@
 import "../css/app.css";
 
 // Utils
-import "./Utils/api";
+import "./utils/api";
 import "./components/Swal/swal";
 
 // Auth pages
-import "./pages/Auth/login";
-import "./pages/Auth/reset-password";
+import "./pages/auth/login";
+import "./pages/auth/reset-password";
 
 // Index pages
 import "./pages/admin/dashboard";
-import "./pages/admin/users";
-import "./pages/Index/providers";
-import "./pages/Index/products";
+import "./pages/admin/Users/users";
+import "./pages/index/providers";
+import "./pages/index/products";
 import "./pages/index/Stock-in/stock-in";
-import "./pages/Index/stock-out";
+import "./pages/index/stock-out";
 import "./pages/admin/movements";
-import "./pages/admin/users";
+import "./pages/admin/Users/users";
 import $ from 'jquery';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";

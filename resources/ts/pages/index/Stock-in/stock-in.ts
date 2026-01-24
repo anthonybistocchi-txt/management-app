@@ -6,47 +6,33 @@ import { StockInFormController } from "../../../Controllers/StockIn/stockInForm"
 import { DatePicker } from "../../../components/DatePicker/flatpickr";
 import { Toast } from "../../../components/Swal/swal";
 import { LocationController } from "../../../Controllers/Locations/Location";
-import { openModal } from "../../../utils/openModal";
-import { closeModal } from "../../../utils/CloseModal";
-
-
 
 $(document).ready(() => {
-    const $modalProduct        = $('#modal-product');
-    const $btnOpenModal        = $('#btn-add-product');
-    const $btnCloseModal       = $('#close-modal, #cancel-modal');
-    const $modalProviderSelect = $('#provider-new-product');
+    const $textHeaderUsername = $('#text-header-username');
+    const $textHeaderRole     = $('#text-header-role');
 
-    const $mainProductSelect    = $('#products');
-    const $mainProviderSelect   = $('#providers');
-    const $usernameInput        = $('#username');
-    const $type_user_idInput    = $('#type_user_id');
-    const $mainLocationSelect   = $('#locations');
-    const $mainQtyInput         = $('#quantity');
-    const $mainDateInput        = $('#date_picker'); 
-    const $mainDescriptionInput = $('#description');
-    const $btnSave              = $('#btn-save');
+    const $selectStockProduct  = $('#select-stock-product');
+    const $selectStockProvider = $('#select-stock-provider');
+    const $selectStockLocation = $('#select-stock-location');
 
-    getProductsController.loadProducts($mainProductSelect);
-    getProvidersController.loadProviders([$mainProviderSelect, $modalProviderSelect]);
-    getUserLoggedController.loadUserLogged($usernameInput, $type_user_idInput);
-    LocationController.loadLocations($mainLocationSelect);
+    const $inputStockQuantity = $('#input-stock-quantity');
+    const $inputStockDate     = $('#input-stock-date'); 
+    const $textareaStockDesc  = $('#textarea-stock-description');
+    const $btnStockSave       = $('#btn-stock-save');
+
+    getProductsController.loadProducts($selectStockProduct);
+    getProvidersController.loadProviders([$selectStockProvider]);
+    getUserLoggedController.loadUserLogged($textHeaderUsername, $textHeaderRole);
+    LocationController.loadLocations($selectStockLocation);
 
     const today = new Date();
 
-    const datePickerInstance = DatePicker.initSingle($mainDateInput, today)
+    const datePickerInstance = DatePicker.initSingle($inputStockDate, today)
     const selectedDate       = datePickerInstance.selectedDates[0];
     const dateValue          = datePickerInstance.formatDate(selectedDate, "Y-m-d");
 
-    $btnOpenModal.on('click', function() {
-        openModal($modalProduct);
-    });
-
-    $btnCloseModal.on('click', function() {
-        closeModal($modalProduct);
-    });
     
-    $btnSave.on('click', async (event) => {
+    $btnStockSave.on('click', async (event) => {
         event.preventDefault();
 
         const selectedDates = datePickerInstance.selectedDates;
@@ -59,12 +45,12 @@ $(document).ready(() => {
             return;
         }
 
-        const productId   = Number($mainProductSelect.val());
-        const quantity    = Number($mainQtyInput.val());
-        const providerId  = Number($mainProviderSelect.val());
-        const description = $mainDescriptionInput.val() as string;
+        const productId   = Number($selectStockProduct.val());
+        const quantity    = Number($inputStockQuantity.val());
+        const providerId  = Number($selectStockProvider.val());
+        const description = $textareaStockDesc.val() as string;
         const finalDate   = String(currentDateValue); 
-        const locationId  = Number($mainLocationSelect.val());
+        const locationId  = Number($selectStockLocation.val());
 
         if (!productId || !quantity || !providerId || !finalDate || !locationId) {
             Toast.info("Por favor, preencha todos os campos obrigatórios.");
@@ -76,22 +62,22 @@ $(document).ready(() => {
             return;
         }
 
-        $btnSave.html('Salvando...').prop('disabled', true);
+        $btnStockSave.html('Salvando...').prop('disabled', true);
 
         const result = await StockInFormController.handleSubmit(productId, quantity, providerId, finalDate, description, locationId);
 
         if (result) {
             Toast.success("Entrada de estoque registrada com sucesso!");
 
-            $mainProductSelect.val(''); 
-            $mainProviderSelect.val('');
-            $mainLocationSelect.val('');
-            $mainQtyInput.val('');
-            $mainDescriptionInput.val(''); 
+            $selectStockProduct.val(''); 
+            $selectStockProvider.val('');
+            $selectStockLocation.val('');
+            $inputStockQuantity.val('');
+            $textareaStockDesc.val(''); 
             
             datePickerInstance.setDate(new Date()); 
         }
 
-        $btnSave.html('Salvar').prop('disabled', false);
+        $btnStockSave.html('Salvar').prop('disabled', false);
     });
 });

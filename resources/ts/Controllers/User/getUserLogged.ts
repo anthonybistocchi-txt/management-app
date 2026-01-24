@@ -1,5 +1,5 @@
 import { ApiResponse } from "../../types/Utils/ApiResponse";
-import { UserLoggedService } from "../../Services/User/GetUserLogged"; 
+import { UserLoggedService } from "../../services/User/GetUserLogged"; 
 
 export const getUserLoggedController = {
 
