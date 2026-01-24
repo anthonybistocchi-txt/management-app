@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('quantity_before')->nullable(); // saldo antes da operacao 
             $table->bigInteger('quantity_after')->nullable(); // saldo atual
             $table->text('description')->nullable();
+            $table->string('movement_date')->notNullValue();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');

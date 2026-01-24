@@ -39,6 +39,7 @@ class StockMovementSeeder extends Seeder
                 'quantity_moved' => $qtdComprada,
                 'quantity_before' => 0,
                 'quantity_after' => $qtdComprada,
+                'movement_date' => Carbon::now()->subDays(rand(0, 4)),
                 'description' => 'Compra inicial de estoque / Nota Fiscal ' . rand(1000, 9999),
                 'created_by' => 1,
                 'created_at' => Carbon::now()->subDays(rand(5, 30)), // Compra feita dias atrás
@@ -60,6 +61,7 @@ class StockMovementSeeder extends Seeder
                     'quantity_moved' => $diferenca,
                     'quantity_before' => $qtdComprada,
                     'quantity_after' => $qtdAtual, // O saldo final bate com a tabela stock
+                    'movement_date' => Carbon::now()->subDays(rand(0, 60)),
                     'description' => 'Venda / Saída interna',
                     'created_by' => 1,
                     'created_at' => Carbon::now()->subDays(rand(0, 4)), // Venda recente

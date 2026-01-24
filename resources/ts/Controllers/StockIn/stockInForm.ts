@@ -9,7 +9,7 @@ export const StockInFormController = {
                 product_id: productId,
                 quantity: quantity,
                 provider_id: providerId,
-                date: finalDate,
+                movement_date: finalDate,
                 description: description || null,
                 location_id: locationId
             })

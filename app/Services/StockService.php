@@ -17,16 +17,14 @@ class StockService
     public function input(array $data)
     {
         $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
-     
         return DB::transaction(function () use ($data) {
             $this->stockMovementsRepository->logEntry(
                 $data, 
             );
-            
+
             $this->stockRepository->in(
                 $data,
             );
-
 
             return;
         });
@@ -36,13 +34,14 @@ class StockService
     public function out(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $this->stockRepository->out(
-                $data
-            );
-
+            
             $this->stockMovementsRepository->logExit(
                 $data, 
-
+                
+            );
+                
+            $this->stockRepository->out(
+                    $data
             );
 
             return;

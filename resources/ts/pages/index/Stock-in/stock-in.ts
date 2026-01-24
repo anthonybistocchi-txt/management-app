@@ -45,11 +45,16 @@ $(document).ready(() => {
     $btnCloseModal.on('click', function() {
         closeModal($modalProduct);
     });
-
+    
     $btnSave.on('click', async (event) => {
         event.preventDefault();
 
-        if (!dateValue) {
+        const selectedDates = datePickerInstance.selectedDates;
+        const currentDateValue = selectedDates.length > 0 
+            ? datePickerInstance.formatDate(selectedDates[0], "Y-m-d H:i:s") 
+            : null;
+
+        if (!currentDateValue) {
             Toast.info("Selecione uma data!");
             return;
         }
@@ -58,7 +63,7 @@ $(document).ready(() => {
         const quantity    = Number($mainQtyInput.val());
         const providerId  = Number($mainProviderSelect.val());
         const description = $mainDescriptionInput.val() as string;
-        const finalDate   = String(dateValue || $mainDateInput.val());
+        const finalDate   = String(currentDateValue); 
         const locationId  = Number($mainLocationSelect.val());
 
         if (!productId || !quantity || !providerId || !finalDate || !locationId) {
@@ -78,13 +83,13 @@ $(document).ready(() => {
         if (result) {
             Toast.success("Entrada de estoque registrada com sucesso!");
 
-            $mainProductSelect.val('');
-            $mainQtyInput.val('');
+            $mainProductSelect.val(''); 
             $mainProviderSelect.val('');
-            $mainDateInput.val('');
-            $mainDescriptionInput.val('');
             $mainLocationSelect.val('');
-
+            $mainQtyInput.val('');
+            $mainDescriptionInput.val(''); 
+            
+            datePickerInstance.setDate(new Date()); 
         }
 
         $btnSave.html('Salvar').prop('disabled', false);

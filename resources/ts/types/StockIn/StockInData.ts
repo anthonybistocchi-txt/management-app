@@ -3,7 +3,7 @@ interface StockInData {
     product_name: string;
     quantity: number;
     provider_name: string;
-    stock_in_date: string;
+    movement_date: string;
     description: string | null;
     location_name: string;
 }
@@ -17,7 +17,7 @@ interface FormStockInData {
     product_id: number;
     quantity: number;
     provider_id: number;
-    date: string;
+    movement_date: string;
     description?: string | null;
     location_id: number;
 }
