@@ -73,7 +73,19 @@ $(document).ready(() => {
 
         $btnSave.html('Salvando...').prop('disabled', true);
 
-        await StockInFormController.handleSubmit(productId, quantity, providerId, finalDate, description, locationId);
+        const result = await StockInFormController.handleSubmit(productId, quantity, providerId, finalDate, description, locationId);
+
+        if (result) {
+            Toast.success("Entrada de estoque registrada com sucesso!");
+
+            $mainProductSelect.val('');
+            $mainQtyInput.val('');
+            $mainProviderSelect.val('');
+            $mainDateInput.val('');
+            $mainDescriptionInput.val('');
+            $mainLocationSelect.val('');
+
+        }
 
         $btnSave.html('Salvar').prop('disabled', false);
     });

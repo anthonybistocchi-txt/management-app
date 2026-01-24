@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('locations')->group(function () {
         Route::get('/getAll', [LocationController::class, 'getAll'])->name('locations.index');  
-        Route::post('/create', [LocationController::class, 'create'])->name('locations.store');
+        Route::post('/create', [LocationController::class, 'create'])->name('locations.store');        // testado e funcionando
         Route::put('/update', [LocationController::class, 'update'])->name('locations.update');
         Route::delete('/delete', [LocationController::class, 'delete'])->name('locations.destroy');
         Route::post('/get', [LocationController::class, 'get'])->name('locations.show');
@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
     Route::prefix('stock')->group(function () {
-        Route::post('/in', [StockController::class, 'in'])->name('stock.in');
+        Route::post('/in', [StockController::class, 'in'])->name('stock.in');  // testado e funcionando
         Route::post('/out', [StockController::class, 'out'])->name('stock.out');
         Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
     });

@@ -19,13 +19,14 @@ class StockService
         $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
      
         return DB::transaction(function () use ($data) {
+            $this->stockMovementsRepository->logEntry(
+                $data, 
+            );
+            
             $this->stockRepository->in(
                 $data,
             );
 
-            $this->stockMovementsRepository->logEntry(
-                $data, 
-            );
 
             return;
         });
