@@ -1,19 +1,22 @@
-
+// services/User/GetUsers.ts
 import api from "../../utils/api";
-import { AxiosError } from "axios";
+import {UsersResponse } from "../../types/User/GetUser";
+import { ApiResponse } from "../../types/Utils/ApiResponse";
 
 export const GetUserService = {
-    async getAllUsers() {
-        try {
-            const { data } = await api.get("users/getAll");
-            return data;
-        } catch (error) {
-            const message =
-                error instanceof AxiosError
-                    ? error.response?.data?.message ?? "Erro ao carregar usuários."
-                    : "Erro inesperado.";
 
-            console.error(message);
+    async getAllUsers(pagination: { skip: number, take: number }): Promise<UsersResponse | null> {
+        try {
+            const { data: response } = await api.post<ApiResponse<UsersResponse>>("users/getAll", pagination);
+            
+            if (response.status && response.data) {
+                return response.data; 
+            }
+            
+            return null;
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            return null;
         }
     },
 };

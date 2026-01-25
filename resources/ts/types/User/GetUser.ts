@@ -1,5 +1,5 @@
 
-export interface GetUsersData {
+export interface UsersData {
     id: number; 
     name: string;
     type_user_id: number;
@@ -8,3 +8,9 @@ export interface GetUsersData {
     email: string;
     cpf: string;
 }
+
+export interface UsersResponse {
+    users: UsersData[];
+    total: number;
+}
+
