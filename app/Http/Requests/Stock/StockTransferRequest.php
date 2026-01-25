@@ -16,10 +16,9 @@ class StockTransferRequest extends FormRequest
         return [
             'product_id'       => 'required|exists:products,id',
             'quantity'         => 'required|integer|min:1',
-            'from_location_id' => 'required|exists:product_locations,id',
-            'to_location_id'   => 'required|exists:product_locations,id|different:from_location_id',
+            'from_location_id' => 'required|exists:locations,id',
+            'to_location_id'   => 'required|exists:locations,id|different:from_location_id',
             'description'      => 'nullable|string|max:500',
-            'type'             => 'required|in:transfer',
         ];
     }
 
@@ -34,7 +33,6 @@ class StockTransferRequest extends FormRequest
             'to_location_id.required'   => 'The destination location is required.',
             'to_location_id.exists'     => 'The selected destination location is invalid.',
             'to_location_id.different'  => 'The destination location must be different from the source.',
-            'type.in'                   => 'The operation type is invalid (must be "transfer").',
         ];
     }
 } 

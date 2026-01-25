@@ -10,7 +10,7 @@ trait Userstamps
 {
     protected static function bootUserstamps()
     {
-        parent::boot();
+        // parent::boot();
 
         static::creating(function ($model) {
             if (Auth::check()) {

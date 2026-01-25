@@ -3,23 +3,26 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
-    public function getUsers(array $ids): Collection
+    public function get(array $id): Collection
     {
-        return User::whereIn('id', $ids)->get();
+        return User::whereIn('id', $id)
+            ->where('active', 1)
+            ->get();
     }
 
-    public function getAllUsers(): Collection
+    public function getAll(): Builder
     {
-        return User::where('active', 1)->get();
-       
+        return User::query();
     }
 
-    public function createUser(array $data): User
+    public function create(array $data): User
     {
         $data['password']   = Hash::make($data['password']);
         $data['created_by'] = Auth::id(); 
@@ -27,11 +30,10 @@ class UserRepository
         return User::create($data);
     }
 
-    public function updateUser(int $id, array $data): User
+    public function update(array $data): User
     {
-        $user = User::findOrFail($id);
-
-        $data['password']   = $data['password'] ?? Hash::make($data['password']);  
+        $user = User::findOrFail($data['id']);
+        
         $data['updated_by'] = Auth::id();
         
         $user->update($data);
@@ -39,14 +41,13 @@ class UserRepository
         return $user->refresh(); 
     }
 
-    public function deleteUser(int $id): bool
+    public function delete(int $id): bool
     {
         $user = User::findOrFail($id);
 
         $user->deleted_by = Auth::id();
         $user->active = 0;
         $user->save();
-        $user->delete();
 
         return $user->delete();
     }

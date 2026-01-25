@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\GetIdsUserRequest;
+use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\GetAllUsersPaginated;
+use App\Http\Requests\User\GetUserRequest;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
-use Auth;
+
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     public function __construct(protected UserService $service) {}
 
-    public function createUser(CreateUserRequest $request): JsonResponse
+    public function create(CreateUserRequest $request): JsonResponse
     {
-        $this->service->createUser($request->validated());
+        $this->service->create($request->validated());
 
         return response()->json([
             'status'  => true,
@@ -23,9 +25,9 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function deleteUser(int $id): JsonResponse
+    public function delete(DeleteUserRequest $request): JsonResponse
     {
-        $this->service->deleteUser($id);
+        $this->service->delete($request->validated()['id']);
 
         return response()->json([
             'status'  => true,
@@ -33,9 +35,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function updateUser(int $id, UpdateUserRequest $request): JsonResponse
+    public function update(UpdateUserRequest $request): JsonResponse
     {
-        $this->service->updateUser($id, $request->validated());
+        $this->service->update($request->validated());
 
         return response()->json([
             'status'  => true,
@@ -43,9 +45,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getUsers(GetIdsUserRequest $request): JsonResponse
+    public function get(GetUserRequest $request): JsonResponse
     {
-        $users = $this->service->getUsers($request->validated());
+        $users = $this->service->get($request->validated()['id']);
 
         return response()->json([
             'status'  => true,
@@ -54,9 +56,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getAllUsers(): JsonResponse
+    public function getAll(GetAllUsersPaginated $request): JsonResponse
     {
-        $users = $this->service->getAllUsers();
+        $users = $this->service->getAll($request->validated());
 
         return response()->json([
             'status'  => true,

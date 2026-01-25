@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\CreateProviderRequest;
+use App\Http\Requests\Provider\DeleteProviderRequest;
 use App\Http\Requests\Provider\GetProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
 use App\Services\ProviderService;
@@ -13,97 +14,57 @@ class ProviderController extends Controller
 {
     public function __construct(protected ProviderService $providerService){}
     
-    public function createProvider(CreateProviderRequest $request): JsonResponse
+    public function create(CreateProviderRequest $request): JsonResponse
     {
-        try {
-            $this->providerService->createProvider($request->validated());
+        $this->providerService->create($request->validated());
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'provider created with successful',
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to create provider',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'provider created with successful',
+        ], 201);
+    }  
+
+
+    public function delete(DeleteProviderRequest $request): JsonResponse
+    {
+        $this->providerService->delete($request->validated()['id']);
+
+        return response()->json([
+            'status'   => true,
+            'message'  => 'provider delete with successful',
+        ], 200);
     }
 
-    public function deleteProvider($id): JsonResponse
+    public function update(UpdateProviderRequest $request): JsonResponse
     {
-        try {
-            $this->providerService->deleteProvider($id);
+        $this->providerService->update($request->validated());
 
-                return response()->json([
-                    'status'   => true,
-                    'message'  => 'provider delete with successful',
-                ], 200);
-            
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to delete provider',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    public function updateProvider($id, UpdateProviderRequest $request): JsonResponse
-    {
-        try {
-            $provider = $this->providerService->updateProvider($id, $request->validated());
-
-            return response()->json([
-                'status'  => true,
-                'message' => 'provider updated with sucessful',
-                'data'    => $provider,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to update provider',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'provider updated with sucessful',
+        ], 200);
     }
 
 
-    public function getProvider(GetProviderRequest $request): JsonResponse
-    {
-        try {   
-            $provider = $this->providerService->getProvider($request->validated());
-            return response()->json([
-                'status'  => true,
-                'message' => 'success',
-                'data'    => $provider,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get provider',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
+    public function get(GetProviderRequest $request): JsonResponse
+    {   
+        $provider = $this->providerService->get($request->validated()['id']);
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'success',
+            'data'    => $provider,
+        ], 200);
     }
 
-    public function getAllProviders(): JsonResponse
-    {
-        try {
-            $providers = $this->providerService->getAllProviders();
+    public function getAll(): JsonResponse
+    {   
+        $providers = $this->providerService->getAll();
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'success',
-                'data'    => $providers,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'error to get providers',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'success',
+            'data'    => $providers,
+        ], 200);
     }
 }

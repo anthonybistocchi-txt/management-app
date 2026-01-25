@@ -10,33 +10,28 @@ class ProductService
 {
     public function __construct(protected ProductRepository $productRepository){}
 
-    public function createProduct(array $data): Product
+    public function create(array $data): Product
     {
         return $this->productRepository->create($data);
     }
 
-    public function getAllProducts(): Collection
+    public function getAll(): Collection
     {
         return $this->productRepository->getAll();
     }
 
-    public function getProduct($id): Collection|Product|null
+    public function get(array $id): Collection
     {
-        return $this->productRepository->find($id);
+        return $this->productRepository->get($id);
     }
     
-    public function updateProduct($id, array $data): bool
+    public function update(array $data): Product
     {
-        return $this->productRepository->update($id, $data);
+        return $this->productRepository->update($data);
     }
 
-    public function deleteProduct($id): bool|null
+    public function delete(int $id): bool
     {
         return $this->productRepository->delete($id);
-    }
-
-    public function getProductsByIds(array $ids)
-    {
-        return $this->productRepository->findByIds($ids);
     }
 }

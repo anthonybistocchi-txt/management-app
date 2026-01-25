@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\Product\CreateProductRequest;
-use App\Http\Requests\Product\getProductsByIdsRequest;
+use App\Http\Requests\Product\DeleteProductRequest;
+use App\Http\Requests\Product\GetProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -13,117 +13,56 @@ class ProductController extends Controller
 {
     public function __construct(protected ProductService $productService){}
 
-    public function getAllProducts(): JsonResponse
+    public function getAll(): JsonResponse
     {
-        try {
-            $products = $this->productService->getAllProducts();
+        $products = $this->productService->getAll();
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Success",
-                'data'    => $products,
-            ],200);
-
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error fetching products',
-            ],500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => "success",
+            'data'    => $products,
+        ],200);
     }
 
-    public function getProduct($id): JsonResponse
-    {
-        try {
-            $product = $this->productService->getProduct($id);
-            
-            return response()->json([
-                'status'  => true,
-                'message' => "Success",
-                'data'    => $product,
-            ],200);
-
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error fetching product',
-            ],500);
-        }
-    }
-
-    public function createProduct(CreateProductRequest $request): JsonResponse
+    public function create(CreateProductRequest $request): JsonResponse
     {    
-        try {
-            $product = $this->productService->createProduct($request->validated());
+        $this->productService->create($request->validated());
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Product created successfully",
-                'data'    => $product,
-            ],201);
-
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error creating product',
-            ],500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => "product created successfully",
+        ],201);
     }
 
-    public function updateProduct(UpdateProductRequest $request, $id): JsonResponse
+    public function update(UpdateProductRequest $request): JsonResponse
     {
-        try {
-            $product = $this->productService->updateProduct($id, $request->validated());
+        $this->productService->update($request->validated()['id']);
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Product updated successfully",
-                'data'    => $product,
-            ],200);
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error updating product',
-            ],500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => "product updated successfully",
+        ],200);
     }
 
-    public function deleteProduct($id): JsonResponse
+    public function delete(DeleteProductRequest $request): JsonResponse
     {
-        try {
-            $this->productService->deleteProduct($id);
+        $this->productService->delete($request->validated()['id']);
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'Product deleted successfully',
-            ],200);
-
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error deleting product',
-            ],500);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'product deleted successfully',
+        ],200);
     }
 
-    public function getProductsByIds(getProductsByIdsRequest $request): JsonResponse
+    public function get(GetProductRequest $request): JsonResponse
     {
-        try {
-            $products = $this->productService->getProductsByIds($request->validated());
+        $products = $this->productService->get($request->validated()['id']);
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Success",
-                'data'    => $products,
-                
-            ],200);
-
-        } catch (\Exception $error) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Error fetching products',
-            ],500);
-        }
-    }
-    
+        return response()->json([
+            'status'  => true,
+            'message' => "success",
+            'data'    => $products,
+            
+        ],200);
+}
 }

@@ -37,8 +37,9 @@ class StockMovementSeeder extends Seeder
                 'provider_id' => $providerIds[array_rand($providerIds)], // Aqui está o vínculo com Fornecedor!
                 'type' => 'in',
                 'quantity_moved' => $qtdComprada,
-                'previous_quantity' => 0,
-                'new_quantity' => $qtdComprada,
+                'quantity_before' => 0,
+                'quantity_after' => $qtdComprada,
+                'movement_date' => Carbon::now()->subDays(rand(0, 4)),
                 'description' => 'Compra inicial de estoque / Nota Fiscal ' . rand(1000, 9999),
                 'created_by' => 1,
                 'created_at' => Carbon::now()->subDays(rand(5, 30)), // Compra feita dias atrás
@@ -58,8 +59,9 @@ class StockMovementSeeder extends Seeder
                     'provider_id' => null, // Saída geralmente não tem fornecedor
                     'type' => 'out',
                     'quantity_moved' => $diferenca,
-                    'previous_quantity' => $qtdComprada,
-                    'new_quantity' => $qtdAtual, // O saldo final bate com a tabela stock
+                    'quantity_before' => $qtdComprada,
+                    'quantity_after' => $qtdAtual, // O saldo final bate com a tabela stock
+                    'movement_date' => Carbon::now()->subDays(rand(0, 60)),
                     'description' => 'Venda / Saída interna',
                     'created_by' => 1,
                     'created_at' => Carbon::now()->subDays(rand(0, 4)), // Venda recente

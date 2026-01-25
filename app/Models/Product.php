@@ -18,16 +18,10 @@ class Product extends Model
         'description',
         'price',
         'category_products_id', 
-        'created_by',
-        'updated_by',
-        'deleted_by',
     ];
 
     protected $casts = [
         'price'          => 'decimal:2',
-        'created_at'     => 'datetime:d-m-Y H:i:s',
-        'updated_at'     => 'datetime:d-m-Y H:i:s',
-        'deleted_at'     => 'datetime:d-m-Y H:i:s',
     ];
 
 

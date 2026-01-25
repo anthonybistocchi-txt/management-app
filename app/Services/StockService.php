@@ -2,67 +2,59 @@
 
 namespace App\Services;
 
-use App\Models\Stock;
-use App\Models\StockMovements;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\StockRepository;
-use App\Repositories\Eloquent\StockMovementsReposytory;
+use App\Repositories\Eloquent\StockMovementsRepository;
 
 class StockService
 {
     public function __construct(
-        protected StockRepository $stockRepository,
-        protected StockMovementsReposytory $stockMovementsRepository
+        protected StockRepository          $stockRepository,
+        protected StockMovementsRepository $stockMovementsRepository,
     ) {}
 
-    public function inputStock(array $data)
+    public function input(array $data)
     {
+        $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->incrementStock(
-                $data['product_id'], 
-                $data['location_id'], 
-                $data['quantity']
-            );
-
             $this->stockMovementsRepository->logEntry(
-                $stock, 
-                $data['quantity'], 
                 $data, 
-                Auth::id()
             );
 
-            return $stock;
+            $this->stockRepository->in(
+                $data,
+            );
+
+            return;
         });
     }
 
             
-    public function outStock(array $data)
+    public function out(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->stockOut($data);
-
+            
             $this->stockMovementsRepository->logExit(
-                $stock, 
-                $data['quantity'], 
                 $data, 
-                Auth::id()
+                
+            );
+                
+            $this->stockRepository->out(
+                    $data
             );
 
-            return $stock;
+            return;
         });
     }
 
-    public function transferStock(array $data)
+    public function transfer(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $stock = $this->stockRepository->stockTransfer($data);
+            $stock = $this->stockRepository->transfer($data);
 
             $this->stockMovementsRepository->logTransfer(
-                $stock, 
-                $data['quantity'], 
                 $data, 
-                Auth::id()
             );
 
             return $stock;

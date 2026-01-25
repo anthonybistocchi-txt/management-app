@@ -16,9 +16,8 @@ class StockOutRequest extends FormRequest
         return [
             'product_id'  => 'required|exists:products,id',
             'quantity'    => 'required|integer|min:1',
-            // 'location_id' => 'required|exists:product_locations,id',
+            'location_id' => 'required|exists:locations,id',
             'description' => 'nullable|string|max:500',
-            'type'        => 'required|in:out',
         ];
     }
 
@@ -29,9 +28,8 @@ class StockOutRequest extends FormRequest
             'product_id.exists'    => 'The selected product is invalid.',
             'quantity.required'    => 'The quantity is required.',
             'quantity.min'         => 'The quantity must be at least 1.',
-            // 'location_id.required' => 'The location is required.',
-            // 'location_id.exists'   => 'The selected location is invalid.',
-            'type.in'              => 'The operation type is invalid (must be "out").',
+            'location_id.required' => 'The location is required.',
+            'location_id.exists'   => 'The selected location is invalid.',
         ];
     }
 }

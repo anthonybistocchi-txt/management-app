@@ -3,35 +3,56 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\UserRepository;
+use Hash;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
     public function __construct(protected UserRepository $userRepository) {}
 
-    public function createUser(array $data): void
+    public function create(array $data): void
     {
-        $this->userRepository->createUser($data);
+        $this->userRepository->create($data);
     }
 
-    public function deleteUser(int $id): void
+    public function delete(int $id): void
     {
-        $this->userRepository->deleteUser($id);
+        $this->userRepository->delete($id);
     }
     
-    public function updateUser(int $id, array $data): void
+    public function update(array $data): void
     {
-        $this->userRepository->updateUser($id, $data);
+        if(!isset($data['password']) || empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        $data['password'] = Hash::make($data['password']);
+
+        $this->userRepository->update($data);
     }
 
-    public function getUsers(array $ids): array
+    public function get(array $ids): Collection
     {
-        return $this->userRepository->getUsers($ids)->toArray();
+        return $this->userRepository->get($ids);
     }
+    
+    public function getAll(array $pagination = []): array
+    {   
 
-    public function getAllUsers(): array
-    {
-        return $this->userRepository->getAllUsers()->toArray();
+        $query      = $this->userRepository->getAll();
+        $countUsers = $query->clone()->count();
+
+        $usersPaginated = $query
+            ->skip($pagination['skip'] ?? 0)
+            ->take($pagination['take'] ?? 10)
+            ->get();
+
+        return [
+            'total' => $countUsers,
+            'users' => $usersPaginated,
+        ]; 
+           
     }
 
     public function getUserLogged(): array 

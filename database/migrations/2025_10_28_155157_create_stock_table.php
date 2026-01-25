@@ -18,12 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quantity')->default(0);
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->unique(['product_id', 'location_id']);
-            $table->softDeletes();
-            $table->timestamps();
         });
     }
 

@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uniqueid')->nullable()->index();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('location_id')->nullable();
             $table->unsignedBigInteger('provider_id')->nullable();
             $table->enum('type', ['in', 'out', 'transfer', 'adjustment']);
             $table->integer('quantity_moved'); // quantidade movimentada
-            $table->bigInteger('previous_quantity')->nullable(); // saldo antes da operacao 
-            $table->bigInteger('new_quantity')->nullable(); // saldo atual
+            $table->bigInteger('quantity_before')->nullable(); // saldo antes da operacao 
+            $table->bigInteger('quantity_after')->nullable(); // saldo atual
             $table->text('description')->nullable();
+            $table->string('movement_date')->notNullValue();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('providers')->onDelete('set null');

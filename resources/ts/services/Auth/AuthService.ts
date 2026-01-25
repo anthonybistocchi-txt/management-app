@@ -1,13 +1,13 @@
-import api from "../../Utils/api";
+import api from "../../utils/api";
 import { LoginCredentials } from "../../types/Auth/LoginCredentials";
 import { Toast } from "../../components/Swal/swal";
-import { handleError } from "../../Utils/ApiHandleError";
+import { handleError } from "../../utils/ApiHandleError";
 
 export const AuthService = {
     async login(credentials: LoginCredentials) {
         try {
             const { data } = await api.post("/login", credentials);
-            
+
             return data;
         } catch (error) {
             handleError(error);
@@ -15,12 +15,13 @@ export const AuthService = {
         }
     },
 
-    async logout(): Promise<boolean> {
+    async logout() {
         try {
-            await api.post("/logout");
-            Toast.success("Logout realizado com sucesso.");
+            const logout: boolean = await api.post("/logout");
 
-            return true;
+            if (logout) return true;
+
+            return false;
         } catch (error) {
             handleError(error);
             console.error(error);

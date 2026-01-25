@@ -1,0 +1,1 @@
+type DateRangeCallback = (start: string, end: string) => void;

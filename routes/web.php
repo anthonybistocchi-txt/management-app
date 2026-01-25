@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\views\ViewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -16,35 +17,46 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);  // testado e funcionando
-    Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
-
+    
     Route::prefix('users')->group(function () {
-        Route::get('/getAll', [UserController::class, 'getAllUsers'])->name('users.index');
-        Route::post('/get', [UserController::class, 'getUsers'])->name('users.show');
-        Route::get('/logged', [UserController::class, 'getUserLogged'])->name('users.logged');
-        Route::put('/update/{id}', [UserController::class, 'updateUser'])->name('users.update');  // testado e funcionando
-        Route::post('/create', [UserController::class, 'createUser'])->name('users.store');
-        Route::delete('/delete/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
+        Route::post('/getAll', [UserController::class, 'getAll'])->name('users.index');
+        Route::post('/get', [UserController::class, 'get'])->name('users.show');
+        Route::get('/getLogged', [UserController::class, 'getUserLogged'])->name('users.logged');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');  // testado e funcionando
+        Route::post('/create', [UserController::class, 'create'])->name('users.store');
+        Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('users.destroy');
     });
-
+        
     Route::prefix('providers')->group(function () {
-        Route::get('/getAll', [ProviderController::class, 'getAllProviders'])->name('providers.index');
-        Route::post('/get', [ProviderController::class, 'getProvider'])->name('providers.show');
-        Route::put('/update/{id}', [ProviderController::class, 'updateProvider'])->name('providers.update');  // testado e funcionando
-        Route::post('/create', [ProviderController::class, 'createProvider'])->name('providers.store');
-        Route::delete('/delete/{id}', [ProviderController::class, 'deleteProvider'])->name('providers.destroy');
+        Route::get('/getAll', [ProviderController::class, 'getAll'])->name('providers.index');
+        Route::post('/get', [ProviderController::class, 'get'])->name('providers.show');
+        Route::put('/update/{id}', [ProviderController::class, 'update'])->name('providers.update');  // testado e funcionando
+        Route::post('/create', [ProviderController::class, 'create'])->name('providers.store');
+        Route::delete('/delete/{id}', [ProviderController::class, 'delete'])->name('providers.destroy');
     });
 
     Route::prefix('products')->group(function () {
-        Route::get('/getAll', [ProductController::class, 'getAllProducts'])->name('products.getAll');  
-        Route::get('/get', [ProductController::class, 'getProduct'])->name('products.getProduct');
-        Route::post('/create', [ProductController::class, 'createProduct'])->name('products.createProduct');     // testado e funcionando
-        Route::put('/update/{id}', [ProductController::class, 'updateProduct'])->name('products.updateProduct');
-        Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+        Route::get('/getAll', [ProductController::class, 'getAll'])->name('products.index');  
+        Route::post('/get', [ProductController::class, 'get'])->name('products.show');
+        Route::post('/create', [ProductController::class, 'create'])->name('products.store');     // testado e funcionando
+        Route::put('/update/{id}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('products.destroy');
     });
 
+    Route::prefix('locations')->group(function () {
+        Route::get('/getAll', [LocationController::class, 'getAll'])->name('locations.index');  
+        Route::post('/create', [LocationController::class, 'create'])->name('locations.store');        // testado e funcionando
+        Route::put('/update', [LocationController::class, 'update'])->name('locations.update');
+        Route::delete('/delete', [LocationController::class, 'delete'])->name('locations.destroy');
+        Route::post('/get', [LocationController::class, 'get'])->name('locations.show');
+    });
+    
+    Route::prefix('admin')->group(function () {
+            Route::post('/dashboard',[DashboardController::class,'getDashboardData']); // testado e funcionando
+        });
+
     Route::prefix('stock')->group(function () {
-        Route::post('/in', [StockController::class, 'in'])->name('stock.in');
+        Route::post('/in', [StockController::class, 'in'])->name('stock.in');  // testado e funcionando
         Route::post('/out', [StockController::class, 'out'])->name('stock.out');
         Route::post('/transfer', [StockController::class, 'transfer'])->name('stock.transfer');
     });

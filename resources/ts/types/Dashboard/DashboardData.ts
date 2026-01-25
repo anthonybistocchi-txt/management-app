@@ -1,15 +1,15 @@
 interface DashboardData {
-    product_top_sale: {
+    topSellingProduct: {
         id: number;
         name: string;
         total_sold: string;
     };
-    moviments_sales: Array<{
+    salesMovements: Array<{
         total_sold: number;
         sell_date: string;
     }>;
-    total_sales: string;
-    sales_categorys: Array<{
+    totalSalesValue: string;
+    salesByCategory: Array<{
         category_name: string;
         total_quantity: string;
         total_sales: string;
