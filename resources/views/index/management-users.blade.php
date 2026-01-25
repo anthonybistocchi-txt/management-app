@@ -89,7 +89,7 @@
                             </div>
                             <div class="flex flex-col text-sm">
                                 <h1 id="text-header-username" class="font-medium text-[#0d141b] dark:text-slate-200"></h1>
-                                <p id="text-header-role" class="text-[#4c739a] dark:text-slate-400"></p>
+                                <p id="text-header-type-user" class="text-[#4c739a] dark:text-slate-400"></p>
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto">
                                 <div class="relative w-full sm:w-48">
-                                    <select id="select-filter-role" class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
+                                    <select id="select-filter-type-user" class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
                                         <option>Todos os Perfis</option>
                                         <option>Administrador</option>
                                         <option>Operador</option>
@@ -140,8 +140,10 @@
                                     <thead class="text-xs uppercase bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
                                         <tr>
                                             <th class="px-6 py-4 font-bold" scope="col">Nome</th>
+                                            <th class="px-6 py-4 font-bold" scope="col">Username</th>
                                             <th class="px-6 py-4 font-bold" scope="col">Email</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">Perfil</th>
+                                            <th class="px-6 py-4 font-bold" scope="col">CPF</th>
+                                            <th class="px-6 py-4 font-bold" scope="col">Tipo de usuário</th>
                                             <th class="px-6 py-4 font-bold" scope="col">Status</th>
                                             <th class="px-6 py-4 font-bold text-right" scope="col">Ações</th>
                                         </tr>
@@ -149,7 +151,9 @@
                                     <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                                             <td class="user-name px-6 py-4 font-medium text-[#0d141b] dark:text-white whitespace-nowrap">João da Silva</td>
+                                            <td class="user-username px-6 py-4">joaosilva</td>
                                             <td class="user-email px-6 py-4">joao.silva@example.com</td>
+                                            <td class="user-cpf px-6 py-4">123.456.789-00</td>
                                             <td class="user-role px-6 py-4">Administrador</td>
                                             <td class="px-6 py-4">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">Ativo</span>
@@ -242,7 +246,7 @@
             <label class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
                 Tipo de permissão*
             </label>
-            <select id="select-create-role" value=""
+            <select id="select-create-type-user" value=""
                 class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
                 <option value="" disabled selected>Selecione um perfil</option>
                 <option value="1">Administrador</option>
