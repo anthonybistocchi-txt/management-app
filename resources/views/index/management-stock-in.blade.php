@@ -199,7 +199,7 @@
 
                                 <div class="md:col-span-2 mt-4 flex justify-end gap-3">
                                     <button id="btn-stock-save"
-                                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold min-w-0 px-6"
+                                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-primary text-white gap-2 text-sm font-bold min-w-0 px-6"
                                         type="submit">Salvar</button>
                                 </div>
                             </form>

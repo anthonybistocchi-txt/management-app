@@ -5,6 +5,7 @@ export const UserLoggedService = {
     async UserLogged() {
         try {
             const { data } = await api.get("users/getLogged", {});
+      
             return data;
         } catch (error) {
             const message =

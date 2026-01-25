@@ -9,16 +9,16 @@ export const getUserLoggedController = {
 
             if (response.status && response.data) {
                 const UserLogged = response.data;
-                
+             
                 const roleMap: Record<number, string> = {
                     1: "Administrador",
                     2: "Gestor",
                 };
 
-                const roleLabel = roleMap[UserLogged.type_user_id] || "Usuário";
+                const type_user_id = roleMap[UserLogged.type_user_id] || "Usuário";
 
                 $nameElement.text(UserLogged.username);
-                $roleElement.text(roleLabel);
+                $roleElement.text(type_user_id);
                 
                 return;
             

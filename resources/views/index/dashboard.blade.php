@@ -42,7 +42,7 @@
                     </a>
                     <a href="{{ route('users') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
                         <span class="material-symbols-outlined">group</span>
-                        <p class="text-sm font-medium">Usuários</p>
+                        <p class="text-sm font-medium">Operadores</p>
                     </a>
                     <a href="{{ route('stockOut') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
                         <span class="material-symbols-outlined">inventory_2</span>
