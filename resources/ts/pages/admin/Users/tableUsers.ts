@@ -1,12 +1,8 @@
-import { GetUserController } from "../../../Controllers/User/GetUsers";
+import { UsersData } from "../../../types/User/GetUser";
 
-export async function loadTableUsers($tableUsers: JQuery<HTMLElement>) 
+export async function loadTableUsers($tableUsers: JQuery<HTMLElement>, users?: UsersData[]): Promise<void>
     {
-        const listUser = await GetUserController.getUsers();
-
-        $tableUsers.empty();
-
-        listUser.forEach((user) => {
+        users?.forEach((user) => {
 
             const isActive      = user.active === 1;
             const statusText    = isActive ? 'Ativo' : 'Inativo';

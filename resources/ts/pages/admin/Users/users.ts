@@ -34,6 +34,9 @@ $(document).ready( async () => {
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
 
+    const users = await GetUserController.getUsers();
+    loadTableUsers($tableUsers, users?.users);
+
     getUserLoggedController.loadUserLogged($textHeaderUsername, $textHeaderTypeUser);
 
     $btnOpenCreateUser.on('click', async () => {

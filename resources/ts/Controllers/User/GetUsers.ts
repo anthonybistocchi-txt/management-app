@@ -1,9 +1,9 @@
 import { GetUserService } from "../../services/User/GetUsers";
 
 export const GetUserController = {
-    async getUsers(skip: number, take: number) { 
+    async getUsers() {
         try {
-            const response = await GetUserService.getAllUsers({ skip, take });
+            const response = await GetUserService.getAllUsers();
     
             if (response) return response
 

@@ -1,15 +1,15 @@
-// services/User/GetUsers.ts
 import api from "../../utils/api";
 import {UsersResponse } from "../../types/User/GetUser";
 import { ApiResponse } from "../../types/Utils/ApiResponse";
 
 export const GetUserService = {
 
-    async getAllUsers(pagination: { skip: number, take: number }): Promise<UsersResponse | null> {
+    async getAllUsers(): Promise<UsersResponse | null> {
         try {
-            const { data: response } = await api.post<ApiResponse<UsersResponse>>("users/getAll", pagination);
-            
+            const { data: response } = await api.post<ApiResponse<UsersResponse>>("users/getAll");
+          
             if (response.status && response.data) {
+                
                 return response.data; 
             }
             

@@ -197,11 +197,11 @@
                                         class="font-semibold text-[#0d141b] dark:text-white">100</span></span>
                                 <div class="flex gap-2">
                                     <button id="btn-pagination-prev"
-                                        class="flex items-center justify-center px-4 h-10 text-sm font-medium text-[#0d141b] bg-white border border-[#cfdbe7] rounded-lg hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                                        class="flex h-8 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
                                         Anterior
                                     </button>
                                     <button id="btn-pagination-next"
-                                        class="flex items-center justify-center px-4 h-10 text-sm font-medium text-[#0d141b] bg-white border border-[#cfdbe7] rounded-lg hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                                        class="flex h-8 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
                                         Próximo
                                     </button>
                                 </div>
