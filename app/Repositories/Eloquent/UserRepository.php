@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,10 +17,9 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
-    public function getAll(): Collection
+    public function getAll(): Builder
     {
-        return User::where('active', 1)
-            ->get();
+        return User::query();
     }
 
     public function create(array $data): User

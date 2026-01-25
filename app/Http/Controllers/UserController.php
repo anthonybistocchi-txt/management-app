@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\GetAllUsersPaginated;
 use App\Http\Requests\User\GetUserRequest;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -55,9 +56,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getAll(): JsonResponse
+    public function getAll(GetAllUsersPaginated $request): JsonResponse
     {
-        $users = $this->service->getAll();
+        $users = $this->service->getAll($request->validated());
 
         return response()->json([
             'status'  => true,

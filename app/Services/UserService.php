@@ -37,9 +37,21 @@ class UserService
         return $this->userRepository->get($ids);
     }
     
-    public function getAll(): Collection
-    {
-        return $this->userRepository->getAll();
+    public function getAll(array $pagination): array
+    {   
+        $query      = $this->userRepository->getAll();
+        $countUsers = $query->clone()->count();
+
+        $usersPaginated = $query
+            ->skip($pagination['skip'])
+            ->take($pagination['take'])
+            ->get();
+
+        return [
+            'total' => $countUsers,
+            'users' => $usersPaginated,
+        ]; 
+           
     }
 
     public function getUserLogged(): array 

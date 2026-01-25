@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);  // testado e funcionando
     
     Route::prefix('users')->group(function () {
-        Route::get('/getAll', [UserController::class, 'getAll'])->name('users.index');
+        Route::post('/getAll', [UserController::class, 'getAll'])->name('users.index');
         Route::post('/get', [UserController::class, 'get'])->name('users.show');
         Route::get('/getLogged', [UserController::class, 'getUserLogged'])->name('users.logged');
         Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');  // testado e funcionando
