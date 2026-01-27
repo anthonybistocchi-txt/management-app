@@ -136,7 +136,7 @@
                                         </p>
                                         <select id="select-stock-product"
                                             class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal">
-                                            <option>Selecione um produto</option>
+                                            <option value="" selected>Selecione um produto</option>
                                         </select>
                                     </label>
                                 </div>
@@ -157,7 +157,7 @@
                                             Fornecedor*</p>
                                         <select id="select-stock-provider"
                                             class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal">
-                                            <option>Selecione um fornecedor</option>
+                                            <option value="" selected >Selecione um fornecedor</option>
                                         </select>
                                     </label>
                                 </div>
@@ -165,9 +165,9 @@
                                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="{{ env('HAS_SUBSIDIARIES') ? 'md:col-span-1' : 'md:col-span-2' }}">
                                         <label class="flex flex-col">
-                                            <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Data
-                                                da Entrada</p>
-                                            <input id="input-stock-date" type="text" placeholder="Selecione a data"
+                                            <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                                Data da entrada*</p>
+                                            <input id="input-stock-date" type="text" placeholder= {{ now()->format('d/m/Y') }}
                                                 class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal" />
                                         </label>
                                     </div>
@@ -179,7 +179,7 @@
                                                     Localização*</p>
                                                 <select id="select-stock-location"
                                                     class="form-select h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal">
-                                                    <option>Selecione uma Localização</option>
+                                                    <option value="" selected >Selecione uma localização</option>
                                                 </select>
                                             </label>
                                         </div>

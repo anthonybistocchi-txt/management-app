@@ -73,7 +73,7 @@
 
         <div class="flex flex-col flex-1 overflow-y-auto">
             
-            <header class="flex h-16 shrink-0 items-center justify-end whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8">
+            <header class="flex h-16 shrink-0 items-center justify-end whitespace-nowrap bg-white dark:bg-background-dark px-8">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-3">
                         <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -81,8 +81,8 @@
                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDi65Kk7LckmcrS0auPUyvjF94HASToPWM2d3WnpsZxslUUCKNs7xA7mxUSf0AVxlCmiREoOoQG7Rdmpu1I8kWDLom4l-GLvDIzJsagJYxZ87ey45xNUNMyXhLkVNpZYoabM-59t-X6Z939OpdLFfNg9owdAGbCiWMG9FWNI-T29RPcy4QpMF5JNjFr2ScdBqBS3HqG7AKXLe8T5wXQ9ANUcyQqyk72El6Xu_MI_KsYkHTccu6cly77v2AqjCdfaWh0jLWhIyds3q0");'>
                         </div>
                         <div class="flex flex-col text-sm text-right">
-                            <h1 id="user_name" class="font-medium text-[#0d141b] dark:text-slate-200"></h1>
-                            <p id="type_user_id" class="text-[#4c739a] dark:text-slate-400"></p>
+                            <h1 id="user_name" class="font-medium text-[#0d141b]"></h1>
+                            <p id="type_user_id" class="text-[#4c739a]"></p>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { Toast } from "../../../components/Swal/swal";
-import { CreateUserController } from "../../../Controllers/User/CreateUser";
+import { UserController } from "../../../Controllers/User/UserController";
 
 export const modalCreateUser = {
     async handleCreateUserSubmit(
@@ -28,7 +28,7 @@ export const modalCreateUser = {
             return;
         }
 
-        const request = await CreateUserController.createUser(
+        const request = await UserController.createUser(
             createNameValue,
             createUsernameValue,
             createEmailValue,

@@ -1,6 +1,6 @@
 import { LoginCredentials } from "../../types/Auth/LoginCredentials";
 import { handleError } from "../../utils/ApiHandleError";
-import { ApiResponse } from "../../types/Utils/ApiResponse";
+import { ApiResponse } from "../../types/ApiResponse";
 import { AuthService } from "../../services/Auth/AuthService";
 
 export const AuthController = {
