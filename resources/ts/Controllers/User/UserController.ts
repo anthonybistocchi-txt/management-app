@@ -2,7 +2,7 @@ import { CreateUserService } from "../../services/User/CreateUser";
 import { UserLoggedService } from "../../services/User/GetUserLogged";
 import { GetUserService } from "../../services/User/GetUsers";
 import { ApiResponse } from "../../types/ApiResponse";
-import { UserData, UserLoggedData } from "../../types/User/User";
+import {  UserListResponse, UserLoggedData } from "../../types/User/User";
 
 export const UserController = {
     async createUser(
@@ -43,20 +43,21 @@ export const UserController = {
         }
     },
 
-    async getAllUsers(): Promise<UserData[]> 
-    {
+    async getAllUsers(): Promise<UserListResponse | null> {
         try {
             const response = await GetUserService.getAllUsers();
             
-            // Verificamos se existe response e se o data é um array válido
-            if (response && response.status && Array.isArray(response.data)) return response.data;
+            if (response && response.status && response.data && Array.isArray(response.data.users)) {
+                
+                return response.data; 
+            }
             
-            console.error("Resposta inválida ou sem dados ao obter usuários.");
-            return []; 
+            console.error("Dados inválidos recebidos da API");
+            return null;
 
         } catch (error) {
-            console.error("Erro fatal ao buscar usuarios:", error);
-            return [];
+            console.error("Erro fatal:", error);
+            return null;
         }
     }
 };

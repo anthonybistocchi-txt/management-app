@@ -32,8 +32,15 @@ $(document).ready( async () => {
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
 
-    await showUsersTable($tableUsers);
-    
+if ($tableUsers.length) {
+        try {
+            // Chama a função importada
+            await showUsersTable($tableUsers);
+        } catch (error) {
+            console.error("Erro ao iniciar tabela de usuários:", error);
+        }
+    }
+
     await UserController.getUserLogged();
 
     $btnOpenCreateUser.on('click', async () => {

@@ -24,5 +24,10 @@ export interface CreateUser
     cpf: string;
 }
 
+export interface UserListResponse {
+    total: number;
+    users: UserData[];
+}
+
 
 

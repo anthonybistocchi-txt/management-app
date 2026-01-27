@@ -161,7 +161,7 @@
                                 </div>
 
                             </div>
-                            <button id="btn-submit-searc-user"
+                            <button id="btn-submit-search-user"
                                 class="flex h-10 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
                                 <span class="material-symbols-outlined text-xl">search</span>
                                 Buscar
@@ -171,21 +171,8 @@
                         <div
                             class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shadow-sm overflow-hidden">
                             <div class="overflow-x-auto">
-                                <table id="table-users"
-                                    class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400">
-                                    <thead
-                                        class="text-xs uppercase bg-background-light text-[#0d141b] dark:text-slate-800 border-b border-slate-200 dark:border-slate-700">
-                                        <tr>
-                                            <th class="px-6 py-4 font-bold">Nome</th>
-                                            <th class="px-6 py-4 font-bold">Username</th>
-                                            <th class="px-6 py-4 font-bold">Email</th>
-                                            <th class="px-6 py-4 font-bold">CPF</th>
-                                            <th class="px-6 py-4 font-bold">Tipo</th>
-                                            <th class="px-6 py-4 font-bold">Status</th>
-                                            <th class="px-6 py-4 font-bold text-right">Ações</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+
+                                <table id="table-users" class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400"></table>
                             </div>
                         </div>
                         
