@@ -3,20 +3,22 @@ import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 
 export async function submitStockIn($selectProduct: JQuery<HTMLElement>,
-    $inputQuantity: JQuery<HTMLElement>,
+    $inputQuantity:  JQuery<HTMLElement>,
     $selectProvider: JQuery<HTMLElement>,
-    $selectedDates: JQuery<HTMLElement>,
-    $textareaDesc: JQuery<HTMLElement>,
+    datePickerInstance: ReturnType<typeof DatePicker.initSingle>,
+    $textareaDesc:   JQuery<HTMLElement>,
     $selectLocation: JQuery<HTMLElement>,
-    $btnSave: JQuery<HTMLElement>): Promise<void> 
-    {
-    const today = new Date();
+    $btnSave:        JQuery<HTMLElement>
+    ): Promise<void>
 
-    const datePickerInstance = DatePicker.initSingle($selectedDates, today)
-    const selectedDates      = datePickerInstance.selectedDates;
-    const currentDateValue   = $selectedDates.length > 0 
-                ? datePickerInstance.formatDate(selectedDates[0], "Y-m-d H:i:s") 
-                : null;
+    {
+  
+    const selectedDates = datePickerInstance.selectedDates;
+    const today         = new Date();
+    
+    const currentDateValue = selectedDates.length > 0 
+        ? datePickerInstance.formatDate(selectedDates[0], "Y-m-d H:i:s") 
+        : null;
                 
             const productId   = Number($selectProduct.val());
             const quantity    = Number($inputQuantity.val());

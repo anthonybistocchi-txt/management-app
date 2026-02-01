@@ -1,7 +1,5 @@
 import $ from "jquery"; 
-import { StockInFormController } from "../../../Controllers/StockIn/stockInForm";
 import { DatePicker } from "../../../components/DatePicker/flatpickr";
-import { Toast } from "../../../components/Swal/swal";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
 import { showLocations } from "../../../components/Location/ShowLocations";
 import { showProducts } from "../../../components/Products/ShowProducts";
@@ -21,6 +19,9 @@ $(document).ready(async () => {
     const $textareaStockDesc  = $('#textarea-stock-description');
     const $btnStockSave       = $('#btn-stock-save');
 
+    const today              = new Date();
+    const datePickerInstance = DatePicker.initSingle($inputStockDate, today);
+
     await showUserLogged($textHeaderUsername, $textHeaderRole);
     await showProviders($selectStockProvider);
     await showProducts($selectStockProduct);
@@ -33,7 +34,7 @@ $(document).ready(async () => {
         await submitStockIn($selectStockProduct,
             $inputStockQuantity,
             $selectStockProvider,
-            $inputStockDate,
+            datePickerInstance,
             $textareaStockDesc,
             $selectStockLocation,
             $btnStockSave);        

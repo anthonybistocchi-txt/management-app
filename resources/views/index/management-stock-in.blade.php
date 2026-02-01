@@ -167,7 +167,7 @@
                                         <label class="flex flex-col">
                                             <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
                                                 Data da entrada*</p>
-                                            <input id="input-stock-date" type="text" placeholder= {{ now()->format('d/m/Y') }}
+                                            <input id="input-stock-date" type="text" 
                                                 class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal" />
                                         </label>
                                     </div>
