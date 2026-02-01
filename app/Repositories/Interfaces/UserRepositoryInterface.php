@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface UserRepositoryInterface 
 {
-   public function getAll(): Builder;
+   public function getAll(array $data): Builder;
     public function get(array $id): ?Collection;
     public function create(array $data): User;
     public function update(array $data): User;

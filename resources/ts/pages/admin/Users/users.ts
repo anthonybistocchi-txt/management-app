@@ -5,6 +5,7 @@ import { maskCpf } from '../../../utils/cpfMask';
 import { showUsersTable } from './tableUsers';
 import { UserController } from '../../../Controllers/User/UserController';
 import { ShowModalCreateUser } from '../../../components/User/ModalCreateUser';
+import { showUserLogged } from '../../../components/User/ShowUserLogged';
 
 $(document).ready( async () => {
     const $textHeaderUsername = $('#text-header-username');
@@ -32,16 +33,8 @@ $(document).ready( async () => {
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
 
-if ($tableUsers.length) {
-        try {
-            // Chama a função importada
-            await showUsersTable($tableUsers);
-        } catch (error) {
-            console.error("Erro ao iniciar tabela de usuários:", error);
-        }
-    }
-
-    await UserController.getUserLogged();
+    await showUsersTable($tableUsers);
+    await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
 
     $btnOpenCreateUser.on('click', async () => {
         openModal($modalCreateUser);
@@ -69,8 +62,14 @@ if ($tableUsers.length) {
 
     $btnSubmitSearchUser.on('click',async (e) => {
         e.preventDefault();
-        
 
+       await showUsersTable(
+            $tableUsers, 
+            $inputSearchUser, 
+            $selectFilterTypeUser, 
+            $selectFilterStatus
+       );
+        
     });
 
     $btnModalClose.on('click', () => {

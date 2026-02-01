@@ -9,9 +9,21 @@ const USER_ROLES: Record<number, string> = {
     3: 'Operador'
 };
 
-export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promise<void> {
+export async function showUsersTable(
+    $tableElement:       JQuery<HTMLElement>, 
+    search?:             JQuery<HTMLElement>,
+    $inputOperatorType?: JQuery<HTMLElement>,
+    $inputStatusUser?:   JQuery<HTMLElement>
+): Promise<void> {
 
-    const responseData = await UserController.getAllUsers();
+    const searchValue   = search             ? (search.val() as string).trim()             : '';
+    const operator_type = $inputOperatorType ? ($inputOperatorType.val() as string).trim() : 'all';
+    const active        = $inputStatusUser   ? ($inputStatusUser.val() as string).trim()   : 'all';
+
+    let start  = 0;
+    let length = 10;
+    
+    const responseData = await UserController.getAllUsers(start, length, searchValue, operator_type, active);
     
     if (!responseData || !responseData.users) {
         Toast.error("Erro ao carregar usuários.");
@@ -26,22 +38,13 @@ export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promis
         autoWidth: true,
         responsive: true,
 
-        stripeClasses: [
-        'bg-white dark:bg-slate-800',           // Linhas Ímpares (Branco)
-        'bg-gray-50 dark:bg-slate-700/50'       // Linhas Pares (Cinza claro)
-        ],
-        
-        // Removemos os botões "Primeiro" e "Último", deixando apenas números e setas
         pagingType: 'simple_numbers', 
 
-        // DOM mantido (estrutura flex)
         dom: '<"flex flex-col sm:flex-row justify-between items-center mb-5 gap-4"l>rt<"flex flex-col sm:flex-row justify-between items-center mt-5 gap-4"ip>',
-        
         language: {
             paginate: {
-                // Usamos ícones do Material Symbols aqui
-                previous: '<span class="material-symbols-outlined text-sm align-middle">chevron_left</span>',
-                next: '<span class="material-symbols-outlined text-sm align-middle">chevron_right</span>',
+                previous: '<span class="material-symbols-outlined text-sm align-middle text-gray-600">chevron_left</span>',
+                next: '<span class="material-symbols-outlined text-sm align-middle text-gray-600">chevron_right</span>',
                 first: '', // Remove texto se aparecer
                 last: ''   // Remove texto se aparecer
             }
@@ -51,12 +54,12 @@ export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promis
         { 
             data: 'name',
             title: 'NOME',
-            className: 'px-4 py-3 text-gray-800'
+            className: 'px-4 py-3 text-gray-800 text-sm'
         },
         { 
             data: 'username', 
             title: 'USERNAME',
-            className: 'px-4 py-3 text-gray-800' 
+            className: 'px-4 py-3 text-gray-800 text-sm' 
         },
         { 
             data: 'email', 
@@ -79,7 +82,7 @@ export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promis
         { 
             data: 'active',
             title: 'STATUS',
-            className: 'px-4 py-3',
+            className: 'px-4 py-3 text-gray-800 text-sm',
             render: function(data) {
                 const isActive = data === 1;
                 const text = isActive ? 'Ativo' : 'Inativo';
@@ -95,9 +98,11 @@ export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promis
         {
             data: null, 
             title: 'AÇÕES',
-            className: 'px-4 py-3 text-right',
+            className: 'px-4 py-3 text-right text-sm',
             orderable: false, 
             render: function(data, type, row) {
+                const bgGrey = 'bg-gray-100 hover:bg-gray-200';
+                
                 return `
                     <div class="flex items-center justify-end gap-2">
                         <button class="p-2 rounded-lg text-gray-500 hover:bg-background-light hover:scale-110 transition-all duration-200"
@@ -121,14 +126,13 @@ export async function showUsersTable($tableElement: JQuery<HTMLElement>): Promis
             const $lengthSelect     = $('.dt-length select');
             const $legendSelectQnty = $('.dt-length label span');
             const $divSelectQnty    = $('.dt-length');
-            const $pagingButtons = $('.dt-paging-button.current');
-            const $showResultsText = $('#table-users_info')
+            const $showResultsText  = $('#table-users_info')
 
             $showResultsText.addClass('font-medium pl-2 text-gray-600 font-sans');
             $showResultsText.text(`Total: ${responseData.users.length} de ${responseData.total}`);
 
+            
             columnHeader.addClass('font-sans text-gray-600  hover:scale-90 transition-all duration-200 cursor-pointer');
-            $pagingButtons.addClass('rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors' )
 
             $divSelectQnty.remove();
             $legendSelectQnty.remove();

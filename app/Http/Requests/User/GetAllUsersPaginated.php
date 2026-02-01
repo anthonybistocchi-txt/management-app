@@ -22,19 +22,25 @@ class GetAllUsersPaginated extends FormRequest
     public function rules(): array
     {
         return [
-            'skip' => 'nullable|integer|min:0',
-            'take' => 'nullable|integer|min:1|max:100', 
+            'operator_type' => 'nullable|string|in:1,2,3,all',
+            'active'        => 'nullable|string|in:0,1,all',
+            'search'        => 'nullable|string|max:255',
+            'skip'          => 'nullable|integer|min:0',
+            'take'          => 'nullable|integer|min:1|max:100', 
         ];
     }
 
     public function messages(): array
     {
         return [
-            'skip.integer'  => 'The skip parameter must be an integer.',
-            'skip.min'      => 'The skip parameter must be at least 0.',
-            'take.integer'  => 'The take parameter must be an integer.',
-            'take.min'      => 'The take parameter must be at least 1.',
-            'take.max'      => 'The take parameter may not be greater than 100.',
+            'operator_type.in' => 'The operator type must be one of the following: 1, 2, 3, all.',
+            'search.string'    => 'The search parameter must be a string.',
+            'skip.integer'     => 'The skip parameter must be an integer.',
+            'skip.min'         => 'The skip parameter must be at least 0.',
+            'take.integer'     => 'The take parameter must be an integer.',
+            'take.min'         => 'The take parameter must be at least 1.',
+            'take.max'         => 'The take parameter may not be greater than 100.',
+            'active.in'        => 'The active parameter must be one of the following: 0, 1, all.',
         ];
     }
 }

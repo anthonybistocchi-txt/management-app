@@ -43,9 +43,14 @@ export const UserController = {
         }
     },
 
-    async getAllUsers(): Promise<UserListResponse | null> {
+    async getAllUsers(
+        start:          number, 
+        length:         number, 
+        search?:        string, 
+        operator_type?: number | string, 
+        active?:        string): Promise<UserListResponse | null> {
         try {
-            const response = await GetUserService.getAllUsers();
+            const response = await GetUserService.getAllUsers(start, length, search, operator_type, active);
             
             if (response && response.status && response.data && Array.isArray(response.data.users)) {
                 
@@ -59,5 +64,5 @@ export const UserController = {
             console.error("Erro fatal:", error);
             return null;
         }
-    }
+    },
 };
