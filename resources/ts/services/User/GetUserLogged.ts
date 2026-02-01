@@ -2,7 +2,7 @@ import api from "../../utils/api";
 import { AxiosError } from "axios";
 
 export const UserLoggedService = {
-    async UserLogged() {
+    async getUserLogged() {
         try {
             const { data } = await api.get("users/getLogged", {});
       

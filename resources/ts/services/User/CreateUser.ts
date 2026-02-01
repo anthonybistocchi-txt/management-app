@@ -1,6 +1,6 @@
 import api from "../../utils/api";
 import { AxiosError } from "axios";
-import { ApiResponse } from "../../types/Utils/ApiResponse";
+import { ApiResponse } from "../../types/ApiResponse";
 import { CreateUser } from "../../types/User/CreateUser";
 
 export const CreateUserService = {

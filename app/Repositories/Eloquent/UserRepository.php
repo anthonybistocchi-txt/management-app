@@ -17,9 +17,22 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
-    public function getAll(): Builder
+    public function getAll(array $data): Builder
     {
-        return User::query();
+        return User::query()
+        ->when($data['operator_type'] !== 'all', function($query) use ($data) {
+            $query->where('type_user_id', $data['operator_type']);
+        })
+        ->when($data['active'] !== 'all', function($query) use ($data) {
+            $query->where('active', $data['active']);
+        })
+        ->when(!empty($data['search']), function($query) use ($data) {
+            $searchTerm = $data['search'];
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+            });
+        });
     }
 
     public function create(array $data): User

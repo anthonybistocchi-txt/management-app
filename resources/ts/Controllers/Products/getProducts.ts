@@ -1,25 +1,19 @@
-import { ProductService } from "../../Services/Product/getProductService"; 
+import { ProductService } from "../../services/Product/getProductService";
+import { ApiResponse } from "../../types/ApiResponse";
 
 export const getProductsController = {
-    
-    async loadProducts($selectElement: JQuery<HTMLElement>): Promise<void> {
+
+    async getProducts(): Promise<ProductData[]> {
         try {
-            const response = await ProductService.getProducts();
+            const response: ApiResponse<ProductData[]> = await ProductService.getProducts();
 
             if (response.status && response.data) {
-                const products = response.data;
-                
-                $selectElement.empty();
-                $selectElement.append('<option value="">Selecione um Produto</option>');
+                return response.data;
 
-                products.forEach((product) => {
-                    $selectElement.append(`<option value="${product.id}">${product.name}</option>`);
-                });
-            } else {
-                console.error("Falha ao carregar produtos:", response.message);
             }
         } catch (error) {
-            console.error("Erro ao buscar produtos:", error);
+            console.error("Erro ao carregar produtos:", error);
         }
+        return [];
     }
 };

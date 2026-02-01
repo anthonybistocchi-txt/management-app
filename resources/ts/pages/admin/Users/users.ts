@@ -1,12 +1,10 @@
 import $ from 'jquery';
-import { getUserLoggedController } from '../../../Controllers/User/getUserLogged';
 import { openModal } from '../../../utils/openModal';
 import { closeModal } from '../../../utils/CloseModal';
-import { Toast } from '../../../components/Swal/swal';
 import { maskCpf } from '../../../utils/cpfMask';
-import { modalCreateUser } from './modalCreateUser';
-import { GetUserController } from '../../../Controllers/User/GetUsers';
-import { loadTableUsers } from './tableUsers';
+import { showUsersTable } from './tableUsers';
+import { ShowModalCreateUser } from '../../../components/User/ModalCreateUser';
+import { showUserLogged } from '../../../components/User/ShowUserLogged';
 
 $(document).ready( async () => {
     const $textHeaderUsername = $('#text-header-username');
@@ -34,10 +32,8 @@ $(document).ready( async () => {
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
 
-    const users = await GetUserController.getUsers();
-    loadTableUsers($tableUsers, users?.users);
-
-    getUserLoggedController.loadUserLogged($textHeaderUsername, $textHeaderTypeUser);
+    await showUsersTable($tableUsers);
+    await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
 
     $btnOpenCreateUser.on('click', async () => {
         openModal($modalCreateUser);
@@ -50,37 +46,29 @@ $(document).ready( async () => {
         $btnModalSave.on('click', async (e) => {
             e.preventDefault();
 
-           const requestCreateUser = await modalCreateUser.handleCreateUserSubmit(
-                $inputCreateName,
+            await ShowModalCreateUser($inputCreateName,
                 $inputCreateEmail,
                 $selectCreateTypeUser,
                 $inputCreatePassword,
                 $inputCreateCpf,
-                $inputCreateUsername
+                $inputCreateUsername,
+                $btnModalSave,
+                $modalCreateUser,
+                $tableUsers
             );
-            
-            $btnModalSave.html('Salvando...').prop('disabled', true);
-
-            if (requestCreateUser) {
-                Toast.success("Usuário criado com sucesso.");
-                $btnModalSave.html('Salvar').prop('disabled', false);
-
-                closeModal($modalCreateUser);
-                loadTableUsers($tableUsers);
-
-            } else {
-                Toast.error("Erro ao criar usuário. Por favor, tente novamente.");
-                $btnModalSave.html('Salvar').prop('disabled', false);
-            }
         });
     });
 
-    loadTableUsers($tableUsers);
-
     $btnSubmitSearchUser.on('click',async (e) => {
         e.preventDefault();
-        
 
+       await showUsersTable(
+            $tableUsers, 
+            $inputSearchUser, 
+            $selectFilterTypeUser, 
+            $selectFilterStatus
+       );
+        
     });
 
     $btnModalClose.on('click', () => {

@@ -21,7 +21,7 @@ import $ from 'jquery';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
-
+import 'datatables.net-dt';
 flatpickr("#date_range_picker", {
     mode: "range",
     locale: Portuguese, 

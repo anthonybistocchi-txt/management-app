@@ -33,6 +33,8 @@ class StockService
             
     public function out(array $data)
     {
+        $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
+
         return DB::transaction(function () use ($data) {
             
             $this->stockMovementsRepository->logExit(
@@ -50,6 +52,8 @@ class StockService
 
     public function transfer(array $data)
     {
+        $data['locations_id'] = env('HAS_SUBSIDIARIES') ? $data['location_id'] : $data['location_id'] == null;
+        
         return DB::transaction(function () use ($data) {
             $stock = $this->stockRepository->transfer($data);
 

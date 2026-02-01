@@ -1,5 +1,5 @@
 import api from "../../Utils/api";
-import { ApiResponse } from "../../types/Utils/ApiResponse";
+import { ApiResponse } from "../../types/ApiResponse";
 
 export const ProductService = {
     async createProduct(newProduct: NewProductData): Promise<ApiResponse<NewProductData>> {

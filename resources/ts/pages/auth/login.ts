@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { AuthService } from '../../services/Auth/AuthService';
 import { Toast } from '../../components/Swal/swal';
 import { AuthController } from '../../Controllers/Auth/Auth';
 

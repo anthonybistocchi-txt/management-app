@@ -99,7 +99,7 @@
             <div class="flex flex-1 flex-col overflow-y-auto">
 
                 <header
-                    class="flex h-16 items-center justify-end whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8">
+                    class="flex h-16 items-center justify-end whitespace-nowrap border-b  border-slate-200 bg-white dark:bg-background-dark px-8">
                     <div class="flex items-center gap-4">
                         <div class="flex items-center gap-3">
                             <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -120,7 +120,7 @@
 
                         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
                             <div class="flex flex-col gap-1">
-                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">Gestão
+                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b]">Gestão
                                     de operadores</h1>
                                 <p class="text-base text-[#4c739a] dark:text-slate-400">Gerencie os usuários do sistema,
                                     adicione novos, edite perfis e altere status.</p>
@@ -139,29 +139,30 @@
                                 <span
                                     class="material-symbols-outlined absolute left-3 top-3 text-[#4c739a]">search</span>
                                 <input id="input-search-user"
-                                    class="form-input h-10 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 pl-10 pr-4 text-base font-normal"
+                                    class="form-input h-10 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] bg-background-light  text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 pl-10 pr-4 text-base font-normal"
                                     placeholder="Buscar por nome" value="" />
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto">
                                 <div class="relative w-full sm:w-48">
                                     <select id="select-filter-type-user"
-                                        class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
-                                        <option>Tipos de operadores</option>
-                                        <option>Administrador</option>
-                                        <option>Operador</option>
+                                        class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
+                                        <option value="all">Tipos de operadores</option>
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Gestor</option>
+                                        <option value="3">Operador</option>
                                     </select>
                                 </div>
                                 <div class="relative w-full sm:w-48">
                                     <select id="select-filter-status"
-                                        class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
-                                        <option>Todos os status</option>
-                                        <option>Ativo</option>
-                                        <option>Inativo</option>
+                                        class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
+                                        <option value="all">Status</option>
+                                        <option value="1">Ativo</option>
+                                        <option value="0">Inativo</option>
                                     </select>
                                 </div>
 
                             </div>
-                            <button id="btn-submit-searc-user"
+                            <button id="btn-submit-search-user"
                                 class="flex h-10 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
                                 <span class="material-symbols-outlined text-xl">search</span>
                                 Buscar
@@ -171,42 +172,11 @@
                         <div
                             class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shadow-sm overflow-hidden">
                             <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400">
-                                    <thead
-                                        class="text-xs uppercase bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
-                                        <tr>
-                                            <th class="px-6 py-4 font-bold" scope="col">Nome</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">Username</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">Email</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">CPF</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">Tipo de usuário</th>
-                                            <th class="px-6 py-4 font-bold" scope="col">Status</th>
-                                            <th class="px-6 py-4 font-bold text-right" scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table-users" class="divide-y divide-slate-100 dark:divide-slate-700">
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
 
-                            <div
-                                class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-800">
-                                <span class="text-sm font-normal text-[#4c739a] dark:text-slate-400">Exibindo <span
-                                        class="font-semibold text-[#0d141b] dark:text-white">1-3</span> de <span
-                                        class="font-semibold text-[#0d141b] dark:text-white">100</span></span>
-                                <div class="flex gap-2">
-                                    <button id="btn-pagination-prev"
-                                        class="flex h-8 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
-                                        Anterior
-                                    </button>
-                                    <button id="btn-pagination-next"
-                                        class="flex h-8 items-center justify-center rounded-lg bg-primary text-white px-6 text-sm font-bold gap-2 hover:bg-primary/90 transition-colors">
-                                        Próximo
-                                    </button>
-                                </div>
+                                <table id="table-users" class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400"></table>
                             </div>
                         </div>
+                        
                     </div>
                 </main>
             </div>
@@ -230,52 +200,52 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
 
                     <div class="flex flex-col gap-1 md:col-span-2"> <label
-                            class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                            class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             Nome completo*
                         </label>
                         <input id="input-create-name" type="text" placeholder="Ex: João Silva" value=""
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
                     <div class="flex flex-col gap-1">
-                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             Username*
                         </label>
                         <input id="input-create-username" type="text" placeholder="Ex: joaosilva" value=""
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light px-3 text-sm text-[#0d141b] dark:text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
                     <div class="flex flex-col gap-1">
-                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             CPF*
                         </label>
                         <input id="input-create-cpf" type="text" placeholder="Ex: 123.456.789-00" value=""
                             maxlength="14"
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light px-3 text-sm text-[#0d141b] dark:text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
                     <div class="flex flex-col gap-1 md:col-span-2"> <label
-                            class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                            class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             Email*
                         </label>
                         <input id="input-create-email" type="email" placeholder="Ex: joao.silva@example.com" value=""
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
                     <div class="flex flex-col gap-1">
-                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             Senha*
                         </label>
                         <input id="input-create-password" type="password" value=""
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
                     <div class="flex flex-col gap-1">
-                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                        <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                             Tipo de permissão*
                         </label>
                         <select id="select-create-type-user" value=""
-                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
+                            class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
                             <option value="" disabled selected>Selecione um perfil</option>
                             <option value="1">Administrador</option>
                             <option value="2">Gestor</option>
@@ -287,7 +257,7 @@
 
                 <div class="mt-8 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-700 pt-5">
                     <button type="button" id="btn-modal-cancel"
-                        class="h-11 px-6 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold transition-colors">
+                        class="h-11 px-6 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-800 text-sm font-semibold transition-colors">
                         Cancelar
                     </button>
 

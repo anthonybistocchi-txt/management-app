@@ -21,14 +21,14 @@ export const DatePicker = {
             onChange: (selectedDates, dateStr, instance) => {
                 if (selectedDates.length === 2 && onChange) {
                     const start = instance.formatDate(selectedDates[0], "Y-m-d");
-                    const end = instance.formatDate(selectedDates[1], "Y-m-d");
+                    const end   = instance.formatDate(selectedDates[1], "Y-m-d");
                     onChange(start, end);
                 }
             },
             onReady: (selectedDates, dateStr, instance) => {
                  if (selectedDates.length === 2 && onChange) {
                     const start = instance.formatDate(selectedDates[0], "Y-m-d");
-                    const end = instance.formatDate(selectedDates[1], "Y-m-d");
+                    const end   = instance.formatDate(selectedDates[1], "Y-m-d");
                     onChange(start, end);
                 }
             }
@@ -38,9 +38,11 @@ export const DatePicker = {
     initSingle($element: JQuery<HTMLElement>, defaultDate?: string | Date): Instance {
         return flatpickr($element[0], {
             mode: "single",
-            dateFormat: "d/m/Y",
+            dateFormat: "d/m/Y H:i",
+            enableTime: true,
             locale: Portuguese,
             defaultDate: defaultDate,
+            time_24hr: true,
             allowInput: true // Permite digitar se quiser
         });
     }

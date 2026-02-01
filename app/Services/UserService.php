@@ -37,15 +37,15 @@ class UserService
         return $this->userRepository->get($ids);
     }
     
-    public function getAll(array $pagination = []): array
+    public function getAll(array $data): array
     {   
 
-        $query      = $this->userRepository->getAll();
+        $query      = $this->userRepository->getAll($data);
         $countUsers = $query->clone()->count();
 
         $usersPaginated = $query
-            ->skip($pagination['skip'] ?? 0)
-            ->take($pagination['take'] ?? 10)
+            ->skip($data['skip'] ?? 0)
+            ->take($data['take'] ?? 10)
             ->get();
 
         return [

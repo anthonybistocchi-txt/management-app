@@ -1,6 +1,7 @@
 import Chart from "chart.js/auto"; 
 import $ from "jquery";
-import { dateformat } from "../../types/Utils/DateRange";
+import { dateformat } from "../../utils/DateRange";
+
 
 let chartInstance: Chart | null = null;
 

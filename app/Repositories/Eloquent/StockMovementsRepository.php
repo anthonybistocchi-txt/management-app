@@ -24,7 +24,7 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
         return StockMovements::create([
                 'product_id'        => $data['product_id'],
                 'location_id'       => $data['location_id'],
-                'movement_type'     => 'in',
+                'type'              => 'in',
                 'quantity_moved'    => $data['quantity'],
                 'description'       => $data['description'] ?? null,
                 'provider_id'       => $data['provider_id'] ?? null,
@@ -42,13 +42,13 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
                 $query->where('location_id', $data['location_id']);
             })
             ->first();
-
+       
         $quantityAfter = $quantityBefore ? $quantityBefore->quantity - $data['quantity'] : -$data['quantity'];
-
+        
         return StockMovements::create([
                 'product_id'        => $data['product_id'],
                 'location_id'       => $data['location_id'],
-                'movement_type'     => 'out',
+                'type'              => 'out',
                 'quantity_moved'    => $data['quantity'],
                 'description'       => $data['description'] ?? null,
                 'movement_date'     => $data['movement_date'],
@@ -62,7 +62,7 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
         return StockMovements::create([
                 'product_id'        => $data['product_id'],
                 'location_id'       => $data['to_location_id'],
-                'movement_type'     => 'transfer',
+                'type'              => 'transfer',
                 'quantity_moved'    => $data['quantity'],
                 'description'       => $data['description'] ?? null,
                 'movement_date'     => $data['movement_date'],
