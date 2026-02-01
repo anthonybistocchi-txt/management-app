@@ -4,7 +4,8 @@ import { showUserLogged } from "../../../components/User/ShowUserLogged";
 import { showLocations } from "../../../components/Location/ShowLocations";
 import { showProducts } from "../../../components/Products/ShowProducts";
 import { showProviders } from "../../../components/Providers/ShowProviders";
-import { submitStockIn } from "../../../components/StockIn/SubmitStockIn";
+import { submitStockIn } from "../../../components/Stock/SubmitStockIn";
+import { submitStockOut } from "../../../components/Stock/SubmitStockOut";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');

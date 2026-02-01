@@ -1,4 +1,4 @@
-import { StockInFormController } from "../../Controllers/StockIn/stockInForm";
+import { StockController } from "../../Controllers/Stock/stockSubmit";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 
@@ -48,7 +48,7 @@ export async function submitStockIn($selectProduct: JQuery<HTMLElement>,
 
             $btnSave.html('Salvando...').prop('disabled', true);
     
-            const result = await StockInFormController.handleSubmit(productId, quantity, providerId, finalDate, description, locationId);
+            const result = await StockController.handleSubmitStockIn(productId, quantity, providerId, finalDate, description, locationId);
     
             if (result) {
                 Toast.success("Entrada de estoque registrada com sucesso!");

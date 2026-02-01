@@ -1,11 +1,6 @@
 import $ from 'jquery';
 import "flatpickr/dist/flatpickr.css";
-import { Toast } from '../../components/Swal/swal';
-import { DashboardController } from '../../Controllers/Dashboard/Dashboard';
 import { DatePicker } from '../../components/DatePicker/flatpickr';
-import { formatPrice } from '../../utils/FormatPrice';
-import { graphicSalesByCategory } from '../../components/graphicDashboard/categoriesGraphic';
-import { graphicMovimentsSales } from '../../components/graphicDashboard/movimentsGraphic';
 import { showUserLogged } from '../../components/User/ShowUserLogged';
 import { showGrapics } from '../../components/graphicDashboard/ShowGrapics';
 

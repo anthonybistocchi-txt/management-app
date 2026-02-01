@@ -3,7 +3,6 @@ import { openModal } from '../../../utils/openModal';
 import { closeModal } from '../../../utils/CloseModal';
 import { maskCpf } from '../../../utils/cpfMask';
 import { showUsersTable } from './tableUsers';
-import { UserController } from '../../../Controllers/User/UserController';
 import { ShowModalCreateUser } from '../../../components/User/ModalCreateUser';
 import { showUserLogged } from '../../../components/User/ShowUserLogged';
 
