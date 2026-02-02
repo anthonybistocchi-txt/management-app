@@ -48,7 +48,7 @@ export const UserController = {
         length:         number, 
         search?:        string, 
         operator_type?: number | string, 
-        active?:        string): Promise<UserListResponse | null> {
+        active?:        string): Promise<UserListResponse> {
         try {
             const response = await GetUserService.getAllUsers(start, length, search, operator_type, active);
             
@@ -58,11 +58,11 @@ export const UserController = {
             }
             
             console.error("Dados inválidos recebidos da API");
-            return null;
+            return { recordsFiltered: 0, recordsTotal: 0, users: [] };
 
         } catch (error) {
             console.error("Erro fatal:", error);
-            return null;
+            return { recordsFiltered: 0, recordsTotal: 0, users: [] };
         }
     },
 };

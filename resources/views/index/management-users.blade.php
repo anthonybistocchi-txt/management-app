@@ -147,6 +147,7 @@
                                     <select id="select-filter-type-user"
                                         class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
                                         <option value="all">Tipos de operadores</option>
+                                        <option value="all">Todos</option>
                                         <option value="1">Administrador</option>
                                         <option value="2">Gestor</option>
                                         <option value="3">Operador</option>
@@ -156,6 +157,7 @@
                                     <select id="select-filter-status"
                                         class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
                                         <option value="all">Status</option>
+                                        <option value="all">Todos</option>
                                         <option value="1">Ativo</option>
                                         <option value="0">Inativo</option>
                                     </select>

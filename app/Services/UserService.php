@@ -49,9 +49,10 @@ class UserService
             ->get();
 
         return [
-            'total' => $countUsers,
-            'users' => $usersPaginated,
-        ]; 
+            'recordsFiltered' => $countUsers,
+            'recordsTotal'    => $countUsers,
+            'users'           => $usersPaginated,
+        ];
            
     }
 

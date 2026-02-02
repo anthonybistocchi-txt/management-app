@@ -25,7 +25,8 @@ export interface CreateUser
 }
 
 export interface UserListResponse {
-    total: number;
+    recordsFiltered: number;
+    recordsTotal: number;
     users: UserData[];
 }
 

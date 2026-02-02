@@ -12,20 +12,18 @@ export async function showGrapics(startFilter: string, endFilter: string, $total
         Toast.info("Selecione uma data completa"); 
         return;
     }
-
-    $btn_submit.html('Buscando...').prop('disabled', true);
-
+    
     if (DashbaordData) 
     {
         $totalSales.text(formatPrice(DashbaordData.totalSalesValue));
         $topSellingProduct.text(DashbaordData.topSellingProduct.name);
-        
+            
         graphicMovimentsSales(DashbaordData.salesMovements);
         graphicSalesByCategory(DashbaordData.salesByCategory);
     }
     else 
     {
-        Toast.error("Erro ao carregar os dados do dashboard.");
+        console.error("Erro ao carregar os dados do dashboard.");
     }
 
 }

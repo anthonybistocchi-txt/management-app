@@ -66,7 +66,8 @@ $(document).ready( async () => {
             $tableUsers, 
             $inputSearchUser, 
             $selectFilterTypeUser, 
-            $selectFilterStatus
+            $selectFilterStatus,
+            $btnSubmitSearchUser
        );
         
     });
