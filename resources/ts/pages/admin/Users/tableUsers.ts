@@ -1,4 +1,5 @@
 import { Toast } from "../../../components/Swal/swal";
+import { ShowModalEditUser } from "../../../components/User/ModalEditUser";
 import { UserController } from "../../../Controllers/User/UserController";
 // import 'datatables.net-responsive-dt';
 
@@ -58,7 +59,7 @@ export async function showUsersTable(
         },
         createdRow: function (row, data, dataIndex) {
             if (dataIndex % 2 === 0) {
-                $(row).addClass("bg-gray-50");
+                $(row).addClass("bg-gray-100");
             }
         },
         dom: '<"flex items-center justify-between mb-4"l>rt<"flex items-center justify-between mt-4"ip>',
@@ -118,10 +119,10 @@ export async function showUsersTable(
                 orderable: false,
                 render: (data, type, row) => `
                     <div class="flex items-center justify-end gap-2">
-                        <button class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:scale-110 transition-all duration-200" data-id="${row.id}">
+                        <button id="btn-edit-user" class="p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200" data-id="${row.id}">
                             <span class="material-symbols-outlined text-[20px]">edit</span>
                         </button>
-                        <button class="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 hover:scale-110 transition-all duration-200" data-id="${row.id}">
+                        <button id="btn-delete-user" class="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200" data-id="${row.id}">
                             <span class="material-symbols-outlined text-[20px]">delete</span>
                         </button>
                     </div>`,
@@ -135,6 +136,16 @@ export async function showUsersTable(
            
         },
 
+    });
+
+    $tableElement.on("click", "#btn-edit-user", async function (e) {
+        e.preventDefault();
+
+        const userId = $(this).data("id");
+
+        if (!userId) return false;
+
+        await ShowModalEditUser([userId], table); 
     });
 
     $btnFilter?.on("click", (e) => {

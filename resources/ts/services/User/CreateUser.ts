@@ -1,10 +1,18 @@
 import api from "../../utils/api";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../../types/ApiResponse";
-import { CreateUser } from "../../types/User/CreateUser";
+import { CreateUser } from "../../types/User/User";
+
 
 export const CreateUserService = {
-    async createUser(name: string, username: string, email: string, type_user_id: number, password: string, cpf: string):Promise<ApiResponse<CreateUser> | void> {
+    async createUser(
+        name: string, 
+        username: string, 
+        email: string, 
+        type_user_id: number, 
+        password: string, 
+        cpf: string
+    ):Promise<ApiResponse<CreateUser> | void> {
         try {
             const { data } = await api.post("users/create", { name, username, email, type_user_id, password, cpf });
             return data;

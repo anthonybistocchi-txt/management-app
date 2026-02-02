@@ -1,8 +1,10 @@
 import { CreateUserService } from "../../services/User/CreateUser";
+import { UserEditService } from "../../services/User/EditUser";
+import { GetUserByIdService } from "../../services/User/GetUserById";
 import { UserLoggedService } from "../../services/User/GetUserLogged";
 import { GetUserService } from "../../services/User/GetUsers";
 import { ApiResponse } from "../../types/ApiResponse";
-import {  UserListResponse, UserLoggedData } from "../../types/User/User";
+import {  UserData, UserListResponse, UserLoggedData } from "../../types/User/User";
 
 export const UserController = {
     async createUser(
@@ -65,4 +67,33 @@ export const UserController = {
             return { recordsFiltered: 0, recordsTotal: 0, users: [] };
         }
     },
+
+    async getUserById(userId: number[]): Promise<ApiResponse<UserData>> {
+        try {
+            const response = await GetUserByIdService.getUserById(userId);
+            return response;
+        } catch (error) {
+            console.error("Erro ao obter usuário por ID:", error);
+            throw error;
+        }
+    },
+
+    async editUser(
+        name:          string,
+        email:         string,
+        username:      string,
+        password:      string,
+        type_user_id:  number,
+    ): Promise<boolean> {
+        try {
+            const response = await UserEditService.editUser(name, email, username, password, type_user_id);
+
+            if (response && response.status) return true;
+
+            return false;
+        } catch (error) {
+            console.error("Erro ao editar usuário:", error);
+            return false;
+        }
+    }
 };

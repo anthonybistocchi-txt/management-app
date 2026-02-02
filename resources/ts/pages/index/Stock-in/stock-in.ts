@@ -25,7 +25,8 @@ $(document).ready(async () => {
 
     await showUserLogged($textHeaderUsername, $textHeaderRole);
     await showProviders($selectStockProvider);
-    await showProducts($selectStockProduct);
+    const products = await showProducts($selectStockProduct);
+    console.log("teste1" + products);
     await showLocations($selectStockLocation);
 
  

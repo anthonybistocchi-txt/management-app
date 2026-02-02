@@ -16,10 +16,7 @@ $(document).ready( async () => {
     const $selectFilterTypeUser = $('#select-filter-type-user');
     const $selectFilterStatus   = $('#select-filter-status');
 
-    const $tableUsers        = $('#table-users');
-
-    const $btnPaginationPrev = $('#btn-pagination-prev');
-    const $btnPaginationNext = $('#btn-pagination-next');
+    const $tableUsers = $('#table-users');
 
     const $modalCreateUser      = $('#modal-create-user');
     const $btnModalClose        = $('#btn-modal-close');
@@ -31,6 +28,9 @@ $(document).ready( async () => {
     const $selectCreateTypeUser = $('#select-create-type-user');
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
+
+    const $btnEditUser    = $('#btn-edit-user');
+    const $btnDeleteUser  = $('#btn-delete-user');
 
     await showUsersTable($tableUsers);
     await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
@@ -46,7 +46,8 @@ $(document).ready( async () => {
         $btnModalSave.on('click', async (e) => {
             e.preventDefault();
 
-            await ShowModalCreateUser($inputCreateName,
+            await ShowModalCreateUser(
+                $inputCreateName,
                 $inputCreateEmail,
                 $selectCreateTypeUser,
                 $inputCreatePassword,
