@@ -56,13 +56,17 @@ export async function showUsersTable(
                 callback({ data: [] });
             }
         },
-
+        createdRow: function (row, data, dataIndex) {
+            if (dataIndex % 2 === 0) {
+                $(row).addClass("bg-gray-50");
+            }
+        },
         dom: '<"flex items-center justify-between mb-4"l>rt<"flex items-center justify-between mt-4"ip>',
         language: {
             lengthMenu: "_MENU_",
             search:     "Buscar:",
             processing:  "",
-            info:       "Total _END_ de _TOTAL_ registros",
+            info:       "Exibindo _START_ a _END_ de _TOTAL_ usuários",
             infoEmpty:  "Nenhum resultado encontrado",
             zeroRecords:"Nenhum resultado encontrado",
         },
@@ -114,7 +118,7 @@ export async function showUsersTable(
                 orderable: false,
                 render: (data, type, row) => `
                     <div class="flex items-center justify-end gap-2">
-                        <button class="p-2 rounded-lg text-gray-500 hover:bg-background-light hover:scale-110 transition-all duration-200" data-id="${row.id}">
+                        <button class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:scale-110 transition-all duration-200" data-id="${row.id}">
                             <span class="material-symbols-outlined text-[20px]">edit</span>
                         </button>
                         <button class="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 hover:scale-110 transition-all duration-200" data-id="${row.id}">

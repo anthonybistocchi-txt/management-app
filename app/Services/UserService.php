@@ -44,8 +44,8 @@ class UserService
         $countUsers = $query->clone()->count();
 
         $usersPaginated = $query
-            ->skip($data['skip'] ?? 0)
-            ->take($data['take'] ?? 10)
+            ->skip($data['start']  ?? 0)
+            ->take($data['length'] ?? 10)
             ->get();
 
         return [
