@@ -5,6 +5,7 @@ import api from "../../utils/api";
 export const UserEditService = { 
 
     async editUser(
+        id:            number,
         name:          string,
         email:         string,
         username:      string,
@@ -13,7 +14,7 @@ export const UserEditService = {
     ): Promise<ApiResponse<EditUser | void>>
         {
             try {
-                const { data } = await api.put("users/edit", { name, email, username, password, type_user_id });
+                const { data } = await api.put("users/update", { id, name, email, username, password, type_user_id });
 
                 return data;
             } catch (error) {

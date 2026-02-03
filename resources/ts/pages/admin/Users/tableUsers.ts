@@ -143,9 +143,9 @@ export async function showUsersTable(
 
         const userId = $(this).data("id");
 
-        if (!userId) return false;
+        if (!userId) Toast.error("ID do usuário não encontrado.");
 
-        await ShowModalEditUser([userId], table); 
+        await ShowModalEditUser(userId, table); 
     });
 
     $btnFilter?.on("click", (e) => {

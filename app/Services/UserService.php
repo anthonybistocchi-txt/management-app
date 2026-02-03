@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
 use Hash;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,9 +33,14 @@ class UserService
         $this->userRepository->update($data);
     }
 
-    public function get(array $ids): Collection
+    public function getByIds(array $ids): Collection
     {
-        return $this->userRepository->get($ids);
+        return $this->userRepository->getByIds($ids);
+    }
+
+    public function getById(int $id): ?User
+    {
+        return $this->userRepository->getById($id);
     }
     
     public function getAll(array $data): array

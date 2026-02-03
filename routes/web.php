@@ -20,9 +20,10 @@ Route::middleware(['auth'])->group(function () {
     
     Route::prefix('users')->group(function () {
         Route::post('/getAll', [UserController::class, 'getAll'])->name('users.index');
-        Route::post('/get', [UserController::class, 'get'])->name('users.show');
+        Route::post('/getByIds', [UserController::class, 'getByIds'])->name('users.show');
+        Route::get('/getById/{id}', [UserController::class, 'getById'])->name('users.showById');
         Route::get('/getLogged', [UserController::class, 'getUserLogged'])->name('users.logged');
-        Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');  // testado e funcionando
+        Route::put('/update', [UserController::class, 'update'])->name('users.update');  // testado e funcionando
         Route::post('/create', [UserController::class, 'create'])->name('users.store');
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('users.destroy');
     });

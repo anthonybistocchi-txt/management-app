@@ -68,7 +68,7 @@ export const UserController = {
         }
     },
 
-    async getUserById(userId: number[]): Promise<ApiResponse<UserData>> {
+    async getUserById(userId: number): Promise<ApiResponse<UserData>> {
         try {
             const response = await GetUserByIdService.getUserById(userId);
             return response;
@@ -79,6 +79,7 @@ export const UserController = {
     },
 
     async editUser(
+        id:            number,
         name:          string,
         email:         string,
         username:      string,
@@ -86,7 +87,7 @@ export const UserController = {
         type_user_id:  number,
     ): Promise<boolean> {
         try {
-            const response = await UserEditService.editUser(name, email, username, password, type_user_id);
+            const response = await UserEditService.editUser(id, name, email, username, password, type_user_id);
 
             if (response && response.status) return true;
 

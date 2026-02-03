@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\GetAllUsersPaginated;
-use App\Http\Requests\User\GetUserRequest;
+use App\Http\Requests\User\GetUserByIdRequest;
+use App\Http\Requests\User\GetUserByIdsRequest;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -37,6 +39,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request): JsonResponse
     {
+        dd($request->all());
         $this->service->update($request->validated());
 
         return response()->json([
@@ -45,14 +48,25 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get(GetUserRequest $request): JsonResponse
+    public function getByIds(GetUserByIdsRequest $request): JsonResponse
     {
-        $users = $this->service->get($request->validated()['id']);
+        $users = $this->service->getByIds($request->validated()['id']);
 
         return response()->json([
             'status'  => true,
             'message' => 'Users retrieved successfully',
             'data'    => $users
+        ], 200);
+    }
+
+    public function getById(GetUserByIdRequest $request): JsonResponse
+    {
+        $user = $this->service->getById($request->validated()['id']);
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'User retrieved successfully',
+            'data'    => $user
         ], 200);
     }
 

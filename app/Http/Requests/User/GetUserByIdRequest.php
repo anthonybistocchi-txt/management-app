@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUserRequest extends FormRequest
+class GetUserByIdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,10 +19,18 @@ class GetUserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id'),
+        ]);
+    }
+    
     public function rules(): array
     {
         return [
-            'id' => 'required|array|exists:users,id',
+            'id' => 'required|integer|exists:users,id',
         ];
     }
 

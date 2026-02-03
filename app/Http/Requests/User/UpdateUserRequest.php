@@ -14,20 +14,23 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'id'       => 'nullable|integer|exists:users,id',
-           'name'     => 'nullable|string|max:255',
-           'username' => 'nullable|string|max:255',
-           'email'    => 'nullable|email|max:255|',
-           'password' => 'nullable|string|min:8',
+           'id'           => 'required|integer|exists:users,id',
+           'name'         => 'nullable|string|max:255',
+           'username'     => 'nullable|string|max:255',
+           'email'        => 'nullable|email|max:255|',
+           'password'     => 'nullable|string|min:8',
+           'type_user_id' => 'nullable|integer|exists:type_users,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'id.exists'        => 'The selected user does not exist.',
-            'email.email'      => 'The email must be a valid email address.',
-            'password.min'     => 'The password must be at least 8 characters.',
+            'id.required'         => 'The id field is required.',
+            'id.exists'           => 'The selected user does not exist.',
+            'email.email'         => 'The email must be a valid email address.',
+            'password.min'        => 'The password must be at least 8 characters.',
+            'type_user_id.exists' => 'The selected type user does not exist.',
         ];
     }
 }

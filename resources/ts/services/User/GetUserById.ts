@@ -1,11 +1,12 @@
 import { ApiResponse } from "../../types/ApiResponse";
-import { EditUser, UserData } from "../../types/User/User";
+import { UserData } from "../../types/User/User";
 import api from "../../utils/api";
 
 export const GetUserByIdService = {
-    async getUserById(id: number[]): Promise<ApiResponse<UserData>> {
+    async getUserById(id: number): Promise<ApiResponse<UserData>> {
         try {   
-            const { data: response } = await api.post<ApiResponse<UserData>>(`users/get`, { id });
+            const { data: response } = await api.get<ApiResponse<UserData>>(`users/getById/${id}`);
+            console.log(response);
             if (response.status && response.data) {
                 return response;
             }

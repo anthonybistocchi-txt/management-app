@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 class UserRepository implements UserRepositoryInterface
 {
-    public function get(array $id): Collection
+    public function getByIds(array $id): Collection
     {
         return User::whereIn('id', $id)
             ->where('active', 1)
             ->get();
+    }
+
+    public function getById(int $id): ?User
+    {
+        return User::find($id);
     }
 
     public function getAll(array $data): Builder

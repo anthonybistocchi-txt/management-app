@@ -3,6 +3,7 @@ import { UserController } from "../../../Controllers/User/UserController";
 
 export const modalEditUser = {
     async handleEditUserSubmit(
+        id:                  number,
         $inputEditName:      JQuery<HTMLElement>,
         $inputEditEmail:     JQuery<HTMLElement>,
         $selectEditTypeUser: JQuery<HTMLElement>,
@@ -16,30 +17,31 @@ export const modalEditUser = {
         const editTypeUserValue = Number($selectEditTypeUser.val()            as number);
         const editPasswordValue = $inputEditPassword
             ? (String($inputEditPassword.val()) as string)
-            : null;
+            : '';
 
         const editCpfValue      = String($inputEditCpf.val())       as string;
         const editUsernameValue = String($inputEditUsername.val())  as string;
 
-        if (!editNameValue || !editEmailValue || !editTypeUserValue || !editPasswordValue || !editCpfValue || !editUsernameValue) 
+        if (!editNameValue || !editEmailValue || !editTypeUserValue  || !editCpfValue || !editUsernameValue) 
         {
             Toast.info("Por favor, preencha todos os campos obrigatórios.");
-                return false;
+                
         }
         
-        if (editPasswordValue.length < 8) 
+        if (editPasswordValue && editPasswordValue.length < 8) 
         {
             Toast.info("A senha deve ter pelo menos 8 caracteres.");
-                return false;
+                
         }
         
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editEmailValue)) 
         {
             Toast.info("Por favor, insira um email válido.");
-            return false;
+            
         }
 
         const request = await UserController.editUser(
+            id,
             editNameValue,
             editEmailValue,
             editUsernameValue,
