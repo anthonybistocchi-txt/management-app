@@ -16,6 +16,5 @@ export function applySidebarPermissions(typeUserId: number): void {
         hideSidebarLinkById("link-sidebar-dashboard");
         hideSidebarLinkById("link-sidebar-users");
         hideSidebarLinkById("link-sidebar-providers");
-        hideSidebarLinkById("link-sidebar-reports");
     }
 }

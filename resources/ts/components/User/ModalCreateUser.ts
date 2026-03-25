@@ -1,5 +1,5 @@
 import { modalCreateUser } from "../../pages/admin/Users/modalCreateUser";
-import { showUsersTable } from "../../pages/admin/Users/tableUsers";
+import { showUsersTable } from "./TableUsers";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
 

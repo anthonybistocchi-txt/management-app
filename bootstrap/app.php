@@ -15,9 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
 
         $middleware->alias([
-            'admin.or.gestor'     => \App\Http\Middleware\AdminAndGestorMiddleware::class,
             'auth' => \App\Http\Middleware\AuthenticatedMiddleware::class,
-            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'admin.or.gestor' => \App\Http\Middleware\CheckIsGestorMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -3,13 +3,18 @@
 
     Uso: @include('partials.sidebar-main', ['active' => 'dashboard'])
 
-    Valores de $active: dashboard | stock | stockOut | users | providers | reports
+    Valores de $active: dashboard | stock | stockOut | users | providers |
+    reportInOut | reportStockTurnover | reportInventory
 --}}
 @php
     $active = $active ?? null;
     $navActive = 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors';
     $navInactive = 'flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors';
     $nav = fn (string $key) => $active === $key ? $navActive : $navInactive;
+    $reportsOpen = in_array($active, ['reportInOut', 'reportStockTurnover', 'reportInventory'], true);
+    $subNav = fn (string $key) => $active === $key
+        ? 'block rounded-md px-2 py-1.5 text-sm font-semibold text-primary bg-primary/10'
+        : 'block rounded-md px-2 py-1.5 text-sm text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors';
 @endphp
 
 <aside id="sidebar-main"
@@ -43,15 +48,36 @@
                 <p class="text-sm font-medium">Registrar venda</p>
             </a>
 
-            <a id="link-sidebar-reports" href="{{ route('movements') }}" class="{{ $nav('reports') }}">
-                <span class="material-symbols-outlined">summarize</span>
-                <p class="text-sm font-medium">Relatórios</p>
-            </a>
-
             <a id="link-sidebar-providers" href="{{ route('providers') }}" class="{{ $nav('providers') }}">
                 <span class="material-symbols-outlined">local_shipping</span>
                 <p class="text-sm font-medium">Fornecedores</p>
             </a>
+
+            <details id="sidebar-reports-group" class="group" {{ $reportsOpen ? 'open' : '' }}>
+                <summary
+                    class="{{ $reportsOpen ? $navActive : $navInactive }} list-none cursor-pointer flex items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
+                    <span class="flex min-w-0 items-center gap-3">
+                        <span class="material-symbols-outlined shrink-0">summarize</span>
+                        <p class="text-sm font-medium">Relatórios</p>
+                    </span>
+                    <span
+                        class="material-symbols-outlined shrink-0 text-lg transition-transform group-open:rotate-180">expand_more</span>
+                </summary>
+                <div class="mt-1 ml-2 flex flex-col gap-0.5 border-l border-white/15 pl-3">
+                    <a id="link-sidebar-report-in-out" href="{{ route('reportInOut') }}" class="{{ $subNav('reportInOut') }}">
+                        Entrada e Saída
+                    </a>
+                    <a id="link-sidebar-report-stock-turnover" href="{{ route('reportStockTurnover') }}"
+                        class="{{ $subNav('reportStockTurnover') }}">
+                        Giro de Estoque
+                    </a>
+                    <a id="link-sidebar-report-inventory" href="{{ route('reportInventory') }}"
+                        class="{{ $subNav('reportInventory') }}">
+                        Inventário
+                    </a>
+                </div>
+            </details>
+
         </nav>
     </div>
 
