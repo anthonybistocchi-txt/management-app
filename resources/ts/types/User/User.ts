@@ -24,10 +24,21 @@ export interface CreateUser
     cpf: string;
 }
 
-export interface UserListResponse {
-    total: number;
+export interface UserListResponse 
+{
+    recordsFiltered: number;
+    recordsTotal: number;
     users: UserData[];
 }
 
+export interface EditUser
+{
+    id: number;
+    name: string;
+    email: string;
+    username: string;
+    type_user_id: number;
+    password?: string;
+}
 
 

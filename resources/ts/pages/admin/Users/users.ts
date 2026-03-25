@@ -16,10 +16,7 @@ $(document).ready( async () => {
     const $selectFilterTypeUser = $('#select-filter-type-user');
     const $selectFilterStatus   = $('#select-filter-status');
 
-    const $tableUsers        = $('#table-users');
-
-    const $btnPaginationPrev = $('#btn-pagination-prev');
-    const $btnPaginationNext = $('#btn-pagination-next');
+    const $tableUsers = $('#table-users');
 
     const $modalCreateUser      = $('#modal-create-user');
     const $btnModalClose        = $('#btn-modal-close');
@@ -31,32 +28,39 @@ $(document).ready( async () => {
     const $selectCreateTypeUser = $('#select-create-type-user');
     const $inputCreatePassword  = $('#input-create-password');
     const $inputCreateCpf       = $('#input-create-cpf');
+    const $inputEditCpf         = $('#input-edit-cpf');
 
     await showUsersTable($tableUsers);
     await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
 
-    $btnOpenCreateUser.on('click', async () => {
+    $inputCreateCpf.on('input', function () {
+        const typedValue = $(this).val() as string;
+        $(this).val(maskCpf(typedValue));
+    });
+
+    $inputEditCpf.on('input', function () {
+        const typedValue = $(this).val() as string;
+        $(this).val(maskCpf(typedValue));
+    });
+
+    $btnOpenCreateUser.on('click', () => {
         openModal($modalCreateUser);
+    });
 
-        $inputCreateCpf.on('input', function() {
-            const typedValue = $(this).val() as string;   // mask cpf
-            $(this).val(maskCpf(typedValue));
-        });
+    $btnModalSave.on('click', async (e) => {
+        e.preventDefault();
 
-        $btnModalSave.on('click', async (e) => {
-            e.preventDefault();
-
-            await ShowModalCreateUser($inputCreateName,
-                $inputCreateEmail,
-                $selectCreateTypeUser,
-                $inputCreatePassword,
-                $inputCreateCpf,
-                $inputCreateUsername,
-                $btnModalSave,
-                $modalCreateUser,
-                $tableUsers
-            );
-        });
+        await ShowModalCreateUser(
+            $inputCreateName,
+            $inputCreateEmail,
+            $selectCreateTypeUser,
+            $inputCreatePassword,
+            $inputCreateCpf,
+            $inputCreateUsername,
+            $btnModalSave,
+            $modalCreateUser,
+            $tableUsers
+        );
     });
 
     $btnSubmitSearchUser.on('click',async (e) => {
@@ -66,7 +70,8 @@ $(document).ready( async () => {
             $tableUsers, 
             $inputSearchUser, 
             $selectFilterTypeUser, 
-            $selectFilterStatus
+            $selectFilterStatus,
+            $btnSubmitSearchUser
        );
         
     });

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { Toast } from '../../components/Swal/swal';
-import { AuthController } from '../../Controllers/Auth/Auth';
+import { AuthController } from '../../Controllers/Auth/AuthController';
 
 
 $(document).ready(() => {

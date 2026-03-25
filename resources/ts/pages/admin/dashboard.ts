@@ -25,7 +25,8 @@ $(document).ready(async () => {
 
     $btn_submit.on('click', async function(e) {
         e.preventDefault();
-        
+
+        $btn_submit.html('Buscando...').prop('disabled', true);
         await showGrapics(
             startFilter, 
             endFilter, 
@@ -34,8 +35,9 @@ $(document).ready(async () => {
             $btn_submit
         );
 
+        $btn_submit.html('Buscar').prop('disabled', false);
     });
 
     $btn_submit.trigger('click')
-    $btn_submit.html(originalText).prop('disabled', false);
+    
 });

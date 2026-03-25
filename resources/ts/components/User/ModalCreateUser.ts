@@ -12,30 +12,30 @@ export async function ShowModalCreateUser($inputCreateName: JQuery<HTMLElement>,
                 $btnModalSave:         JQuery<HTMLElement>,
                 $modalCreateUser:      JQuery<HTMLElement>,
                 $tableUsers:           JQuery<HTMLElement>
-): Promise<void> 
+): Promise<void>
 {
-    const requestCreateUser = await modalCreateUser.handleCreateUserSubmit(
-                    $inputCreateName,
-                    $inputCreateEmail,
-                    $selectCreateTypeUser,
-                    $inputCreatePassword,
-                    $inputCreateCpf,
-                    $inputCreateUsername
-    );
-    
-    $btnModalSave.html('Salvando...').prop('disabled', true);
-    
-    if (requestCreateUser) 
-    {
-        Toast.success("Usuário criado com sucesso.");
-        $btnModalSave.html('Salvar').prop('disabled', false);
-        $modalCreateUser.empty();
-        closeModal($modalCreateUser);
-        showUsersTable($tableUsers);
-    } 
-    else 
-    {
-        Toast.error("Erro ao criar usuário. Por favor, tente novamente.");
-        $btnModalSave.html('Salvar').prop('disabled', false);
+    $btnModalSave.html("Salvando...").prop("disabled", true);
+
+    try {
+        const requestCreateUser = await modalCreateUser.handleCreateUserSubmit(
+            $inputCreateName,
+            $inputCreateEmail,
+            $selectCreateTypeUser,
+            $inputCreatePassword,
+            $inputCreateCpf,
+            $inputCreateUsername
+        );
+
+        if (requestCreateUser === null) {
+            return;
+        }
+
+        if (requestCreateUser) {
+            Toast.success("Usuário criado com sucesso.");
+            closeModal($modalCreateUser);
+            await showUsersTable($tableUsers);
+        }
+    } finally {
+        $btnModalSave.html("Salvar").prop("disabled", false);
     }
 }

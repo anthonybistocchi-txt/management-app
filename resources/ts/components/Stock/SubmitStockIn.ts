@@ -1,4 +1,4 @@
-import { StockController } from "../../Controllers/Stock/stockSubmit";
+import { StockController } from "../../Controllers/Stock/StockController";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 

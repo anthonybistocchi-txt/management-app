@@ -1,4 +1,4 @@
-import api from "../../Utils/api";
+import api from "../../utils/api";
 import { ApiResponse } from "../../types/ApiResponse";
 
 export const ProductService = {

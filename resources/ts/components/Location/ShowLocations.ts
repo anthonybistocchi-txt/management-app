@@ -1,4 +1,4 @@
-import { LocationController } from "../../Controllers/Locations/Location";
+import { LocationController } from "../../Controllers/Locations/LocationController";
 
 export async function showLocations($selectElement: JQuery<HTMLElement>): Promise<void> {
     const locations = await LocationController.getLocations();

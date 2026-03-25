@@ -1,4 +1,4 @@
-import { getProvidersController } from "../../Controllers/Providers/getProviders";
+import { getProvidersController } from "../../Controllers/Providers/ProvidersController";
 
 export async function showProviders($selectElement: JQuery<HTMLElement>): Promise<void> {
     const providers = await getProvidersController.getProviders();

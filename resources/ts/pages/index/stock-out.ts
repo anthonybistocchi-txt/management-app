@@ -22,7 +22,8 @@ $(document).ready(async () => {
     const datePickerInstance = DatePicker.initSingle($inputStockDate, today);
 
     await showUserLogged($textHeaderUsername, $textHeaderRole);
-    await showProducts($selectStockProduct);
+    const products = await showProducts($selectStockProduct);
+    console.log("teste2" + products);
     await showLocations($selectStockLocation);
 
  

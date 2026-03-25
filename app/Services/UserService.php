@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
-use Hash;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,18 +23,21 @@ class UserService
     
     public function update(array $data): void
     {
-        if(!isset($data['password']) || empty($data['password'])) {
+        if (! isset($data['password']) || $data['password'] === '') {
             unset($data['password']);
         }
-
-        $data['password'] = Hash::make($data['password']);
 
         $this->userRepository->update($data);
     }
 
-    public function get(array $ids): Collection
+    public function getByIds(array $ids): Collection
     {
-        return $this->userRepository->get($ids);
+        return $this->userRepository->getByIds($ids);
+    }
+
+    public function getById(int $id): ?User
+    {
+        return $this->userRepository->getById($id);
     }
     
     public function getAll(array $data): array
@@ -44,14 +47,15 @@ class UserService
         $countUsers = $query->clone()->count();
 
         $usersPaginated = $query
-            ->skip($data['skip'] ?? 0)
-            ->take($data['take'] ?? 10)
+            ->skip($data['start']  ?? 0)
+            ->take($data['length'] ?? 10)
             ->get();
 
         return [
-            'total' => $countUsers,
-            'users' => $usersPaginated,
-        ]; 
+            'recordsFiltered' => $countUsers,
+            'recordsTotal'    => $countUsers,
+            'users'           => $usersPaginated,
+        ];
            
     }
 

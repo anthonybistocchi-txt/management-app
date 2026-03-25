@@ -1,4 +1,4 @@
-import { LocationService } from "../../services/Location/LocationService";
+import { LocationService } from "../../services/Location/getLocationService";
 import { ApiResponse } from "../../types/ApiResponse";
 
 export const LocationController = {

@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status'  => true,
-            'message' => 'Login realizado com sucesso',
+            'message' => 'Login successful.',
         ],200);
     }
 
@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status'  => true,
-            'message' => 'Logout realizado com sucesso',
+            'message' => 'Logout successful.',
         ],200);
     }
 }

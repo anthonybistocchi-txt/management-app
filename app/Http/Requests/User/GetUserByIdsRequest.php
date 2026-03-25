@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteUserRequest extends FormRequest
+class GetUserByIdsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,13 +12,6 @@ class DeleteUserRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-    }
-
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'id' => (int) $this->route('id'),
-        ]);
     }
 
     /**
@@ -29,16 +22,16 @@ class DeleteUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer|exists:users,id',
+            'id' => 'required|array|exists:users,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'id.required' => 'The ID field is required.',
-            'id.integer' => 'The ID must be an integer.',
-            'id.exists' => 'The user with the given ID does not exist.',
+            'id.required' => 'The id field is required.',
+            'id.integer'  => 'The id must be an integer.',
+            'id.exists'   => 'The specified user does not exist.',
         ];
     }
 }
