@@ -2,7 +2,7 @@ import $ from 'jquery';
 import { openModal } from '../../../utils/openModal';
 import { closeModal } from '../../../utils/CloseModal';
 import { maskCpf } from '../../../utils/cpfMask';
-import { showUsersTable } from './tableUsers';
+import { showUsersTable } from '../../../components/User/TableUsers';
 import { ShowModalCreateUser } from '../../../components/User/ModalCreateUser';
 import { showUserLogged } from '../../../components/User/ShowUserLogged';
 

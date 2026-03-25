@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Userstamps;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,5 +69,8 @@ class User extends Authenticatable
         );
     }
 
-
+    public function typeUser(): BelongsTo
+    {
+        return $this->belongsTo(TypeUser::class);
+    }
 }

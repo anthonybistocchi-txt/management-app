@@ -56,5 +56,18 @@ class ViewsController extends Controller
         return view('index.management-movements');
     }
 
+    public function showReportInOut()
+    {
+        return view('index.report-in-out');
+    }
 
+    public function showReportStockTurnover()
+    {
+        return view('index.report-stock-turnover');
+    }
+
+    public function showReportInventory()
+    {
+        return view('index.report-inventory');
+    }
 }
