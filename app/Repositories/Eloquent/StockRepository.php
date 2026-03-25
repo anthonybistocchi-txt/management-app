@@ -41,7 +41,7 @@ class StockRepository implements StockRepositoryInterface
             ->firstOrFail();
 
         if ($query->quantity < $data['quantity']) {
-            throw new \Exception('Insufficient stock for the requested operation.');
+            throw new \Exception('Insufficient stock for the requested operation.', 400);
         }
 
         $query->quantity -= $data['quantity'];
