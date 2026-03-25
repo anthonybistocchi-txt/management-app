@@ -1,12 +1,11 @@
 import api from "../../utils/api";
 import { LoginCredentials } from "../../types/Auth/LoginCredentials";
-import { Toast } from "../../components/Swal/swal";
 import { handleError } from "../../utils/ApiHandleError";
 
 export const AuthService = {
     async login(credentials: LoginCredentials) {
         try {
-            const { data } = await api.post("/login", credentials);
+            const { data } = await api.post("/login", credentials, { baseURL: '/' });
 
             return data;
         } catch (error) {
@@ -17,7 +16,7 @@ export const AuthService = {
 
     async logout() {
         try {
-            const logout: boolean = await api.post("/logout");
+            const logout: boolean = await api.post("/logout", {}, { baseURL: '/' });
 
             if (logout) return true;
 
