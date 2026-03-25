@@ -1,3 +1,5 @@
+import "datatables.net-dt";
+
 import { Toast } from "../../../components/Swal/swal";
 import { ShowModalEditUser } from "../../../components/User/ModalEditUser";
 import { UserController } from "../../../Controllers/User/UserController";
