@@ -1,7 +1,18 @@
 import { UserController } from "../../Controllers/User/UserController";
+import { applySidebarPermissions } from "../Layout/SidebarPermissions";
 
 export async function showUserLogged($inputUsername: JQuery<HTMLElement>, $inputTypeUserId: JQuery<HTMLElement>): Promise<void> {
     const userLogged = await UserController.getUserLogged();
+
+    if (!userLogged) 
+    {
+        $inputUsername.text('Usuário');
+        $inputTypeUserId.text('');
+        console.error("Erro ao obter dados do usuário logado.");
+        return;
+    }
+
+    applySidebarPermissions(userLogged.type_user_id);
 
     $inputUsername.text(userLogged.username);
 
@@ -16,12 +27,4 @@ export async function showUserLogged($inputUsername: JQuery<HTMLElement>, $input
         default:
             $inputTypeUserId.text('Operador');
     }
-
-    if (!userLogged) 
-    {
-        $inputUsername.text('Usuário');
-        $inputTypeUserId.text('');
-        console.error("Erro ao obter dados do usuário logado.");
-    }
-
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-has-subsidiaries="{{ filter_var(env('HAS_SUBSIDIARIES', false), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false' }}">
 @vite(['resources/ts/pages/index/management-stock-in.ts'])
 @vite(['resources/ts/app.ts', 'resources/css/app.css'])
 

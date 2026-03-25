@@ -1,4 +1,5 @@
 import { StockController } from "../../Controllers/Stock/StockController";
+import { hasSubsidiaries } from "../../config/appEnv";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 
@@ -24,11 +25,17 @@ export async function submitStockIn($selectProduct: JQuery<HTMLElement>,
             const quantity    = Number($inputQuantity.val());
             const providerId  = Number($selectProvider.val());
             const description = String($textareaDesc.val()) || null;
-            const finalDate   = String(currentDateValue); 
-            const locationId  = Number($selectLocation.val());
-                
-            if (!productId || !quantity || !providerId || !finalDate || !locationId) {
+            const finalDate   = String(currentDateValue);
+            const needsLocation = hasSubsidiaries();
+            const locationId = needsLocation ? Number($selectLocation.val()) : null;
+
+            if (!productId || !quantity || !providerId || !finalDate) {
                 Toast.info("Por favor, preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            if (needsLocation && (!locationId || Number.isNaN(locationId))) {
+                Toast.info("Por favor, selecione uma localização.");
                 return;
             }
                 
@@ -48,14 +55,23 @@ export async function submitStockIn($selectProduct: JQuery<HTMLElement>,
 
             $btnSave.html('Salvando...').prop('disabled', true);
     
-            const result = await StockController.handleSubmitStockIn(productId, quantity, providerId, finalDate, description, locationId);
+            const result = await StockController.handleSubmitStockIn(
+                productId,
+                quantity,
+                providerId,
+                finalDate,
+                description,
+                locationId
+            );
     
             if (result) {
                 Toast.success("Entrada de estoque registrada com sucesso!");
     
-                $selectProduct.prop('selectedIndex', 0); 
+                $selectProduct.prop('selectedIndex', 0);
                 $selectProvider.prop('selectedIndex', 0);
-                $selectLocation.prop('selectedIndex', 0);
+                if (needsLocation) {
+                    $selectLocation.prop('selectedIndex', 0);
+                }
                 $inputQuantity.val('');
                 $textareaDesc.val(''); 
                 

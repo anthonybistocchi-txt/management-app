@@ -5,7 +5,6 @@ import { showLocations } from "../../../components/Location/ShowLocations";
 import { showProducts } from "../../../components/Products/ShowProducts";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { submitStockIn } from "../../../components/Stock/SubmitStockIn";
-import { submitStockOut } from "../../../components/Stock/SubmitStockOut";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');
@@ -25,8 +24,7 @@ $(document).ready(async () => {
 
     await showUserLogged($textHeaderUsername, $textHeaderRole);
     await showProviders($selectStockProvider);
-    const products = await showProducts($selectStockProduct);
-    console.log("teste1" + products);
+    await showProducts($selectStockProduct);
     await showLocations($selectStockLocation);
 
  

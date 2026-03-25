@@ -1,34 +1,38 @@
 import { LoginCredentials } from "../../types/Auth/LoginCredentials";
 import { handleError } from "../../utils/ApiHandleError";
-import { ApiResponse } from "../../types/ApiResponse";
 import { AuthService } from "../../services/Auth/AuthService";
 
+interface LoginResult {
+    success: boolean;
+    redirectUrl: string;
+}
+
 export const AuthController = {
-    async login(credentials: LoginCredentials) {
+    async login(credentials: LoginCredentials): Promise<LoginResult> {
         try {
-            const response: ApiResponse<boolean> = await AuthService.login(credentials);
+            const response = await AuthService.login(credentials);
 
-            if (response.status) return true
+            if (response?.status && response.redirect_url) {
+                return {
+                    success: true,
+                    redirectUrl: response.redirect_url,
+                };
+            }
 
-            return false
-
+            return { success: false, redirectUrl: "/login" };
         } catch (error) {
             handleError(error);
-            console.error("error ao logar: " + error);
+            return { success: false, redirectUrl: "/login" };
         }
     },
 
     async logout(): Promise<boolean> {
         try {
             const response: boolean = await AuthService.logout();
-
-            if (response) return true;
-
-            return false;
+            return !!response;
         } catch (error) {
             handleError(error);
-            console.error(error);
             return false;
         }
     },
-}
+};
