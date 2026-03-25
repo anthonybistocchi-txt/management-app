@@ -18,4 +18,9 @@ class TypeUser extends Model
         'updated_at'
     ];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }
