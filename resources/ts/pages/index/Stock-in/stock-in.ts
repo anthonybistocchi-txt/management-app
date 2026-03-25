@@ -8,7 +8,7 @@ import { submitStockIn } from "../../../components/Stock/SubmitStockIn";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');
-    const $textHeaderRole     = $('#text-header-role');
+    const $textHeaderRole     = $('#text-header-type-user');
 
     const $selectStockProduct  = $('#select-stock-product');
     const $selectStockProvider = $('#select-stock-provider');

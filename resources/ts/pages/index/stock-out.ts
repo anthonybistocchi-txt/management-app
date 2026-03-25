@@ -7,7 +7,7 @@ import { DatePicker } from '../../components/DatePicker/flatpickr';
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');
-    const $textHeaderRole     = $('#text-header-role');
+    const $textHeaderRole     = $('#text-header-type-user');
 
     const $selectStockProduct  = $('#select-stock-product');
     const $selectStockLocation = $('#select-stock-location');

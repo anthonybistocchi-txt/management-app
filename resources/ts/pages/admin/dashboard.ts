@@ -5,8 +5,8 @@ import { showUserLogged } from '../../components/User/ShowUserLogged';
 import { showGrapics } from '../../components/graphicDashboard/ShowGrapics';
 
 $(document).ready(async () => {
-    const $username          = $('#user_name');
-    const $typeUserId        = $('#type_user_id');
+    const $username          = $('#text-header-username');
+    const $typeUserId        = $('#text-header-type-user');
     const $totalSales        = $('#total_sales');
     const $topSellingProduct = $('#top_selling_product');
     const $datePickerId      = $("#date_range_picker"); 
