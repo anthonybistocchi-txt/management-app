@@ -7,7 +7,6 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 class UserRepository implements UserRepositoryInterface
 {
     public function getByIds(array $id): Collection
@@ -42,8 +41,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function create(array $data): User
     {
-        $data['password']   = Hash::make($data['password']);
-        $data['created_by'] = Auth::id(); 
+        $data['created_by'] = Auth::id();
 
         return User::create($data);
     }

@@ -1,5 +1,5 @@
 import { ApiResponse } from "../../types/ApiResponse";
-import api from "../../Utils/api";
+import api from "../../utils/api";
 
 
 export const LocationService = {

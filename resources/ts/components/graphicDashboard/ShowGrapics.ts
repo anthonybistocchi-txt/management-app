@@ -1,4 +1,4 @@
-import { DashboardController } from "../../Controllers/Dashboard/Dashboard";
+import { DashboardController } from "../../Controllers/Dashboard/DashboardController";
 import { formatPrice } from "../../utils/FormatPrice";
 import { Toast } from "../Swal/swal";
 import { graphicSalesByCategory } from "./categoriesGraphic";

@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gestão de Usuários</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
@@ -259,12 +260,12 @@
                 </div>
 
                 <div class="mt-8 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-700 pt-5">
-                    <button type="button" id="btn-modal-save-cancel"
+                    <button type="button" id="btn-modal-cancel"
                         class="h-11 px-6 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-800 text-sm font-semibold transition-colors">
                         Cancelar
                     </button>
 
-                    <button id="btn-modal-edit-save" type="submit"
+                    <button id="btn-modal-save" type="button"
                         class="h-11 px-6 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         Salvar
                     </button>
@@ -328,9 +329,9 @@
 
                     <div class="flex flex-col gap-1">
                         <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
-                            Senha*
+                            Nova senha (opcional)
                         </label>
-                        <input id="input-edit-password" type="password" value=""
+                        <input id="input-edit-password" type="password" value="" placeholder="Deixe em branco para manter a atual"
                             class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
 
@@ -355,7 +356,7 @@
                         Cancelar
                     </button>
 
-                    <button id="btn-modal-edit" type="submit"
+                    <button id="btn-modal-edit" type="button"
                         class="h-11 px-6 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         Salvar
                     </button>

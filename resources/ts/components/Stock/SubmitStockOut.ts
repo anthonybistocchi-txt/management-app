@@ -1,4 +1,4 @@
-import { StockController } from "../../Controllers/Stock/stockSubmit";
+import { StockController } from "../../Controllers/Stock/StockController";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 
@@ -52,7 +52,7 @@ export async function submitStockOut($selectProduct: JQuery<HTMLElement>,
 
     if (result) 
     {
-        Toast.success("Entrada de estoque registrada com sucesso!");
+        Toast.success("Saída de estoque registrada com sucesso!");
 
         $selectProduct.prop('selectedIndex', 0);
         $selectLocation.prop('selectedIndex', 0);

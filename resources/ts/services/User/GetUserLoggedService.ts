@@ -10,7 +10,7 @@ export const UserLoggedService = {
         } catch (error) {
             const message =
                 error instanceof AxiosError
-                    ? error.response?.data?.message ?? "Erro ao carregar dashboard."
+                    ? error.response?.data?.message ?? "Erro ao carregar o usuário logado."
                     : "Erro inesperado.";
 
             console.error(message);

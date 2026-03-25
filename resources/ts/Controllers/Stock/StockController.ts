@@ -1,4 +1,4 @@
-import { StockService } from "../../services/StockService/StockService";
+import { StockService } from "../../services/Stock/StockService";
 import { ApiResponse } from "../../types/ApiResponse";
 
 export const StockController = {

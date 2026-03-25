@@ -14,6 +14,13 @@ class DeleteUserRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => (int) $this->route('id'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,9 +36,9 @@ class DeleteUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => 'O campo ID é obrigatório.',
-            'id.integer' => 'O campo ID deve ser um número inteiro.',
-            'id.exists' => 'O usuário com o ID fornecido não existe.',
+            'id.required' => 'The ID field is required.',
+            'id.integer' => 'The ID must be an integer.',
+            'id.exists' => 'The user with the given ID does not exist.',
         ];
     }
 }

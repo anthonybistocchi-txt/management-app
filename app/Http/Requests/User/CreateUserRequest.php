@@ -17,7 +17,7 @@ class CreateUserRequest extends FormRequest
             'name'         => 'required|string|max:255',
             'username'     => 'required|string|max:255|unique:users',
             'email'        => 'required|string|email|max:255|unique:users',
-            'password'     => 'required|string|min:6',
+            'password'     => 'required|string|min:8',
             'type_user_id' => 'required|integer|exists:type_user,id',
             'cpf'          => 'required|string|max:14|unique:users',
         ];
@@ -32,7 +32,7 @@ class CreateUserRequest extends FormRequest
             'email.email'           => 'The email must be a valid email address.',
             'email.unique'          => 'The email has already been taken.',
             'password.required'     => 'The password field is required.',
-            'password.min'          => 'The password must be at least 8 characters.', 
+            'password.min'          => 'The password must be at least 8 characters.',
             'type_user_id.required' => 'The user type field is required.',
             'type_user_id.exists'   => 'The selected user type is invalid.',
             'cpf.required'          => 'The CPF field is required.',

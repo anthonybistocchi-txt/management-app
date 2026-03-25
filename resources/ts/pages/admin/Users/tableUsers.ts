@@ -1,5 +1,7 @@
 import "datatables.net-dt";
 
+import Swal from "sweetalert2";
+
 import { Toast } from "../../../components/Swal/swal";
 import { ShowModalEditUser } from "../../../components/User/ModalEditUser";
 import { UserController } from "../../../Controllers/User/UserController";
@@ -121,10 +123,10 @@ export async function showUsersTable(
                 orderable: false,
                 render: (data, type, row) => `
                     <div class="flex items-center justify-end gap-2">
-                        <button id="btn-edit-user" class="p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200" data-id="${row.id}">
+                        <button type="button" class="btn-edit-user p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200" data-id="${row.id}">
                             <span class="material-symbols-outlined text-[20px]">edit</span>
                         </button>
-                        <button id="btn-delete-user" class="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200" data-id="${row.id}">
+                        <button type="button" class="btn-delete-user p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200" data-id="${row.id}">
                             <span class="material-symbols-outlined text-[20px]">delete</span>
                         </button>
                     </div>`,
@@ -140,14 +142,50 @@ export async function showUsersTable(
 
     });
 
-    $tableElement.on("click", "#btn-edit-user", async function (e) {
+    $tableElement.on("click", ".btn-edit-user", async function (e) {
         e.preventDefault();
 
-        const userId = $(this).data("id");
+        const userId = Number($(this).data("id"));
+        if (!userId) {
+            Toast.error("ID do usuário não encontrado.");
+            return;
+        }
 
-        if (!userId) Toast.error("ID do usuário não encontrado.");
+        await ShowModalEditUser(userId, table);
+    });
 
-        await ShowModalEditUser(userId, table); 
+    $tableElement.on("click", ".btn-delete-user", async function (e) {
+        e.preventDefault();
+
+        const userId = Number($(this).data("id"));
+        if (!userId) {
+            Toast.error("ID do usuário não encontrado.");
+            return;
+        }
+
+        const confirm = await Swal.fire({
+            title: "Excluir usuário?",
+            text: "O usuário será inativado e removido da listagem ativa.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Excluir",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            focusCancel: true,
+        });
+
+        if (!confirm.isConfirmed) {
+            return;
+        }
+
+        const result = await UserController.deleteUser(userId);
+
+        if (result.success) {
+            Toast.success("Usuário excluído com sucesso.");
+            table.draw(false);
+        } else {
+            Toast.error(result.message ?? "Não foi possível excluir o usuário.");
+        }
     });
 
     $btnFilter?.on("click", (e) => {
