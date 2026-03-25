@@ -1,4 +1,5 @@
 import { StockController } from "../../Controllers/Stock/StockController";
+import { hasSubsidiaries } from "../../config/appEnv";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
 
@@ -21,11 +22,16 @@ export async function submitStockOut($selectProduct: JQuery<HTMLElement>,
     const quantity    = Number($inputQuantity.val());
     const description = String($textareaDesc.val()) || null;
     const finalDate   = String(currentDateValue);
-    const locationId  = Number($selectLocation.val());
+    const needsLocation = hasSubsidiaries();
+    const locationId = needsLocation ? Number($selectLocation.val()) : null;
 
-    if (!productId || !quantity || !finalDate || !locationId) 
-    {
+    if (!productId || !quantity || !finalDate) {
         Toast.info("Por favor, preencha todos os campos obrigatórios.");
+        return;
+    }
+
+    if (needsLocation && (!locationId || Number.isNaN(locationId))) {
+        Toast.info("Por favor, selecione uma localização.");
         return;
     }
 
@@ -55,7 +61,9 @@ export async function submitStockOut($selectProduct: JQuery<HTMLElement>,
         Toast.success("Saída de estoque registrada com sucesso!");
 
         $selectProduct.prop('selectedIndex', 0);
-        $selectLocation.prop('selectedIndex', 0);
+        if (needsLocation) {
+            $selectLocation.prop('selectedIndex', 0);
+        }
         $inputQuantity.val('');
         $textareaDesc.val('');
 

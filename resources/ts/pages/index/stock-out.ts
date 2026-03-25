@@ -2,13 +2,12 @@ import $ from 'jquery';
 import { submitStockOut } from '../../components/Stock/SubmitStockOut';
 import { showLocations } from '../../components/Location/ShowLocations';
 import { showProducts } from '../../components/Products/ShowProducts';
-import { showProviders } from '../../components/Providers/ShowProviders';
 import { showUserLogged } from '../../components/User/ShowUserLogged';
 import { DatePicker } from '../../components/DatePicker/flatpickr';
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');
-    const $textHeaderRole     = $('#text-header-role');
+    const $textHeaderRole     = $('#text-header-type-user');
 
     const $selectStockProduct  = $('#select-stock-product');
     const $selectStockLocation = $('#select-stock-location');
@@ -22,8 +21,7 @@ $(document).ready(async () => {
     const datePickerInstance = DatePicker.initSingle($inputStockDate, today);
 
     await showUserLogged($textHeaderUsername, $textHeaderRole);
-    const products = await showProducts($selectStockProduct);
-    console.log("teste2" + products);
+    await showProducts($selectStockProduct);
     await showLocations($selectStockLocation);
 
  

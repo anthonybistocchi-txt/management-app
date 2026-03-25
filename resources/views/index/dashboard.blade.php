@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        #logo {
+        #img-sidebar-logo {
             width: 50%;
             height: 50%;
             border-radius: 8px;
@@ -23,70 +23,12 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light-primary dark:text-text-dark-primary">
-    <div class="flex h-screen overflow-hidden"> <aside class="flex flex-col w-64 bg-surface-blue text-text-white p-4 justify-between h-full">
-            <div>
-                <div class="flex items-center justify-center px-2 mb-8">
-                    <div class="p-2 rounded-xl w-full shadow-sm flex items-center justify-center">
-                        <img id="logo" src="/images/logo.jpg" alt="Logo Empresa" class="h-12 w-auto object-contain max-w-full">
-                    </div>
-                </div>
+    <div class="flex h-screen overflow-hidden w-full">
+        @include('partials.sidebar-main', ['active' => 'dashboard'])
 
-                <div class="flex flex-col gap-2">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary">
-                        <span class="material-symbols-outlined">dashboard</span>
-                        <p class="text-sm font-semibold">Dashboard</p>
-                    </a>
-                    <a href="{{ route('stock') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
-                        <span class="material-symbols-outlined">inventory_2</span>
-                        <p class="text-sm font-medium">Registrar entrada</p>
-                    </a>
-                    <a href="{{ route('users') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
-                        <span class="material-symbols-outlined">group</span>
-                        <p class="text-sm font-medium">Operadores</p>
-                    </a>
-                    <a href="{{ route('stockOut') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
-                        <span class="material-symbols-outlined">inventory_2</span>
-                        <p class="text-sm font-medium">Registrar venda</p>
-                    </a>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 opacity-50 cursor-not-allowed">
-                        <span class="material-symbols-outlined">summarize</span>
-                        <p class="text-sm font-medium">Relatórios</p>
-                    </a>
-                    <a href="{{ route('providers') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary">
-                        <span class="material-symbols-outlined">group</span>
-                        <p class="text-sm font-medium">Fornecedores</p>
-                    </a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-1">
-                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors" href="#">
-                    <span class="material-symbols-outlined text-2xl">settings</span>
-                    <p class="text-sm font-medium">Configurações</p>
-                </a>
-                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors" href="#">
-                    <span class="material-symbols-outlined text-2xl">logout</span>
-                    <p class="text-sm font-medium">Sair</p>
-                </a>
-            </div>
-        </aside>
-
-        <div class="flex flex-col flex-1 overflow-y-auto">
+        <div class="flex flex-col flex-1 overflow-y-auto min-h-0">
             
-            <header class="flex h-16 shrink-0 items-center justify-end whitespace-nowrap bg-white dark:bg-background-dark px-8">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-                            data-alt="User avatar image"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDi65Kk7LckmcrS0auPUyvjF94HASToPWM2d3WnpsZxslUUCKNs7xA7mxUSf0AVxlCmiREoOoQG7Rdmpu1I8kWDLom4l-GLvDIzJsagJYxZ87ey45xNUNMyXhLkVNpZYoabM-59t-X6Z939OpdLFfNg9owdAGbCiWMG9FWNI-T29RPcy4QpMF5JNjFr2ScdBqBS3HqG7AKXLe8T5wXQ9ANUcyQqyk72El6Xu_MI_KsYkHTccu6cly77v2AqjCdfaWh0jLWhIyds3q0");'>
-                        </div>
-                        <div class="flex flex-col text-sm text-right">
-                            <h1 id="user_name" class="font-medium text-[#0d141b]"></h1>
-                            <p id="type_user_id" class="text-[#4c739a]"></p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            @include('partials.header-user', ['withBorder' => false, 'textAlignRight' => true])
 
             <main class="flex-1 p-8">
                 

@@ -6,6 +6,7 @@ use App\Models\LoginActivities;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LoginService
 {
@@ -44,7 +45,7 @@ class LoginService
     }
 
 
-    public function logout(string $ip): void
+    public function logout(string $ip): RedirectResponse
     {
         LoginActivities::create([
             'user_id'    => Auth::id(),
@@ -55,5 +56,7 @@ class LoginService
         Auth::logout();
         Session::invalidate();
         Session::regenerateToken();
+
+        return redirect('/login');
     }
 }

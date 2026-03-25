@@ -30,80 +30,12 @@
         class="relative flex h-screen min-h-screen w-full flex-col bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200">
         <div class="flex h-full w-full">
 
-            <aside id="sidebar-main"
-                class="flex h-full w-64 flex-col justify-between bg-surface-blue text-text-white p-4">
-                <div class="flex flex-col gap-8">
-                    <div class="flex items-center justify-center px-2">
-                        <div class="p-2 rounded-xl w-full shadow-sm flex items-center justify-center">
-                            <img id="img-sidebar-logo" src="/images/logo.jpg" alt="Logo Empresa"
-                                class="h-12 w-auto object-contain max-w-full">
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <a id="link-sidebar-dashboard" href="{{ route('dashboard') }}"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">dashboard</span>
-                            <p class="text-sm font-semibold">Dashboard</p>
-                        </a>
-
-                        <a id="link-sidebar-stock-in" href="{{ route('stock') }}"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">inventory_2</span>
-                            <p class="text-sm font-medium">Registrar entrada</p>
-                        </a>
-
-                        <a id="link-sidebar-users" href="{{ route('users') }}"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">group</span>
-                            <p class="text-sm font-medium">Usuários</p>
-                        </a>
-
-                        <a id="link-sidebar-stock-out" href="{{ route('stockOut') }}"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">shopping_cart</span>
-                            <p class="text-sm font-medium">Registrar venda</p>
-                        </a>
-
-                        <a id="link-sidebar-providers" href="{{ route('providers') }}"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors">
-                            <span class="material-symbols-outlined">local_shipping</span>
-                            <p class="text-sm font-medium">Fornecedores</p>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                    <a id="link-sidebar-settings"
-                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-2xl">settings</span>
-                        <p class="text-sm font-medium">Configurações</p>
-                    </a>
-                    <a id="link-sidebar-logout"
-                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-2xl">logout</span>
-                        <p class="text-sm font-medium">Sair</p>
-                    </a>
-                </div>
-            </aside>
+            @include('partials.sidebar-main', ['active' => 'providers'])
 
             <div class="flex flex-1 flex-col overflow-y-auto">
-                <header
-                    class="flex h-16 items-center justify-end whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8">
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5080jbnOq59jWdXAabdZ_iX7TokEeCpOgf7D0ppHM0VQ57_wBG0yda2Hujydz4kD8ULDtYbVFdfmZ4pdAJj9-pFWtY9b359h-drKEnTOkKJXh5Ij3FTFjmXHBHTxsHoHNZeuN08MuLVNZYJoZME8cKVqXrmJ-nMEhQ1x4uifNhq-LcoOaOV-OWVzhfx8U-hBG9pQvgIhH7wIAobKwt8euhah4rbZVIYCbMSKBIxFLfUCTdURo4BM2_hbvYlMl06i2vfnVaGMGBaQ");'>
-                            </div>
-                            <div class="flex flex-col text-sm">
-                                <h1 id="text-header-username" class="font-medium text-[#0d141b] dark:text-slate-200"></h1>
-                                <p id="text-header-type-user" class="text-[#4c739a] dark:text-slate-400"></p>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                @include('partials.header-user', [
+                    'avatarUrl' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuC5080jbnOq59jWdXAabdZ_iX7TokEeCpOgf7D0ppHM0VQ57_wBG0yda2Hujydz4kD8ULDtYbVFdfmZ4pdAJj9-pFWtY9b359h-drKEnTOkKJXh5Ij3FTFjmXHBHTxsHoHNZeuN08MuLVNZYJoZME8cKVqXrmJ-nMEhQ1x4uifNhq-LcoOaOV-OWVzhfx8U-hBG9pQvgIhH7wIAobKwt8euhah4rbZVIYCbMSKBIxFLfUCTdURo4BM2_hbvYlMl06i2vfnVaGMGBaQ',
+                ])
 
                 <main class="p-8">
                     <div class="mx-auto max-w-7xl">
