@@ -11,4 +11,5 @@ interface ProductRepositoryInterface
     public function create(array $data): Product;
     public function update(array $data): Product;
     public function delete(int $id): bool;
+    public function search(string $query, int $limit = 15): Collection;
 }

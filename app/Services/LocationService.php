@@ -3,13 +3,12 @@
 namespace App\Services;
 
 use App\Models\Location;
-use App\Repositories\Eloquent\LocationRepository;
+use App\Repositories\Interfaces\LocationRepositoryInterface;
 use Illuminate\Support\Collection;
-
 
 class LocationService
 {
-    public function __construct(protected LocationRepository $repository) {}
+    public function __construct(protected LocationRepositoryInterface $repository) {}
     
     public function getAllLocations(): Collection
     {

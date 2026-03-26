@@ -37,7 +37,13 @@ class ProductRepository implements ProductRepositoryInterface
         $product = Product::findOrFail($id);
 
         return $product->delete();
-        
     }
-    
+
+    public function search(string $query, int $limit = 15): Collection
+    {
+        return Product::where('name', 'like', "%{$query}%")
+            ->select('id', 'name')
+            ->limit($limit)
+            ->get();
+    }
 }

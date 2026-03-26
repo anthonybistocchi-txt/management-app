@@ -61,15 +61,15 @@ class DashboardRepository implements DashboardRepositoryInterface
     private function getSalesCategorys($dateFrom, $dateTo)
     {
         return StockMovements::select(
-                'category_products.name as category_name',
+                'product_categories.name as category_name',
                 DB::raw('SUM(stock_movements.quantity_moved) as total_quantity'),
                 DB::raw('SUM(products.price * stock_movements.quantity_moved) as total_sales')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id') 
-            ->join('category_products', 'products.category_products_id', '=', 'category_products.id') 
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
             ->where('stock_movements.type', 'out')
-            ->groupBy('category_products.name')
+            ->groupBy('product_categories.name')
             ->orderByDesc('total_sales')
             ->get();
     }

@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Repositories\Eloquent\ProductRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class ProductService
 {
-    public function __construct(protected ProductRepository $productRepository){}
+    public function __construct(protected ProductRepositoryInterface $productRepository) {}
 
     public function create(array $data): Product
     {
@@ -33,5 +33,10 @@ class ProductService
     public function delete(int $id): bool
     {
         return $this->productRepository->delete($id);
+    }
+
+    public function search(string $query, int $limit = 15): Collection
+    {
+        return $this->productRepository->search($query, $limit);
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\Product\GetProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -62,7 +63,15 @@ class ProductController extends Controller
             'status'  => true,
             'message' => "success",
             'data'    => $products,
-            
-        ],200);
-}
+        ], 200);
+    }
+
+    public function search(Request $request): JsonResponse
+    {
+        $query    = $request->query('q', '');
+        $products = $this->productService->search($query);
+
+        return response()->json($products);
+    }
+    
 }
