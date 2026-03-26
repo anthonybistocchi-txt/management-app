@@ -28,7 +28,8 @@
         "datatables.net-responsive-dt": "^3.0.7",
         "flatpickr": "^4.6.13",
         "jquery": "^3.7.1",
-        "sweetalert2": "^11.26.4"
+        "sweetalert2": "^11.26.4",
+        "tom-select": "^2.5.2"
     },
     "name": "laravel",
     "version": "1.0.0",

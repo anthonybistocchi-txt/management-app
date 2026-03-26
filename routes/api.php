@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Reports\InOutController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +19,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('products')->group(function () {
             Route::get('/getAll', [ProductController::class, 'getAll'])->name('products.index');
+            Route::get('/search', [ProductController::class, 'search'])->name('products.search');
             Route::post('/get', [ProductController::class, 'get'])->name('products.show');
+        });
+
+        Route::prefix('product-categories')->group(function () {
+            Route::get('/getAll', [ProductCategoryController::class, 'getAll'])->name('product-categories.index');
         });
 
         Route::prefix('providers')->group(function () {
@@ -68,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('reports')->group(function () {
-            Route::post('/in-out', [ReportController::class, 'getInOutReport'])->name('reports.in-out');
+            Route::post('/in-out', [InOutController::class, 'getAll'])->name('reports.in-out');
             Route::post('/stock-turnover', [ReportController::class, 'getStockTurnoverReport'])->name('reports.stock-turnover');
             Route::post('/inventory', [ReportController::class, 'getInventoryReport'])->name('reports.inventory');
         });

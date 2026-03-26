@@ -49,8 +49,7 @@
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
                                         <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Produto*</p>
-                                        <select id="select-stock-product"
-                                            class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base">
+                                        <select id="select-stock-product">
                                             <option value="" selected>Selecione um produto</option>
                                         </select>
                                     </label>
@@ -76,8 +75,7 @@
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
                                         <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Localização / Unidade*</p>
-                                        <select id="select-stock-location"
-                                            class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base">
+                                        <select id="select-stock-location">
                                             <option value="" selected>Selecione uma localização</option>
                                         </select>
                                     </label>

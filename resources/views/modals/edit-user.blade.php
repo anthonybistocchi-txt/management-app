@@ -59,8 +59,7 @@
                     <label class="text-sm font-medium text-[#0d141b] dark:text-slate-800">
                         Tipo de permissão*
                     </label>
-                    <select id="select-edit-type-user" value=""
-                        class="h-11 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 px-3 text-sm text-[#0d141b] dark:text-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
+                    <select id="select-edit-type-user">
                         <option value="" disabled selected>Selecione um perfil</option>
                         <option value="1">Administrador</option>
                         <option value="2">Gestor</option>
