@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
             DB::table('products')->insert([
                 'name' => $prod[0],
                 'price' => $prod[1],
-                'category_products_id' => $prod[2], // ID da categoria manual
+                'product_category_id' => $prod[2], // ID da categoria manual
                 'created_by' => 1,
                 'created_at' => $now,
                 'updated_at' => $now,
