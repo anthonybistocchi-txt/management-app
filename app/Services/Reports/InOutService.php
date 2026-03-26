@@ -9,8 +9,24 @@ class InOutService
 {
     public function __construct(protected StockMovementsRepositoryInterface $stockMovementsRepository){}
 
-    public function getInOutReportData(array $data): Collection
+    public function getInOutReportData(array $data): array
     {
-        return $this->stockMovementsRepository->getInOutReportData($data);
+        $allRows = $this->stockMovementsRepository->getInOutReportData($data);
+
+        $start  = (int) ($data['start'] ?? 0);
+        $length = (int) ($data['length'] ?? 10);
+
+        $recordsTotal = $allRows->count();
+        $pageRows = $allRows
+            ->skip($start)
+            ->take($length)
+            ->values()
+            ->all();
+
+        return [
+            'recordsTotal'    => $recordsTotal,
+            'recordsFiltered' => $recordsTotal,
+            'data'            => $pageRows,
+        ];
     }
 }

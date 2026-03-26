@@ -78,6 +78,7 @@
                                         <option value="all">Todos</option>
                                         <option value="in">Entrada</option>
                                         <option value="out">Saída</option>
+                                        <option value="transfer">Transferência</option>
                                     </select>
                                 </div>
 

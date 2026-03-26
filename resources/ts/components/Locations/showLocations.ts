@@ -3,7 +3,9 @@ import { LocationController } from "../../Controllers/Locations/LocationControll
 export async function showLocations($selectElement: JQuery<HTMLElement>): Promise<void> {
     const locations = await LocationController.getLocations();
 
-    $selectElement.find("option:not(:first)").remove();
+    $selectElement.empty();
+    $selectElement.append('<option value="" selected disabled>Local</option>');
+    $selectElement.append('<option value="all">Todas</option>');
 
     locations.forEach(location => {
         const option = `<option value="${location.id}">${location.name}</option>`;

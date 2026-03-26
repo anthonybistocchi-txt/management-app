@@ -6,7 +6,8 @@ export async function showCategories($selectElement: JQuery<HTMLElement>): Promi
     const categories = await ProductCategoriesController.getProductCategories();
 
         $selectElement.empty();
-        $selectElement.append('<option value="" selected disabled>Selecione uma categoria</option>');
+        $selectElement.append('<option value="" selected disabled>Categoria</option>');
+        $selectElement.append('<option value="all">Todas</option>');
 
         categories.forEach(category => {
             const option = `<option value="${category.id}">${category.name}</option>`;

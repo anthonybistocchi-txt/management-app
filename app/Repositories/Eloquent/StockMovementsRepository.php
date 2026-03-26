@@ -94,24 +94,22 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
             ->join('locations', 'stock_movements.location_id', '=', 'locations.id')
             ->join('providers', 'stock_movements.provider_id', '=', 'providers.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-            ->when($data['type'] !== null, function ($query) use ($data) {
-                $query->where('type', $data['type']);
+            ->when($data['type'] !== "all", function ($query) use ($data) {
+                $query->whereLike('stock_movements.type', '%' . $data['type'] . '%');
             })
-            ->when($data['product_id'] !== null, function ($query) use ($data) {
-                $query->where('product_id', $data['product_id']);
+            ->when($data['product_id'] !== "all", function ($query) use ($data) {
+                $query->where('products.id', $data['product_id']);
             })
-            ->when($data['location_id'] !== null, function ($query) use ($data) {
-                $query->where('location_id', $data['location_id']);
+            ->when($data['location_id'] !== "all", function ($query) use ($data) {
+                $query->where('locations.id', $data['location_id']);
             })
-            ->when($data['movement_date'] !== null, function ($query) use ($data) {
-                $query->whereBetween('movement_date', [$data['from'], $data['to']]);
+            ->when($data['provider_id'] !== "all", function ($query) use ($data) {
+                $query->where('providers.id', $data['provider_id']);
             })
-            ->when($data['provider_id'] !== null, function ($query) use ($data) {
-                $query->where('provider_id', $data['provider_id']);
-            })
-            ->when($data['category_id'] !== null, function ($query) use ($data) {
+            ->when($data['category_id'] !== "all", function ($query) use ($data) {
                 $query->where('product_categories.id', $data['category_id']);
             })
+            ->whereBetween('stock_movements.movement_date', [$data['date_from'], $data['date_to']])
             ->get();
     }
 }
