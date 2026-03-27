@@ -14,7 +14,7 @@
 @endphp
 
 <header
-    class="flex h-16 shrink-0 items-center justify-end whitespace-nowrap bg-white dark:bg-background-dark px-8 @if ($withBorder) border-b border-solid border-slate-200 dark:border-slate-800 @endif">
+    class="flex h-16 shrink-0 items-center justify-end whitespace-nowrap bg-white dark:bg-background-dark px-8">
     <div class="flex items-center gap-4">
         <div class="flex items-center gap-3">
             <div id="header-user-avatar"
@@ -23,8 +23,8 @@
                 style="background-image: url('{{ $avatarUrl }}');">
             </div>
             <div class="{{ $textColClass }}">
-                <h1 id="text-header-username" class="font-medium text-[#0d141b] dark:text-slate-200"></h1>
-                <p id="text-header-type-user" class="text-[#4c739a] dark:text-slate-400"></p>
+                <h1 id="text-header-username" class="font-medium text-[#0d141b] "></h1>
+                <p id="text-header-type-user" class="text-[#4c739a] dark:text-slate-500"></p>
             </div>
         </div>
     </div>

@@ -99,9 +99,9 @@
             <div class="p-8">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <div class="flex flex-col gap-1">
-                        <h1 class="text-gray-900 dark:text-white text-3xl font-bold leading-tight">Tabela de
+                        <h1 class="text-[#0d141b] dark:text-slate-100 text-3xl font-bold leading-tight">Tabela de
                             Movimentações</h1>
-                        <p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Liste e filtre
+                        <p class="text-[#4c739a] dark:text-slate-400 text-base font-normal leading-normal">Liste e filtre
                             todas as transações de estoque.</p>
                     </div>
                     <button
@@ -111,18 +111,18 @@
                     </button>
                 </div>
                 <div class="mb-4">
-                    <div
-                        class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div
+                        class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
                         <div class="flex flex-col sm:flex-row gap-4">
                             <div class="flex-grow">
                                 <label class="flex flex-col w-full">
                                     <div class="flex w-full items-stretch rounded-lg h-10">
                                         <div
-                                            class="text-gray-500 dark:text-gray-400 flex bg-background-light dark:bg-background-dark items-center justify-center pl-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600">
+                                            class="text-gray-500 dark:text-gray-400 flex bg-[#edf2f7] dark:bg-slate-800 items-center justify-center pl-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600">
                                             <span class="material-symbols-outlined text-xl">search</span>
                                         </div>
                                         <input
-                                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 pl-2 text-sm font-normal leading-normal"
+                                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-[#0d141b] dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-600 bg-[#edf2f7] dark:bg-slate-800 h-full placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 pl-2 text-sm font-normal leading-normal"
                                             placeholder="Buscar por produto, usuário..." />
                                     </div>
                                 </label>
@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div
-                    class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+                    class="overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700/50">

@@ -38,28 +38,28 @@
                     <div class="mx-auto max-w-7xl">
 
                         <div class="mb-6 flex flex-col gap-1">
-                            <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-white">Entrada e Saída</h1>
-                            <p class="text-base text-[#4c739a] dark:text-slate-400">Relatório de movimentações de entrada e saída de estoque.</p>
+                            <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-800">Entrada e Saída</h1>
+                            <p class="text-base text-[#4c739a] dark:text-slate-500">Relatório de movimentações de entrada e saída de estoque.</p>
                         </div>
 
-                        <div class="mb-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 shadow-sm">
+                        <div class="mb-6 rounded-xl bg-white dark:bg-background-dark p-4 shadow-sm">
 
                             <div class="flex flex-col lg:flex-row gap-3 items-end w-full">
 
                                 <div class="relative w-full lg:w-auto lg:flex-[1.5] flex-shrink-0">
-                                    <label class="mb-1 block text-xs font-medium text-[#4c739a] dark:text-slate-400">Produto</label>
+                                    <label class="mb-1 block text-xs font-medium text-[#4c739a] dark:text-slate-600">Produto</label>
                                     <div class="relative">
                                         <select id="filter-in-out-product"></select>
                                     </div>
                                 </div>
 
                                 <div class="relative w-full lg:w-auto lg:flex-[1.5] flex-shrink-0">
-                                    <label class="mb-1 block text-xs font-medium text-[#4c739a] dark:text-slate-400">Período</label>
+                                    <label class="mb-1 block text-xs font-medium text-[#4c739a] dark:text-slate-600">Período</label>
                                     <div class="relative">
                                         <span class="material-symbols-outlined absolute left-2.5 top-2.5 text-[#4c739a] text-lg">calendar_month</span>
                                         <input id="filter-in-out-date-range" type="text"
                                             placeholder="Selecione o período"
-                                            class="form-input h-10 w-full rounded-lg border border-[#cfdbe7] bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 pl-9 pr-2 text-xs xl:text-sm font-normal cursor-pointer" />
+                                            class="form-input h-10 w-full rounded-lg border border-[#cfdbe7] bg-[#F4F7FA] text-[#0d141b] dark:text-slate-600 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  pl-9 pr-2 text-xs xl:text-sm font-normal cursor-pointer" />
                                     </div>
                                 </div>
 
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shadow-sm overflow-hidden">
+                        <div class="rounded-xl bg-white dark:bg-background-dark shadow-sm overflow-hidden">
                             <div class="overflow-x-auto">
                                 <table id="table-in-out-report" class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400"></table>
                             </div>

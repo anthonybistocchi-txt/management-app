@@ -51,7 +51,7 @@
         class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
         <div class="flex flex-1">
             <aside
-                class="flex w-64 flex-col gap-8 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-6">
+                class="flex w-64 flex-col gap-8 bg-white dark:bg-background-dark p-6">
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-primary text-3xl">deployed_code</span>
                     <h1 class="text-xl font-bold text-slate-900 dark:text-white">EstoquePRO</h1>
@@ -82,7 +82,7 @@
                     </div>
                 </nav>
                 <div class="flex flex-col gap-4 mt-auto">
-                    <div class="border-t border-slate-200 dark:border-slate-800"></div>
+                    <div></div>
                     <div class="flex items-center gap-3">
                         <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
                             data-alt="Admin user avatar"
@@ -104,9 +104,9 @@
                     <div class="flex flex-col gap-6">
                         <header class="flex flex-wrap items-center justify-between gap-4">
                             <div class="flex flex-col gap-1">
-                                <h2 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Produtos
+                                <h2 class="text-3xl font-bold text-[#0d141b] dark:text-slate-100 tracking-tight">Produtos
                                 </h2>
-                                <p class="text-slate-500 dark:text-slate-400">Gerencie seus produtos aqui.</p>
+                                <p class="text-[#4c739a] dark:text-slate-400">Gerencie seus produtos aqui.</p>
                             </div>
                             <button
                                 class="flex items-center justify-center gap-2 rounded-lg bg-primary h-10 px-4 text-sm font-bold text-white leading-normal shadow-sm hover:bg-primary/90">
@@ -120,11 +120,11 @@
                                     <label class="flex flex-col min-w-40 h-12 w-full">
                                         <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                                             <div
-                                                class="text-slate-500 dark:text-slate-400 flex border border-r-0 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 items-center justify-center pl-4 rounded-l-lg">
+                                                class="text-slate-500 dark:text-slate-400 flex border border-r-0 border-slate-300 dark:border-slate-700 bg-[#edf2f7] dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
                                                 <span class="material-symbols-outlined">search</span>
                                             </div>
                                             <input
-                                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 text-sm font-normal"
+                                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141b] dark:text-slate-200 focus:outline-0 focus:ring-2 focus:ring-primary/50 border-slate-300 dark:border-slate-700 bg-[#edf2f7] dark:bg-slate-800 h-full placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 px-4 rounded-l-none border-l-0 text-sm font-normal"
                                                 placeholder="Buscar por nome ou código..." value="" />
                                         </div>
                                     </label>
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                         <div
-                            class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                            class="overflow-hidden rounded-lg bg-white dark:bg-slate-900">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm">
                                     <thead class="bg-slate-50 dark:bg-slate-800/50">
@@ -312,7 +312,7 @@
                                 </table>
                             </div>
                             <div
-                                class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 px-6 py-3">
+                                class="flex items-center justify-between px-6 py-3">
                                 <p class="text-sm text-slate-500 dark:text-slate-400">Mostrando <span
                                         class="font-semibold text-slate-700 dark:text-slate-200">1</span>-5 de <span
                                         class="font-semibold text-slate-700 dark:text-slate-200">25</span> resultados

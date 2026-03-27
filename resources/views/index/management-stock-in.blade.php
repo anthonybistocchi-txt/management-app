@@ -28,7 +28,7 @@
 
 <body class="font-display">
     <div
-        class="relative flex h-screen min-h-screen w-full flex-col bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200">
+        class="relative flex h-screen min-h-screen w-full flex-col bg-background-light dark:bg-background-dark dark:text-slate-200">
         <div class="flex h-full w-full">
 
             @include('partials.sidebar-main', ['active' => 'stock'])
@@ -40,21 +40,21 @@
                     <div class="mx-auto max-w-4xl">
                         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
                             <div class="flex flex-col gap-1">
-                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">Entrada
+                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-800">Entrada
                                     de Estoque</h1>
-                                <p class="text-base text-[#4c739a] dark:text-slate-400">Preencha os campos abaixo para
+                                <p class="text-base text-[#4c739a] dark:text-slate-500">Preencha os campos abaixo para
                                     registrar a entrada de itens no estoque.</p>
                             </div>
                         </div>
 
                         <div
-                            class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-8 shadow-sm">
+                            class="rounded-xl bg-white dark:bg-background-dark p-8 shadow-sm">
 
                             <form class="grid grid-cols-1 gap-6 md:grid-cols-2" id="form-stock-in">
 
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Produto*
+                                        <p class="pb-2 text-sm font-medium dark:text-slate-700">Produto*
                                         </p>
                                         <select id="select-stock-product">
                                             <option value="" selected>Selecione um produto</option>
@@ -64,17 +64,17 @@
 
                                 <div>
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                        <p class="pb-2 text-sm font-medium dark:text-slate-700">
                                             Quantidade*</p>
                                         <input id="input-stock-quantity"
-                                            class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal"
+                                            class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-700 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base font-normal"
                                             placeholder="0" type="number" value="" />
                                     </label>
                                 </div>
 
                                 <div>
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                        <p class="pb-2 text-sm font-medium dark:text-slate-700">
                                             Fornecedor*</p>
                                         <select id="select-stock-provider">
                                             <option value="" selected>Selecione um fornecedor</option>
@@ -85,17 +85,17 @@
                                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="{{ env('HAS_SUBSIDIARIES') ? 'md:col-span-1' : 'md:col-span-2' }}">
                                         <label class="flex flex-col">
-                                            <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                            <p class="pb-2 text-sm font-medium dark:text-slate-700">
                                                 Data da entrada*</p>
                                             <input id="input-stock-date" type="text" 
-                                                class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal" />
+                                                class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-700 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base font-normal" />
                                         </label>
                                     </div>
 
                                     @if (env('HAS_SUBSIDIARIES'))
                                         <div class="md:col-span-1">
                                             <label class="flex flex-col">
-                                                <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">
+                                                <p class="pb-2 text-sm font-medium dark:text-slate-700">
                                                     Localização*</p>
                                                 <select id="select-stock-location">
                                                     <option value="" selected>Selecione uma localização</option>
@@ -107,10 +107,10 @@
 
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Descrição
+                                        <p class="pb-2 text-sm font-medium dark:text-slate-700">Descrição
                                         </p>
                                         <textarea id="textarea-stock-description"
-                                            class="form-textarea w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 p-3 text-base font-normal"
+                                            class="form-textarea w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-700 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 p-3 text-base font-normal"
                                             placeholder="Adicione notas adicionais, se necessário..."
                                             rows="4"></textarea>
                                     </label>

@@ -80,11 +80,11 @@
                                 <div
                                     class="flex w-full flex-1 items-stretch rounded-lg border border-gray-300 dark:border-gray-700 focus-within:ring-2 focus-within:ring-primary/50 transition-shadow">
                                     <div
-                                        class="text-text-secondary-light dark:text-text-secondary-dark flex bg-background-light dark:bg-gray-800 items-center justify-center pl-4 pr-2 rounded-l-lg">
+                                        class="text-text-secondary-light dark:text-text-secondary-dark flex bg-[#edf2f7] dark:bg-gray-800 items-center justify-center pl-4 pr-2 rounded-l-lg">
                                         <span class="material-symbols-outlined text-xl">person</span>
                                     </div>
                                     <input
-                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-light dark:text-text-dark focus:outline-0 focus:ring-0 border-0 bg-background-light dark:bg-gray-800 h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark p-3 text-base font-normal leading-normal rounded-r-lg"
+                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-[#0d141b] dark:text-slate-200 focus:outline-0 focus:ring-0 border-0 bg-[#edf2f7] dark:bg-gray-800 h-12 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal rounded-r-lg"
                                         placeholder="Digite seu e-mail ou usuário" value="" />
                                 </div>
                             </label>

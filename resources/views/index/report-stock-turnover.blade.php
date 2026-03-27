@@ -40,7 +40,7 @@
                 <main class="p-8">
                     <div class="mx-auto max-w-7xl">
                         <div class="mb-6 flex flex-col gap-1">
-                            <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-white">Giro de Estoque
+                            <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">Giro de Estoque
                             </h1>
                             <p class="text-base text-[#4c739a] dark:text-slate-400">Relatório de giro de estoque. O
                                 conteúdo detalhado será implementado aqui.</p>
