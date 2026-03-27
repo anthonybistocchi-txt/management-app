@@ -78,6 +78,7 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
                 'stock_movements.id',
                 'stock_movements.product_id', 
                 'stock_movements.location_id', 
+                'stock_movements.provider_id',
                 'stock_movements.type', 
                 'stock_movements.quantity_moved', 
                 'products.name as product_name',
@@ -90,10 +91,11 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
                 'stock_movements.quantity_after', 
                 'stock_movements.provider_id'
             )
-            ->join('products', 'stock_movements.product_id', '=', 'products.id')
-            ->join('locations', 'stock_movements.location_id', '=', 'locations.id')
-            ->join('providers', 'stock_movements.provider_id', '=', 'providers.id')
-            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('locations', 'stock_movements.location_id', '=', 'locations.id')
+            ->leftJoin('providers', 'stock_movements.provider_id', '=', 'providers.id')
+            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->whereBetween('stock_movements.movement_date', [$data['date_from'] . ' 00:00:00', $data['date_to'] . ' 23:59:59'])
             ->when($data['type'] !== "all", function ($query) use ($data) {
                 $query->whereLike('stock_movements.type', '%' . $data['type'] . '%');
             })
@@ -109,7 +111,6 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
             ->when($data['category_id'] !== "all", function ($query) use ($data) {
                 $query->where('product_categories.id', $data['category_id']);
             })
-            ->whereBetween('stock_movements.movement_date', [$data['date_from'], $data['date_to']])
             ->get();
     }
 }
