@@ -1,7 +1,7 @@
-import { getProvidersController } from "../../Controllers/Providers/ProvidersController";
+import { ProviderController } from "../../Controllers/Providers/ProviderController";
 
 export async function showProviders($selectElement: JQuery<HTMLElement>): Promise<void> {
-    const providers = await getProvidersController.getProviders();
+    const providers = await ProviderController.getProviders();
 
     $selectElement.empty();
     $selectElement.append('<option value="" selected disabled>Fornecedor</option>');

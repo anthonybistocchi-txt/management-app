@@ -11,6 +11,14 @@ $(document).ready(async () => {
     const $typeUserId        = $('#text-header-type-user');
     const $totalSales        = $('#total_sales');
     const $topSellingProduct = $('#top_selling_product');
+    const $averageTicket     = $('#average_ticket');
+    const $totalOrders       = $('#total_orders');
+    const $totalSalesGrowth  = $('#total_sales_growth');
+    const $topProductsBody   = $('#top_products_table');
+    const $recentSalesList   = $('#recent_sales_list');
+    const $lowStockAlert     = $('#low_stock_alert');
+    const $lowStockCount     = $('#low_stock_count');
+    const $lowStockMessage   = $('#low_stock_message');
     const $datePickerId      = $("#date_range_picker"); 
     const $btn_submit        = $("#btn_submit");
     const $metricButtons     = $("#sales-metric-toggle [data-metric]");
@@ -73,7 +81,15 @@ $(document).ready(async () => {
                 startFilter, 
                 endFilter, 
                 $totalSales, 
-                $topSellingProduct, 
+                $topSellingProduct,
+                $averageTicket,
+                $totalOrders,
+                $totalSalesGrowth,
+                $topProductsBody,
+                $recentSalesList,
+                $lowStockAlert,
+                $lowStockCount,
+                $lowStockMessage,
                 currentMetric
             );
 

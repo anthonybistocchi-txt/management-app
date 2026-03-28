@@ -24,7 +24,16 @@ export function showTableInOutReport(
             { data: "description",    title: "DESCRIÇÃO",   className: "px-4 py-3 text-gray-800 text-sm" },
             { data: "category_name",  title: "CATEGORIA",   className: "px-4 py-3 text-gray-800 text-sm" },
             { data: "location_name",  title: "LOCAL",       className: "px-4 py-3 text-gray-800 text-sm" },
-            { data: "provider_name",  title: "FORNECEDOR",  className: "px-4 py-3 text-gray-800 text-sm" },
+            { 
+                data: "provider_name",
+                title: "FORNECEDOR",  
+                className: "px-4 py-3 text-gray-800 text-sm",
+                render(value: unknown) {
+                    const name = String(value ?? "").trim();
+                    return name ? name : "<span class='italic'>N/A</span>";
+                }
+
+            },
             {
                 data: "type",
                 title: "TIPO",

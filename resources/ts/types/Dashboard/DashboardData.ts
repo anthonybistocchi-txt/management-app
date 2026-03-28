@@ -15,6 +15,20 @@ interface DashboardData {
         sell_date: string;
     }>;
     totalSalesValue: string;
+    totalSalesValuePrevious: string;
+    totalOrders: number;
+    topProducts: Array<{
+        id: number;
+        name: string;
+        total_sales: string;
+    }>;
+    recentSales: Array<{
+        created_at: string;
+        product_name: string;
+        location_name: string | null;
+        total_sales: string;
+    }>;
+    lowStockCount: number;
     salesByCategory: Array<{
         category_name: string;
         total_quantity: string;

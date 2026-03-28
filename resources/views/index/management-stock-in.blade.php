@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-has-subsidiaries="{{ filter_var(env('HAS_SUBSIDIARIES', false), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false' }}">
+<html lang="en"
+    data-has-subsidiaries="{{ filter_var(env('HAS_SUBSIDIARIES', false), FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false' }}">
 @vite(['resources/ts/pages/index/management-stock-in.ts'])
 @vite(['resources/ts/app.ts', 'resources/css/app.css'])
 
@@ -36,7 +37,7 @@
             <div class="flex flex-1 flex-col overflow-y-auto">
                 @include('partials.header-user')
 
-                <main class="p-8">
+                <main class="flex-1 p-8">
                     <div class="mx-auto max-w-4xl">
                         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
                             <div class="flex flex-col gap-1">
@@ -47,8 +48,7 @@
                             </div>
                         </div>
 
-                        <div
-                            class="rounded-xl bg-white dark:bg-background-dark p-8 shadow-sm">
+                        <div class="rounded-xl bg-white dark:bg-background-dark p-8 shadow-sm">
 
                             <form class="grid grid-cols-1 gap-6 md:grid-cols-2" id="form-stock-in">
 
@@ -87,7 +87,7 @@
                                         <label class="flex flex-col">
                                             <p class="pb-2 text-sm font-medium dark:text-slate-700">
                                                 Data da entrada*</p>
-                                            <input id="input-stock-date" type="text" 
+                                            <input id="input-stock-date" type="text"
                                                 class="form-input h-12 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-700 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base font-normal" />
                                         </label>
                                     </div>

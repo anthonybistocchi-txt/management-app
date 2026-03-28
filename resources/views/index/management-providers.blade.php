@@ -37,60 +37,18 @@
                     'avatarUrl' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuC5080jbnOq59jWdXAabdZ_iX7TokEeCpOgf7D0ppHM0VQ57_wBG0yda2Hujydz4kD8ULDtYbVFdfmZ4pdAJj9-pFWtY9b359h-drKEnTOkKJXh5Ij3FTFjmXHBHTxsHoHNZeuN08MuLVNZYJoZME8cKVqXrmJ-nMEhQ1x4uifNhq-LcoOaOV-OWVzhfx8U-hBG9pQvgIhH7wIAobKwt8euhah4rbZVIYCbMSKBIxFLfUCTdURo4BM2_hbvYlMl06i2vfnVaGMGBaQ',
                 ])
 
-                <main class="p-8">
+                <main class="flex-1 p-8">
                     <div class="mx-auto max-w-7xl">
-                        <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
-                            <div class="flex flex-col gap-1">
-                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">
-                                    Fornecedores</h1>
-                                <p class="text-base text-[#4c739a] dark:text-slate-400">Gerencie a lista de empresas e
-                                    parceiros que fornecem produtos.</p>
-                            </div>
-                            <button
-                                class="flex items-center justify-center gap-2 rounded-lg h-10 bg-primary text-white text-sm font-bold px-6 hover:bg-blue-600 transition-colors">
-                                <span class="material-symbols-outlined text-xl">add</span>
-                                <span>Adicionar fornecedor</span>
-                            </button>
-                        </div>
-
-                        <div class="mb-6 flex flex-wrap items-center gap-4">
-                            <div class="flex-1 min-w-[300px]">
-                                <div class="relative">
-                                    <span
-                                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                                    <input type="text" placeholder="Buscar por Razão Social, CNPJ..."
-                                        class="w-full pl-10 h-11 rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-[#edf2f7] dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 text-sm placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button
-                                    class="flex items-center gap-2 px-4 h-11 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors">
-                                    <span class="material-symbols-outlined text-lg text-slate-500">filter_list</span>
-                                    Filtrar
-                                </button>
-                                <button
-                                    class="flex items-center gap-2 px-4 h-11 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors">
-                                    <span class="material-symbols-outlined text-lg text-slate-500">swap_vert</span>
-                                    Ordenar
-                                </button>
-                            </div>
-                        </div>
-
-                        <div
-                            class="rounded-xl bg-white dark:bg-background-dark shadow-sm overflow-hidden">
-                            <div class="overflow-x-auto">
-
-                                <table id="table-providers"
-                                    class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400"></table>
-                            </div>
-
-                        </div>
+                        @include('partials.table-providers')
                     </div>
                 </main>
 
                 @include('partials.footer-main')
             </div>
         </div>
+        @include('modals.create-provider')
+        @include('modals.edit-provider')
+        @include('modals.delete-provider')
     </div>
 </body>
 

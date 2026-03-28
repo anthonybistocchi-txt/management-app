@@ -34,7 +34,7 @@
             <div class="flex flex-1 flex-col overflow-y-auto">
                 @include('partials.header-user')
 
-                <main class="p-8">
+                <main class="flex-1 p-8">
                     <div class="mx-auto max-w-6xl flex flex-col gap-6">
                         <header class="flex flex-wrap items-start justify-between gap-4">
                             <div class="flex flex-col gap-2">

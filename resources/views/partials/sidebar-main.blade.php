@@ -53,11 +53,6 @@
                 <span class="material-symbols-outlined">shopping_cart</span>
                 <p class="text-sm font-medium hover:text-white hover:bg-primary/10 transition-colors">Nova venda</p>
             </a>
-            <a id="link-sidebar-sales-history" href="#"
-                class="{{ $nav('salesHistory') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">history</span>
-                <p class="text-sm font-medium">Histórico de vendas</p>
-            </a>
 
             <div
                 class="mt-2 hover:text-white hover:bg-primary/10 transition-colors text-xs uppercase tracking-widest text-slate-300 ">
@@ -65,11 +60,6 @@
             <a id="link-sidebar-stock-in" href="{{ route('stock') }}" class="{{ $nav('stockIn') }}">
                 <span class="material-symbols-outlined">inventory_2</span>
                 <p class="text-sm font-medium">Entrada de mercadoria</p>
-            </a>
-            <a id="link-sidebar-stock-moves" href="#"
-                class="{{ $nav('stockMoves') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">swap_horiz</span>
-                <p class="text-sm font-medium">Movimentações</p>
             </a>
             <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
                 class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 transition-colors">
@@ -80,7 +70,7 @@
             <div
                 class="mt-2 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
                 Cadastros</div>
-            <a id="link-sidebar-products" href="#"
+            <a id="link-sidebar-products" href="{{ route('products') }}"
                 class="{{ $nav('products') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">inventory</span>
                 <p class="text-sm font-medium">Produtos</p>
@@ -90,12 +80,17 @@
                 <span class="material-symbols-outlined">local_shipping</span>
                 <p class="text-sm font-medium">Fornecedores</p>
             </a>
+            <a id="link-sidebar-locations" href="{{ route('locations') }}"
+                class="{{ $nav('locations') }} hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined">pin_drop</span>
+                <p class="text-sm font-medium">Locais</p>
+            </a>
             <a id="link-sidebar-users" href="{{ route('users') }}"
                 class="{{ $nav('users') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">group</span>
                 <p class="text-sm font-medium">Operadores</p>
             </a>
-            <a id="link-sidebar-categories" href="#"
+            <a id="link-sidebar-categories" href="{{ route('categories') }}"
                 class="{{ $nav('categories') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">category</span>
                 <p class="text-sm font-medium">Categorias</p>
@@ -149,11 +144,13 @@
             <span class="material-symbols-outlined text-2xl">settings</span>
             <p class="text-sm font-medium">Configuracoes</p>
         </a>
-        <a id="link-sidebar-logout"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-            href="#">
-            <span class="material-symbols-outlined text-2xl">logout</span>
-            <p class="text-sm font-medium">Sair</p>
-        </a>
+        <form id="form-sidebar-logout" method="POST" action="{{ url('/logout') }}">
+            @csrf
+            <button type="submit"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined text-2xl">logout</span>
+                <p class="text-sm font-medium">Sair</p>
+            </button>
+        </form>
     </div>
 </aside>

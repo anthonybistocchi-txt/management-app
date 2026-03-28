@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CEPController;
+use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductCategoryController;
@@ -8,9 +10,10 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Reports\InOutController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UFController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+       
 Route::middleware(['auth'])->group(function () {
 
     Route::prefix('users')->group(function () {
@@ -40,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('stock')->group(function () {
             Route::post('/in', [StockController::class, 'in'])->name('stock.in');
             Route::post('/out', [StockController::class, 'out'])->name('stock.out');
-        });
+        }); 
 
     Route::middleware('admin.or.gestor')->group(function () {
         Route::prefix('users')->group(function () {
@@ -69,6 +72,19 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/update', [LocationController::class, 'update'])->name('locations.update');
             Route::delete('/delete', [LocationController::class, 'delete'])->name('locations.destroy');
         });
+
+        Route::prefix('uf')->group(function () {
+            Route::get('/getAll', [UFController::class, 'getAll'])->name('ufs.index');
+        });
+
+        Route::prefix('cities')->group(function () {
+            Route::get('/getAll', [CitiesController::class, 'getAll'])->name('cities.index');
+        });
+
+        Route::prefix('cep')->group(function () {
+            Route::get('/get/{cep}', [CEPController::class, 'getAddress'])->name('cep.get');
+        });
+
 
         Route::prefix('admin')->group(function () {
             Route::post('/dashboard', [DashboardController::class, 'getDashboardData']);

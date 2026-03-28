@@ -45,26 +45,26 @@ $(document).ready(async () => {
 
     const localSelects = [$filterLocation, $filterMovementType, $filterCategory, $filterProvider];
     
-    for (const $sel of localSelects) 
+    for (const $select of localSelects) 
     {
-        const el = $sel[0] as HTMLSelectElement;
+        const element = $select[0] as HTMLSelectElement;
 
-        if (el) initLocalTomSelect(el, { size: "sm" });
+        if (element) initLocalTomSelect(element, { size: "sm" });
     }
 
-    const getSelectValue = ($el: JQuery<HTMLElement>, fallback = "all"): string => {
-        const v = ($el.val() as string | null | undefined)?.toString().trim();
-        return v ? v : fallback;
+    const getSelectValue = ($element: JQuery<HTMLElement>, fallback = "all"): string => {
+        const value = ($element.val() as string | null | undefined)?.toString().trim();
+        return value ? value : fallback;
     };
 
     const buildFilters = (): InOutFilters => ({
         product_id:  getSelectValue($filterProduct),
         location_id: getSelectValue($filterLocation),
-        type:         getSelectValue($filterMovementType),
+        type:        getSelectValue($filterMovementType),
         provider_id: getSelectValue($filterProvider),
         category_id: getSelectValue($filterCategory),
-       date_from:   dateFrom,
-       date_to:     dateTo,
+        date_from:   dateFrom,
+        date_to:     dateTo,
     });
 
     // Monta a tabela na inicialização (com filtros padrão e range default do flatpickr).

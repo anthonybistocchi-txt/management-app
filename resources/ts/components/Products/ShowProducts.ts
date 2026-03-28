@@ -1,7 +1,7 @@
-import { getProductsController } from "../../Controllers/Products/ProductsController";
+import { ProductController } from "../../Controllers/Products/ProductController";
 
 export async function showProducts($selectElement: JQuery<HTMLElement>): Promise<void> {
-    const products = await getProductsController.getProducts();
+    const products = await ProductController.getProducts();
     console.log(products);
     $selectElement.empty();
     $selectElement.append('<option value="" selected disabled>Selecione um produto</option>');
