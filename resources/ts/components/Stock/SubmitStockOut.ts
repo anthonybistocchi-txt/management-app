@@ -2,6 +2,7 @@ import { StockController } from "../../Controllers/Stock/StockController";
 import { hasSubsidiaries } from "../../config/appEnv";
 import { DatePicker } from "../DatePicker/flatpickr";
 import { Toast } from "../Swal/swal";
+import { getTomSelectInstance } from "../TomSelect/initTomSelect";
 
 export async function submitStockOut($selectProduct: JQuery<HTMLElement>,
     $inputQuantity: JQuery<HTMLElement>,
@@ -60,9 +61,12 @@ export async function submitStockOut($selectProduct: JQuery<HTMLElement>,
     {
         Toast.success("Saída de estoque registrada com sucesso!");
 
-        $selectProduct.prop('selectedIndex', 0);
+        const tsProduct  = getTomSelectInstance($selectProduct);
+        const tsLocation = getTomSelectInstance($selectLocation);
+
+        if (tsProduct)  tsProduct.clear();  else $selectProduct.prop('selectedIndex', 0);
         if (needsLocation) {
-            $selectLocation.prop('selectedIndex', 0);
+            if (tsLocation) tsLocation.clear(); else $selectLocation.prop('selectedIndex', 0);
         }
         $inputQuantity.val('');
         $textareaDesc.val('');

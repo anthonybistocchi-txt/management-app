@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/ts/pages/auth/login.ts',
                 'resources/ts/pages/auth/reset-password.ts',
                 'resources/ts/pages/admin/dashboard.ts',
+                'resources/ts/pages/admin/reports/in-out.ts',
                 'resources/ts/pages/index/management-users.ts',
                 'resources/ts/pages/index/management-providers.ts',
                 'resources/ts/pages/index/management-products.ts',

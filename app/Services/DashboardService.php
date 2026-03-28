@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\DTOs\DashboardData;
-use App\Repositories\Eloquent\DashboardRepository;
+use App\Repositories\Interfaces\DashboardRepositoryInterface;
 
 class DashboardService 
 {
-    public function __construct(protected DashboardRepository $dashboardRepository){}
+    public function __construct(protected DashboardRepositoryInterface $dashboardRepository) {}
 
     public function getDashboardData(array $filters = []): DashboardData
     {

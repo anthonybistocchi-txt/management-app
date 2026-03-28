@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-    public function __construct(protected UserRepository $userRepository) {}
+    public function __construct(protected UserRepositoryInterface $userRepository) {}
 
     public function create(array $data): void
     {

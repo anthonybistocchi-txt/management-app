@@ -8,13 +8,17 @@ use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use App\Repositories\Interfaces\StockRepositoryInterface;
+use App\Repositories\Interfaces\StockMovementsRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\ProductCategoriesRepositoryInterface;
 use App\Repositories\Eloquent\DashboardRepository;
 use App\Repositories\Eloquent\LocationRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use App\Repositories\Eloquent\ProviderRepository;
 use App\Repositories\Eloquent\StockRepository;
+use App\Repositories\Eloquent\StockMovementsRepository;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Eloquent\ProductCategoriesRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -24,12 +28,14 @@ class RepositoryServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        DashboardRepositoryInterface::class => DashboardRepository::class,
-        LocationRepositoryInterface::class  => LocationRepository::class,
-        ProductRepositoryInterface::class   => ProductRepository::class,
-        ProviderRepositoryInterface::class  => ProviderRepository::class,
-        StockRepositoryInterface::class     => StockRepository::class,
-        UserRepositoryInterface::class      => UserRepository::class,
+        DashboardRepositoryInterface::class         => DashboardRepository::class,
+        LocationRepositoryInterface::class          => LocationRepository::class,
+        ProductRepositoryInterface::class           => ProductRepository::class,
+        ProviderRepositoryInterface::class          => ProviderRepository::class,
+        StockRepositoryInterface::class             => StockRepository::class,
+        StockMovementsRepositoryInterface::class    => StockMovementsRepository::class,
+        UserRepositoryInterface::class              => UserRepository::class,
+        ProductCategoriesRepositoryInterface::class => ProductCategoriesRepository::class,
     ];
 
     /**

@@ -89,6 +89,8 @@
                 </div>
 
             </main>
+
+            @include('partials.footer-main')
         </div>
     </div>
 </body>

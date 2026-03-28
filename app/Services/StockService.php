@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
-use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\Eloquent\StockRepository;
-use App\Repositories\Eloquent\StockMovementsRepository;
+use App\Repositories\Interfaces\StockRepositoryInterface;
+use App\Repositories\Interfaces\StockMovementsRepositoryInterface;
 
 class StockService
 {
     public function __construct(
-        protected StockRepository          $stockRepository,
-        protected StockMovementsRepository $stockMovementsRepository,
+        protected StockRepositoryInterface          $stockRepository,
+        protected StockMovementsRepositoryInterface $stockMovementsRepository,
     ) {}
 
     public function input(array $data)

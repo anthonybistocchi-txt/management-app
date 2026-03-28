@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\Provider;
-use App\Repositories\Eloquent\ProviderRepository;
+use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProviderService
 {
-    public function __construct(protected ProviderRepository $providerRepository){}
+    public function __construct(protected ProviderRepositoryInterface $providerRepository) {}
 
     public function create(array $data): Provider
     {

@@ -38,19 +38,18 @@
                     <div class="mx-auto max-w-4xl">
                         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
                             <div class="flex flex-col gap-1">
-                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">Registrar venda</h1>
-                                <p class="text-base text-[#4c739a] dark:text-slate-400">Preencha os dados abaixo para registrar a movimentação de venda.</p>
+                                <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-800">Registrar venda</h1>
+                                <p class="text-base text-[#4c739a] dark:text-slate-500">Preencha os dados abaixo para registrar a movimentação de venda.</p>
                             </div>
                         </div>
 
-                        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-8 shadow-sm">
+                        <div class="rounded-xl bg-white dark:bg-background-dark p-8 shadow-sm">
                             <form class="grid grid-cols-1 gap-6 md:grid-cols-2" id="form-stock-out">
 
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Produto*</p>
-                                        <select id="select-stock-product"
-                                            class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base">
+                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-600">Produto*</p>
+                                        <select id="select-stock-product">
                                             <option value="" selected>Selecione um produto</option>
                                         </select>
                                     </label>
@@ -58,26 +57,25 @@
 
                                 <div>
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Quantidade*</p>
+                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-600">Quantidade*</p>
                                         <input id="input-stock-quantity" type="number" placeholder="0"
-                                            class="form-input h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base" />
+                                            class="form-input h-12 w-full rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-600 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base" />
                                     </label>
                                 </div>
 
                                 <div>
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Data da saída*</p>
+                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-600">Data da saída*</p>
                                         <input id="input-stock-date" type="text" 
-                                            class="form-input h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base" />
+                                            class="form-input h-12 w-full rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-600 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base" />
                                     </label>
                                 </div>
 
                                 @if (env('HAS_SUBSIDIARIES'))
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Localização / Unidade*</p>
-                                        <select id="select-stock-location"
-                                            class="form-select h-12 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base">
+                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-600">Localização / Unidade*</p>
+                                        <select id="select-stock-location">
                                             <option value="" selected>Selecione uma localização</option>
                                         </select>
                                     </label>
@@ -86,9 +84,9 @@
 
                                 <div class="md:col-span-2">
                                     <label class="flex flex-col">
-                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-300">Observações / Motivo</p>
+                                        <p class="pb-2 text-sm font-medium text-[#0d141b] dark:text-slate-600">Observações / Motivo</p>
                                         <textarea id="textarea-stock-description" rows="4"
-                                            class="form-textarea w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 p-3 text-base"
+                                            class="form-textarea w-full rounded-lg border border-[#cfdbe7]  bg-[#edf2f7] text-[#0d141b] dark:text-slate-600 placeholder:text-[#94a3b8] dark:placeholder:text-slate-500  p-3 text-base"
                                             placeholder="Ex: Venda para cliente, descarte, transferência..."></textarea>
                                     </label>
                                 </div>
@@ -103,6 +101,8 @@
                         </div>
                     </div>
                 </main>
+
+                @include('partials.footer-main')
             </div>
         </div>
     </div>

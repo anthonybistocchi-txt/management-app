@@ -3,6 +3,8 @@ import { modalEditUser } from "../../pages/admin/Users/modalEditUser";
 import { closeModal } from "../../utils/CloseModal";
 import { openModal } from "../../utils/openModal";
 import { Toast } from "../Swal/swal";
+import { initLocalTomSelect, getTomSelectInstance } from "../TomSelect/initTomSelect";
+
 export async function ShowModalEditUser(
     userId: number,
     table: { draw: (resetPaging?: boolean) => void }
@@ -28,9 +30,22 @@ export async function ShowModalEditUser(
         $inputEditName.val(response.data.name);
         $inputEditEmail.val(response.data.email);
         $inputEditUsername.val(response.data.username);
-        $selectEditTypeUser.val(String(response.data.type_user_id));
         $inputEditCpf.val(response.data.cpf);
         $inputEditPassword.val("");
+
+        let tsEdit = getTomSelectInstance($selectEditTypeUser);
+        if (!tsEdit) {
+            const el = $selectEditTypeUser[0] as HTMLSelectElement | undefined;
+            if (el) {
+                tsEdit = initLocalTomSelect(el, { size: "md" });
+                $selectEditTypeUser.data("tomSelect", tsEdit);
+            }
+        }
+        if (tsEdit) {
+            tsEdit.setValue(String(response.data.type_user_id));
+        } else {
+            $selectEditTypeUser.val(String(response.data.type_user_id));
+        }
 
         openModal($modalEdit);
 

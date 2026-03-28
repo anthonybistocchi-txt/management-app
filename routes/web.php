@@ -33,5 +33,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/register-user', [ViewsController::class, 'showCreateUser'])->name('registerUser');
             Route::get('/register-provider', [ViewsController::class, 'showCreateProvider'])->name('registerProvider');
         });
+
+        Route::prefix('reports')->group(function () {
+            Route::get('/stock-card', [ViewsController::class, 'showStockCard'])->name('reportStockCard');
+        });
     });
 });

@@ -16,7 +16,7 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'category_products_id', 
+        'product_category_id',
     ];
 
     protected $casts = [
@@ -38,6 +38,11 @@ class Product extends Model
     public function deleter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
     }
 
 }

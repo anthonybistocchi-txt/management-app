@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class StockMovementSeeder extends Seeder
 {
@@ -32,6 +33,7 @@ class StockMovementSeeder extends Seeder
             $qtdComprada = $qtdAtual + rand(0, 5); // Comprou o que tem + sobrinha
 
             DB::table('stock_movements')->insert([
+                'uniqueid' => Str::uuid(),
                 'product_id' => $stock->product_id,
                 'location_id' => $stock->location_id,
                 'provider_id' => $providerIds[array_rand($providerIds)], // Aqui está o vínculo com Fornecedor!
@@ -54,6 +56,7 @@ class StockMovementSeeder extends Seeder
                 // PASSO 2: SIMULAR SAÍDAS (VENDAS)
                 // ==========================================================
                 DB::table('stock_movements')->insert([
+                    'uniqueid' => Str::uuid(),
                     'product_id' => $stock->product_id,
                     'location_id' => $stock->location_id,
                     'provider_id' => null, // Saída geralmente não tem fornecedor

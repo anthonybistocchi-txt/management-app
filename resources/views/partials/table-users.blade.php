@@ -27,17 +27,16 @@
 @endif
 
 <div
-    class="mb-6 flex flex-col sm:flex-row gap-4 justify-between items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 shadow-sm">
+    class="mb-6 flex flex-col sm:flex-row gap-4 justify-between items-center rounded-xl bg-white dark:bg-background-dark p-4 shadow-sm">
     <div class="w-full sm:max-w-xs relative">
         <span class="material-symbols-outlined absolute left-3 top-3 text-[#4c739a]">search</span>
         <input id="input-search-user"
-            class="form-input h-10 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 pl-10 pr-4 text-base font-normal"
+            class="form-input h-10 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] text-[#0d141b]  placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 bg-[#F4F7FA] pl-10 pr-4 text-base font-normal"
             placeholder="Buscar por nome" value="" />
     </div>
     <div class="flex gap-2 w-full sm:w-auto">
         <div class="relative w-full sm:w-48">
-            <select id="select-filter-type-user"
-                class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
+            <select id="select-filter-type-user">
                 <option value="all">Tipos de operadores</option>
                 <option value="all">Todos</option>
                 <option value="1">Administrador</option>
@@ -46,8 +45,7 @@
             </select>
         </div>
         <div class="relative w-full sm:w-48">
-            <select id="select-filter-status"
-                class="form-select h-10 w-full rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light text-[#0d141b] dark:text-slate-800 placeholder:text-[#4c739a] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 px-3 text-base font-normal">
+            <select id="select-filter-status">
                 <option value="all">Status</option>
                 <option value="all">Todos</option>
                 <option value="1">Ativo</option>
@@ -63,7 +61,7 @@
 </div>
 
 <div
-    class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shadow-sm overflow-hidden">
+    class="rounded-xl bg-white dark:bg-background-dark shadow-sm overflow-hidden">
     <div class="overflow-x-auto">
         <table id="table-users"
             class="w-full text-sm text-left text-[#4c739a] dark:text-slate-400"></table>

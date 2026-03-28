@@ -26,7 +26,7 @@ class CategoryProductSeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            DB::table('category_products')->insert([ // Atenção ao nome da tabela
+            DB::table('product_categories')->insert([ // Atenção ao nome da tabela
                 'name' => $cat['name'],
                 'description' => $cat['description'],
                 'created_at' => $now,

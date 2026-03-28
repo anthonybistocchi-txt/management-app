@@ -59,7 +59,7 @@
                                     <span
                                         class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                                     <input type="text" placeholder="Buscar por Razão Social, CNPJ..."
-                                        class="w-full pl-10 h-11 rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
+                                        class="w-full pl-10 h-11 rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-[#edf2f7] dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 text-sm placeholder:text-[#94a3b8] dark:placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -77,7 +77,7 @@
                         </div>
 
                         <div
-                            class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark shadow-sm overflow-hidden">
+                            class="rounded-xl bg-white dark:bg-background-dark shadow-sm overflow-hidden">
                             <div class="overflow-x-auto">
 
                                 <table id="table-providers"
@@ -87,6 +87,8 @@
                         </div>
                     </div>
                 </main>
+
+                @include('partials.footer-main')
             </div>
         </div>
     </div>
