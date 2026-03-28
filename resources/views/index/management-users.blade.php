@@ -42,6 +42,8 @@
                         @include('partials.table-users')
                     </div>
                 </main>
+
+                @include('partials.footer-main')
             </div>
         </div>
     </div>

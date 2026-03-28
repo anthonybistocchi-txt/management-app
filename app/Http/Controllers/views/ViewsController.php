@@ -70,4 +70,9 @@ class ViewsController extends Controller
     {
         return view('index.report-inventory');
     }
+
+    public function showStockCard()
+    {
+        return view('index.stock-card');
+    }
 }

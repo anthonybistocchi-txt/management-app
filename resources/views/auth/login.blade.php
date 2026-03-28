@@ -87,6 +87,8 @@
                         </form> </div>
                 </div>
             </div>
+
+            @include('partials.footer-main')
         </div>
     </div>
 </body>
