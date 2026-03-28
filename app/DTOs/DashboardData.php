@@ -13,6 +13,16 @@ readonly class DashboardData
         public Collection $salesMovementsPrevious,
         
         public int $totalSalesValue, 
+
+        public int $totalSalesValuePrevious,
+
+        public int $totalOrders,
+
+        public Collection $topProducts,
+
+        public Collection $recentSales,
+
+        public int $lowStockCount,
         
         public Collection $salesByCategory
     ) {}

@@ -18,6 +18,7 @@ class CreateProductRequest extends FormRequest
             'description' => 'nullable|string',
             'price'       => 'required|numeric|decimal:0,2|min:0',
             'provider_id' => 'required|exists:providers,id',
+            'product_category_id' => 'required|exists:product_categories,id',
             'quantity'    => 'nullable|integer|min:0',
             'location_id' => 'nullable|exists:locations,id',
         ];
@@ -32,6 +33,8 @@ class CreateProductRequest extends FormRequest
             'price.min'            => 'The price cannot be negative.',
             'provider_id.required' => 'The provider is required.',
             'provider_id.exists'   => 'The selected provider is invalid.',
+            'product_category_id.required' => 'The category is required.',
+            'product_category_id.exists'   => 'The selected category is invalid.',
             'quantity.integer'     => 'The quantity must be an integer.',
             'location_id.exists'   => 'The selected location is invalid.',
         ];

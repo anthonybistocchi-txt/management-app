@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Product\CreateProviderRequest;
+use App\Http\Requests\Provider\CreateProviderRequest;
 use App\Http\Requests\Provider\DeleteProviderRequest;
 use App\Http\Requests\Provider\GetProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
