@@ -6,6 +6,12 @@ interface DashboardData {
     };
     salesMovements: Array<{
         total_sold: number;
+        total_sales?: number;
+        sell_date: string;
+    }>;
+    salesMovementsPrevious: Array<{
+        total_sold: number;
+        total_sales?: number;
         sell_date: string;
     }>;
     totalSalesValue: string;

@@ -70,7 +70,19 @@
 
                 <div class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark mb-5">
                     <div class="w-full">
-                        <h3 class="text-lg dark:text-text-dark-primary mb-2">Vendas</h3>
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+                            <h3 class="text-lg dark:text-text-dark-primary">Vendas</h3>
+                            <div class="flex items-center rounded-lg bg-slate-100 p-1 text-sm" id="sales-metric-toggle">
+                                <button type="button" data-metric="revenue"
+                                    class="rounded-md px-3 py-1.5 font-semibold transition-colors">
+                                    Faturamento
+                                </button>
+                                <button type="button" data-metric="volume"
+                                    class="rounded-md px-3 py-1.5 font-semibold transition-colors">
+                                    Volume de vendas
+                                </button>
+                            </div>
+                        </div>
                         <div class="relative w-full h-64">
                             <canvas id="moviments_sales_chart"></canvas>
                         </div>

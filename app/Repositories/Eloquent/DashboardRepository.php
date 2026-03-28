@@ -7,14 +7,22 @@ use App\Models\StockMovements;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
 use App\Models\StockMovement; // Importando o Model
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
     public function getDashboardData($dateFrom, $dateTo): DashboardData
     {
+        $currentFrom = Carbon::parse($dateFrom);
+        $currentTo = Carbon::parse($dateTo);
+        $periodDays = $currentFrom->diffInDays($currentTo) + 1;
+        $previousTo = $currentFrom->copy()->subDay()->endOfDay();
+        $previousFrom = $previousTo->copy()->subDays($periodDays - 1)->startOfDay();
+
         return new DashboardData(
             $this->getProductTopSale($dateFrom, $dateTo),
             $this->getMovimentsSales($dateFrom, $dateTo),
+            $this->getMovimentsSales($previousFrom->toDateTimeString(), $previousTo->toDateTimeString()),
             $this->getTotalSales($dateFrom, $dateTo),
             $this->getSalesCategorys($dateFrom, $dateTo),
         );
@@ -40,7 +48,8 @@ class DashboardRepository implements DashboardRepositoryInterface
         return StockMovements::select(
                 DB::raw('DATE(stock_movements.created_at) as sell_date'),
                 'products.name',
-                DB::raw('SUM(stock_movements.quantity_moved) as total_sold')
+                DB::raw('SUM(stock_movements.quantity_moved) as total_sold'),
+                DB::raw('SUM(products.price * stock_movements.quantity_moved) as total_sales')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
             ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])

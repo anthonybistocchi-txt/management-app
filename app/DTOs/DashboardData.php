@@ -9,6 +9,8 @@ readonly class DashboardData
         public ?object $topSellingProduct, 
         
         public Collection $salesMovements, 
+
+        public Collection $salesMovementsPrevious,
         
         public int $totalSalesValue, 
         
