@@ -25,7 +25,7 @@ export function bindCepAutoFill(
         }
 
         timer = setTimeout(() => {
-            const originalEvent = (event as any).originalEvent as { isTrusted?: boolean } | undefined;
+            const originalEvent = event.originalEvent as { isTrusted?: boolean } | undefined;
             const isUserEvent = typeof originalEvent?.isTrusted === "boolean" ? originalEvent.isTrusted : true;
 
             if (onlyWhenUser && !isUserEvent) {
