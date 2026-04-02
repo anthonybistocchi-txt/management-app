@@ -1,14 +1,18 @@
 import { LocationController } from "../../Controllers/Locations/LocationController";
+import { renderSelectOptions } from "../../utils/renderSelectOptions";
 
 export async function showLocations($selectElement: JQuery<HTMLElement>): Promise<void> {
     const locations = await LocationController.getLocations();
 
-    $selectElement.empty();
-    $selectElement.append('<option value="" selected disabled>Local</option>');
-    $selectElement.append('<option value="all">Todas</option>');
-
-    locations.forEach(location => {
-        const option = `<option value="${location.id}">${location.name}</option>`;
-        $selectElement.append(option);
-    });
+    renderSelectOptions(
+        $selectElement,
+        locations.map((location) => ({
+            value: String(location.id),
+            label: location.name,
+        })),
+        {
+            placeholder: "Local",
+            includeAllOption: "Todas",
+        }
+    );
 }

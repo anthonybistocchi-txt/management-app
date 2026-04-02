@@ -5,7 +5,7 @@ import { maskCep } from "../../../utils/cepMask";
 import { showLocationsTable } from "../../../components/Locations/TableLocations";
 import { ShowModalCreateLocation } from "../../../components/Locations/ModalCreateLocation";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
-import { initLocalTomSelect } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 import { LocationController } from "../../../Controllers/Locations/LocationController";
 
 async function populateLocationFilters(
@@ -63,13 +63,7 @@ $(document).ready(async () => {
         { $el: $filterCity, size: "sm" as const },
     ];
 
-    for (const { $el, size } of filterSelects) {
-        const el = $el[0] as HTMLSelectElement | undefined;
-        if (el) {
-            const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-            $el.data("tomSelect", ts);
-        }
-    }
+    syncLocalTomSelectGroup(filterSelects.map(({ $el, size }) => ({ $el, size, allowEmpty: true })));
 
     await showLocationsTable($table, $inputSearch, $filterState, $filterCity, $btnSubmitSearch);
 

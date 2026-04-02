@@ -1,40 +1,5 @@
-import { Toast } from "../../../components/Swal/swal";
-import { LocationController } from "../../../Controllers/Locations/LocationController";
+import { submitEditLocationForm } from "../../../components/Locations/helpers/submitEditLocationForm";
 
 export const modalEditLocation = {
-    async handleEditLocationSubmit(
-        id: number,
-        $inputName: JQuery<HTMLElement>,
-        $inputAddress: JQuery<HTMLElement>,
-        $inputCity: JQuery<HTMLElement>,
-        $inputState: JQuery<HTMLElement>,
-        $inputCep: JQuery<HTMLElement>,
-    ): Promise<boolean | null> {
-        const name = String($inputName.val()).trim();
-        const address = String($inputAddress.val()).trim();
-        const city = String($inputCity.val()).trim();
-        const state = String($inputState.val()).trim().toUpperCase();
-        const cep = String($inputCep.val()).trim();
-
-        if (!name) {
-            Toast.info("Preencha o nome do local.");
-            return null;
-        }
-
-        const result = await LocationController.updateLocation({
-            id,
-            name,
-            address: address || undefined,
-            city: city || undefined,
-            state: state || undefined,
-            cep: cep || undefined,
-        });
-
-        if (result.success) {
-            return true;
-        }
-
-        Toast.error(result.message ?? "Nao foi possivel atualizar o local.");
-        return false;
-    },
+    handleEditLocationSubmit: submitEditLocationForm,
 };
