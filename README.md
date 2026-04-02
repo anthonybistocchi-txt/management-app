@@ -1,4 +1,4 @@
-# Management App
+9# Management App
 
 Sistema de gestão operacional com foco em estoque, cadastros e controle de usuários, construído com Laravel no backend e TypeScript no frontend.
 
@@ -253,28 +253,5 @@ Páginas web principais em [routes/web.php](routes/web.php):
 - O sistema utiliza regra de preço em inteiro (centavos) com conversão para moeda no frontend.
 - O dashboard trabalha com filtros de período validados no frontend e backend.
 - Algumas funcionalidades de relatório avançado continuam em evolução.
-
-## 13. Troubleshooting
-
-### Erro de CSRF em requests autenticadas
-- Garantir meta `csrf-token` presente na view que dispara requisições Axios.
-
-### Vite/HMR com websocket inválido
-- Verificar se há arquivo `public/hot` com host/porta incompatíveis com o ambiente atual.
-
-### Sem dados em tabelas ou dashboard
-- Validar sessão autenticada.
-- Verificar filtros de data.
-- Verificar seed e dados base no banco.
-
-## 14. Contribuição
-
-Fluxo sugerido:
-1. Criar branch de feature/fix.
-2. Implementar alteração com foco em domínio.
-3. Validar com `npm run build` e `php artisan test`.
-4. Abrir PR com contexto, impacto e checklist de teste.
-
-## 15. Licença
 
 Projeto sob licença MIT, conforme ecossistema Laravel.
