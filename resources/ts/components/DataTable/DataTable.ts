@@ -6,8 +6,8 @@ export interface FetchParams {
     draw:   number;
 }
 
-export interface FetchResult {
-    data:            any[];
+export interface FetchResult<TRow extends object = Record<string, unknown>> {
+    data:            TRow[];
     recordsTotal:    number;
     recordsFiltered: number;
 }
@@ -19,12 +19,12 @@ export interface RowAction {
     handler: (id: number, table: DataTables.Api) => void | Promise<void>;
 }
 
-export interface DataTableOptions {
+export interface DataTableOptions<TRow extends object = Record<string, unknown>> {
     /** Definição das colunas (mesmo formato do DataTables) */
     columns: DataTables.ColumnSettings[];
 
     /** Função que busca os dados no servidor */
-    fetchData: (params: FetchParams) => Promise<FetchResult>;
+    fetchData: (params: FetchParams) => Promise<FetchResult<TRow>>;
 
     /** Botões de ação dentro das linhas (edit, delete, etc.) */
     actions?: RowAction[];
@@ -40,9 +40,22 @@ export interface DataTableOptions {
 /*  Função principal — cria e retorna a instância do DataTable        */
 /* ------------------------------------------------------------------ */
 
-export function createDataTable(
+interface DataTableAjaxParams {
+    start: number;
+    length: number;
+    draw: number;
+}
+
+interface DataTableAjaxResponse<TRow extends object = Record<string, unknown>> {
+    draw: number;
+    recordsTotal: number;
+    recordsFiltered: number;
+    data: TRow[];
+}
+
+export function createDataTable<TRow extends object = Record<string, unknown>>(
     $table:  JQuery<HTMLElement>,
-    options: DataTableOptions,
+    options: DataTableOptions<TRow>,
 ): DataTables.Api {
 
     const columns   = options.columns;
@@ -69,10 +82,9 @@ export function createDataTable(
             processing:  "",
             info:        `Exibindo _START_ a _END_ de _TOTAL_ ${infoLabel}`,
             infoEmpty:   "Nenhum resultado encontrado",
-            zeroRecords: "Nenhum resultado encontrado",
-        },
-
-        ajax: async (dtParams: any, callback: any) => {
+            zeroRecords: "Nenhum resultado encontrado", 
+        },// @ts-ignore 
+        ajax: async (dtParams: DataTableAjaxParams, callback: (data: DataTableAjaxResponse<TRow>) => void) => {
             try {
                 const result = await fetchData({
                     start:  dtParams.start,
@@ -87,11 +99,13 @@ export function createDataTable(
                     data:            result.data,
                 });
             } catch {
+                const emptyData: TRow[] = [];
+
                 callback({
                     draw:            dtParams.draw,
                     recordsTotal:    0,
                     recordsFiltered: 0,
-                    data:            [],
+                    data:            emptyData,
                 });
             }
         },

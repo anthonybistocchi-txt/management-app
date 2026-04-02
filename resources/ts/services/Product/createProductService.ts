@@ -1,22 +1,23 @@
 import api from "../../utils/api";
 import { ApiResponse } from "../../types/ApiResponse";
+import { messageFromAxiosError } from "../../utils/axiosErrorMessage";
 
-export const ProductService = {
-    async createProduct(newProduct: NewProductData): Promise<ApiResponse<NewProductData>> {
+export type CreateProductResult =
+    | { ok: true; data: ApiResponse<NewProductData> }
+    | { ok: false; message: string };
+
+export const CreateProductService = {
+    async createProduct(newProduct: NewProductData): Promise<CreateProductResult> {
         try {
-           const { data } = await api.post<ApiResponse<NewProductData>>("products/create", newProduct);
+            const { data } = await api.post<ApiResponse<NewProductData>>("products/create", newProduct);
 
-            return data;
-        } catch (error: any) {
-            console.error("Erro no serviço:", error);
+            if (data?.status) {
+                return { ok: true, data };
+            }
 
-            return {
-                success: false,
-                status: false,
-                message: error.message || "Erro desconhecido ao buscar produtos.",
-                errors: [error.message],
-                data: null as any
-            };
+            return { ok: false, message: data?.message ?? "Nao foi possivel criar o produto." };
+        } catch (error) {
+            return { ok: false, message: messageFromAxiosError(error, "Erro ao criar produto.") };
         }
     },
 };

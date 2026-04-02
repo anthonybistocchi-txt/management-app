@@ -1,6 +1,15 @@
 interface ProviderData {
     id: number;
     name: string;
+    cnpj?: string;
+    phone?: string;
+    email?: string;
+    street?: string;
+    number?: string;
+    city?: string;
+    state?: string;
+    cep?: string;
+    active?: number;
 }
 
 interface NewProviderData {

@@ -36,9 +36,29 @@ class ViewsController extends Controller
         return view('index.management-providers');
     }
 
+    public function showLocations()
+    {
+        return view('index.management-locations');
+    }
+
+    public function showRegisterProvider()
+    {
+        return view('index.register-provider');
+    }
+
     public function showProducts()
     {
         return view('index.management-products');
+    }
+
+    public function showCategories()
+    {
+        return view('index.management-categories');
+    }
+
+    public function showRegisterProduct()
+    {
+        return view('index.register-product');
     }
 
     public function showStock()

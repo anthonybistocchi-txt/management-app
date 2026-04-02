@@ -9,9 +9,9 @@ interface LocalTomSelectOptions {
     allowEmpty?: boolean;
 }
 
-interface RemoteTomSelectOptions extends LocalTomSelectOptions {
+interface RemoteTomSelectOptions<TItem extends Record<string, unknown> = Record<string, unknown>> extends LocalTomSelectOptions {
     url: string;
-    mapResult: (item: any) => { value: string; text: string };
+    mapResult: (item: TItem) => { value: string; text: string };
     preloadOptions?: { value: string; text: string }[];
     noResultsText?: string;
 }
@@ -41,11 +41,11 @@ export function initLocalTomSelect(
 /**
  * Wraps a native <select> with Tom Select for remote search-as-you-type.
  */
-export function initRemoteTomSelect(
+export function initRemoteTomSelect<TItem extends Record<string, unknown>>(
     selectEl: HTMLSelectElement,
-    opts: RemoteTomSelectOptions,
+    opts: RemoteTomSelectOptions<TItem>,
 ): TomSelect {
-    const preload = (opts.preloadOptions ?? []) as Array<{ value: string; text: string }>;
+    const preload: Array<{ value: string; text: string }> = opts.preloadOptions ?? [];
 
     const ts = new TomSelect(selectEl, {
         valueField: "value",
@@ -60,7 +60,7 @@ export function initRemoteTomSelect(
 
             fetch(`${opts.url}?q=${encodeURIComponent(query)}`)
                 .then((res) => res.json())
-                .then((items: any[]) => callback(items.map(opts.mapResult)))
+                .then((items: TItem[]) => callback(items.map(opts.mapResult)))
                 .catch(() => callback([]));
         },
 
@@ -85,8 +85,8 @@ export function initRemoteTomSelect(
 /**
  * Retrieves TomSelect instance from a jQuery element (stored via $.data).
  */
-export function getTomSelectInstance($el: JQuery<HTMLElement>): TomSelect | undefined {
-    return $el.data("tomSelect") as TomSelect | undefined;
+export function getTomSelectInstance($el: JQuery<HTMLElement>): TomSelect | null {
+    return ($el.data("tomSelect") as TomSelect | null) ?? null;
 }
 
 /**
@@ -96,9 +96,42 @@ export function initAndStore(
     $el: JQuery<HTMLElement>,
     factory: (el: HTMLSelectElement) => TomSelect,
 ): TomSelect {
-    const el = $el[0] as HTMLSelectElement;
-    if (!el) throw new Error("Select element not found");
+    const el = $el.get(0);
+
+    if (!(el instanceof HTMLSelectElement)) {
+        throw new Error("Select element not found");
+    }
+
     const ts = factory(el);
     $el.data("tomSelect", ts);
     return ts;
+}
+
+export function syncLocalTomSelect(
+    $el: JQuery<HTMLElement>,
+    opts: LocalTomSelectOptions = {},
+): TomSelect | null {
+    const existing = getTomSelectInstance($el);
+
+    if (existing) {
+        existing.destroy();
+    }
+
+    const el = $el.get(0);
+    if (!(el instanceof HTMLSelectElement)) {
+        return null;
+    }
+
+    const ts = initLocalTomSelect(el, opts);
+    $el.data("tomSelect", ts);
+
+    return ts;
+}
+
+export function syncLocalTomSelectGroup(
+    selects: Array<{ $el: JQuery<HTMLElement>; size?: TomSelectSize; allowEmpty?: boolean }>,
+): void {
+    selects.forEach(({ $el, size, allowEmpty }) => {
+        syncLocalTomSelect($el, { size, allowEmpty });
+    });
 }

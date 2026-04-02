@@ -1,13 +1,13 @@
 import $ from "jquery";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
 import { DatePicker } from "../../../components/DatePicker/flatpickr";
-import type { InOutFilters } from "../../../components/Reports/in-out/showTable";
 import { showTableInOutReport } from "../../../components/Reports/in-out/showTable";
 import { showCategories } from "../../../components/ProductCategories/showCategories";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { showLocations } from "../../../components/Locations/showLocations";
 import { initProductSearch } from "../../../components/Products/productSearch";
-import { initLocalTomSelect } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import type { InOutFilters } from "../../../types/Reports/InOutReport";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $("#text-header-username");
@@ -43,28 +43,23 @@ $(document).ready(async () => {
         showLocations($filterLocation),
     ]);
 
-    const localSelects = [$filterLocation, $filterMovementType, $filterCategory, $filterProvider];
-    
-    for (const $sel of localSelects) 
-    {
-        const el = $sel[0] as HTMLSelectElement;
+    syncLocalTomSelectGroup(
+        [$filterLocation, $filterMovementType, $filterCategory, $filterProvider].map(($el) => ({ $el, size: "sm" as const }))
+    );
 
-        if (el) initLocalTomSelect(el, { size: "sm" });
-    }
-
-    const getSelectValue = ($el: JQuery<HTMLElement>, fallback = "all"): string => {
-        const v = ($el.val() as string | null | undefined)?.toString().trim();
-        return v ? v : fallback;
+    const getSelectValue = ($element: JQuery<HTMLElement>, fallback = "all"): string => {
+        const value = ($element.val() as string | null | undefined)?.toString().trim();
+        return value ? value : fallback;
     };
 
     const buildFilters = (): InOutFilters => ({
         product_id:  getSelectValue($filterProduct),
         location_id: getSelectValue($filterLocation),
-        type:         getSelectValue($filterMovementType),
+        type:        getSelectValue($filterMovementType),
         provider_id: getSelectValue($filterProvider),
         category_id: getSelectValue($filterCategory),
-       date_from:   dateFrom,
-       date_to:     dateTo,
+        date_from:   dateFrom,
+        date_to:     dateTo,
     });
 
     // Monta a tabela na inicialização (com filtros padrão e range default do flatpickr).

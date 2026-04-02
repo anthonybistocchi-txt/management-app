@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html class="light" lang="pt-BR">
-@vite(['resources/ts/pages/admin/dashboard.ts'])
-@vite(['resources/ts/app.ts', 'resources/css/app.css'])
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard</title>
+    @vite(['resources/ts/pages/admin/dashboard.ts'])
+    @vite(['resources/ts/app.ts', 'resources/css/app.css'])
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,9 +57,15 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                        <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Total de vendas</p>
+                        <div class="flex items-center justify-between gap-3">
+                            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Total de vendas</p>
+                            <span id="total_sales_growth" class="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 px-2.5 py-1 text-xs font-semibold">
+                                <span class="material-symbols-outlined text-[16px]">north_east</span>
+                                +0% vs. periodo anterior
+                            </span>
+                        </div>
                         <p id="total_sales" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold"></p>
                     </div>
 
@@ -66,11 +73,34 @@
                         <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Produto mais vendido</p>
                         <p id="top_selling_product" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold"></p>
                     </div>
+
+                    <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                        <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Ticket medio</p>
+                        <p id="average_ticket" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold"></p>
+                        <p class="text-text-light-secondary dark:text-text-dark-secondary text-xs">Total dividido pela quantidade de vendas</p>
+                    </div>
+
+                    <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                        <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Quantidade total de pedidos</p>
+                        <p id="total_orders" class="text-text-light-primary dark:text-text-dark-primary text-3xl font-bold"></p>
+                    </div>
                 </div>
 
                 <div class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark mb-5">
                     <div class="w-full">
-                        <h3 class="text-lg dark:text-text-dark-primary mb-2">Vendas</h3>
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+                            <h3 class="text-lg dark:text-text-dark-primary">Vendas</h3>
+                            <div class="flex items-center rounded-lg bg-slate-100 p-1 text-sm" id="sales-metric-toggle">
+                                <button type="button" data-metric="revenue"
+                                    class="rounded-md px-3 py-1.5 font-semibold transition-colors">
+                                    Faturamento
+                                </button>
+                                <button type="button" data-metric="volume"
+                                    class="rounded-md px-3 py-1.5 font-semibold transition-colors">
+                                    Volume de vendas
+                                </button>
+                            </div>
+                        </div>
                         <div class="relative w-full h-64">
                             <canvas id="moviments_sales_chart"></canvas>
                         </div>
@@ -85,6 +115,50 @@
                         </div>
                         <div id="sales_category_legend" class="w-full md:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-4 content-center">
                         </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold dark:text-text-dark-primary">Top 5 produtos</h3>
+                            <span class="text-xs text-text-light-secondary dark:text-text-dark-secondary">Por faturamento</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-left text-text-light-secondary dark:text-text-dark-secondary">
+                                        <th class="pb-2">#</th>
+                                        <th class="pb-2">Produto</th>
+                                        <th class="pb-2 text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top_products_table">
+                                    <tr>
+                                        <td colspan="3" class="py-4 text-center text-sm text-text-light-secondary dark:text-text-dark-secondary">Carregando...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold dark:text-text-dark-primary">Vendas recentes</h3>
+                            <span class="text-xs text-text-light-secondary dark:text-text-dark-secondary">Live feed</span>
+                        </div>
+                        <div id="recent_sales_list" class="flex flex-col gap-3">
+                            <div class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Carregando...</div>
+                        </div>
+                    </div>
+
+                    <div id="low_stock_alert" class="flex flex-col rounded-xl p-6 border border-amber-200 bg-amber-50 text-amber-700">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-semibold">Alertas de estoque</h3>
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <p class="text-3xl font-bold"><span id="low_stock_count">0</span></p>
+                        <p id="low_stock_message" class="text-sm">Nenhum produto abaixo do minimo.</p>
                     </div>
                 </div>
 

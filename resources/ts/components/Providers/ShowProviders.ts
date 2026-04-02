@@ -1,14 +1,18 @@
-import { getProvidersController } from "../../Controllers/Providers/ProvidersController";
+import { ProviderController } from "../../Controllers/Providers/ProviderController";
+import { renderSelectOptions } from "../../utils/renderSelectOptions";
 
 export async function showProviders($selectElement: JQuery<HTMLElement>): Promise<void> {
-    const providers = await getProvidersController.getProviders();
+    const providers = await ProviderController.getProviders();
 
-    $selectElement.empty();
-    $selectElement.append('<option value="" selected disabled>Fornecedor</option>');
-    $selectElement.append('<option value="all">Todos</option>');
-
-    providers.forEach(provider => {
-        const option = `<option value="${provider.id}">${provider.name}</option>`;
-        $selectElement.append(option);
-    });
+    renderSelectOptions(
+        $selectElement,
+        providers.map((provider) => ({
+            value: String(provider.id),
+            label: provider.name,
+        })),
+        {
+            placeholder: "Fornecedor",
+            includeAllOption: "Todos",
+        }
+    );
 }

@@ -29,7 +29,6 @@
             </button>
         </div>
 
-        {{-- Nav com barra de rolagem super fina e elegante --}}
         <nav class="flex flex-col gap-2 flex-1 overflow-y-auto pr-2 pb-2 
             [&::-webkit-scrollbar]:w-1 
             [&::-webkit-scrollbar-track]:bg-transparent 
@@ -53,11 +52,6 @@
                 <span class="material-symbols-outlined">shopping_cart</span>
                 <p class="text-sm font-medium hover:text-white hover:bg-primary/10 transition-colors">Nova venda</p>
             </a>
-            <a id="link-sidebar-sales-history" href="#"
-                class="{{ $nav('salesHistory') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">history</span>
-                <p class="text-sm font-medium">Histórico de vendas</p>
-            </a>
 
             <div
                 class="mt-2 hover:text-white hover:bg-primary/10 transition-colors text-xs uppercase tracking-widest text-slate-300 ">
@@ -65,11 +59,6 @@
             <a id="link-sidebar-stock-in" href="{{ route('stock') }}" class="{{ $nav('stockIn') }}">
                 <span class="material-symbols-outlined">inventory_2</span>
                 <p class="text-sm font-medium">Entrada de mercadoria</p>
-            </a>
-            <a id="link-sidebar-stock-moves" href="#"
-                class="{{ $nav('stockMoves') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">swap_horiz</span>
-                <p class="text-sm font-medium">Movimentações</p>
             </a>
             <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
                 class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 transition-colors">
@@ -79,8 +68,8 @@
 
             <div
                 class="mt-2 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
-                Cadastros</div>
-            <a id="link-sidebar-products" href="#"
+                Gestão</div>
+            <a id="link-sidebar-products" href="{{ route('products') }}"
                 class="{{ $nav('products') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">inventory</span>
                 <p class="text-sm font-medium">Produtos</p>
@@ -90,12 +79,17 @@
                 <span class="material-symbols-outlined">local_shipping</span>
                 <p class="text-sm font-medium">Fornecedores</p>
             </a>
+            <a id="link-sidebar-locations" href="{{ route('locations') }}"
+                class="{{ $nav('locations') }} hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined">pin_drop</span>
+                <p class="text-sm font-medium">Locais</p>
+            </a>
             <a id="link-sidebar-users" href="{{ route('users') }}"
                 class="{{ $nav('users') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">group</span>
                 <p class="text-sm font-medium">Operadores</p>
             </a>
-            <a id="link-sidebar-categories" href="#"
+            <a id="link-sidebar-categories" href="{{ route('categories') }}"
                 class="{{ $nav('categories') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">category</span>
                 <p class="text-sm font-medium">Categorias</p>
@@ -114,7 +108,6 @@
                         class="material-symbols-outlined shrink-0 text-lg transition-transform duration-300 group-open:rotate-180">expand_more</span>
                 </summary>
 
-                {{-- Submenu com efeito de hover na borda e nos itens --}}
                 <div
                     class="mt-2 ml-4 flex flex-col gap-1 border-l border-white/15 pl-3 transition-colors duration-300 hover:border-white/40">
                     <a id="link-sidebar-report-sales-period" href="#"
@@ -138,10 +131,8 @@
         </nav>
     </div>
 
-    {{-- Divisor fixo --}}
     <hr class="border-t border-white/10 my-4 shrink-0" />
 
-    {{-- Rodapé fixo --}}
     <div class="flex flex-col gap-1 shrink-0">
         <a id="link-sidebar-settings"
             class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
@@ -149,11 +140,13 @@
             <span class="material-symbols-outlined text-2xl">settings</span>
             <p class="text-sm font-medium">Configuracoes</p>
         </a>
-        <a id="link-sidebar-logout"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-            href="#">
-            <span class="material-symbols-outlined text-2xl">logout</span>
-            <p class="text-sm font-medium">Sair</p>
-        </a>
+        <form id="form-sidebar-logout" method="POST" action="{{ url('/logout') }}">
+            @csrf
+            <button type="submit"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined text-2xl">logout</span>
+                <p class="text-sm font-medium">Sair</p>
+            </button>
+        </form>
     </div>
 </aside>

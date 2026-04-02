@@ -37,7 +37,7 @@
 
                 @include('partials.header-user')
 
-                <main class="p-8">
+                <main class="flex-1 p-8">
                     <div class="mx-auto max-w-7xl">
                         <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
                             <div class="flex flex-col gap-1">

@@ -1,16 +1,9 @@
 import api from "../../../utils/api";
 import { createDataTable } from "../../DataTable/DataTable";
 import type { FetchParams, FetchResult } from "../../DataTable/DataTable";
+import type { InOutFilters, InOutReportResponse, InOutReportRow } from "../../../types/Reports/InOutReport";
 
-export interface InOutFilters {
-    product_id: string;
-    location_id: string;
-    type: string;
-    provider_id: string;
-    category_id: string;
-    date_from: string;
-    date_to: string;
-}
+export type { InOutFilters };
 
 export function showTableInOutReport(
     $tableElement: JQuery<HTMLElement>,
@@ -24,7 +17,16 @@ export function showTableInOutReport(
             { data: "description",    title: "DESCRIÇÃO",   className: "px-4 py-3 text-gray-800 text-sm" },
             { data: "category_name",  title: "CATEGORIA",   className: "px-4 py-3 text-gray-800 text-sm" },
             { data: "location_name",  title: "LOCAL",       className: "px-4 py-3 text-gray-800 text-sm" },
-            { data: "provider_name",  title: "FORNECEDOR",  className: "px-4 py-3 text-gray-800 text-sm" },
+            { 
+                data: "provider_name",
+                title: "FORNECEDOR",  
+                className: "px-4 py-3 text-gray-800 text-sm",
+                render(value: unknown) {
+                    const name = String(value ?? "").trim();
+                    return name ? name : "<span class='italic'>N/A</span>";
+                }
+
+            },
             {
                 data: "type",
                 title: "TIPO",
@@ -49,7 +51,7 @@ export function showTableInOutReport(
             },
         ],
         
-        fetchData: async (_params: FetchParams): Promise<FetchResult> => {
+        fetchData: async (_params: FetchParams): Promise<FetchResult<InOutReportRow>> => {
             const response = await api.post("reports/in-out", {
                 ...filters,
 
@@ -57,11 +59,7 @@ export function showTableInOutReport(
                 length: _params.length,
             });
 
-            const payload = response.data as {
-                data?: any;
-                recordsTotal?: number;
-                recordsFiltered?: number;
-            };
+            const payload = response.data as InOutReportResponse;
             const rows = Array.isArray(payload.data) ? payload.data : [];
 
             return {

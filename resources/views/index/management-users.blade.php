@@ -37,7 +37,7 @@
 
                 @include('partials.header-user')
 
-                <main class="p-8">
+                <main class="flex-1 p-8">
                     <div class="mx-auto max-w-7xl">
                         @include('partials.table-users')
                     </div>

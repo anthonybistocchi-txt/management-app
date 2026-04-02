@@ -22,13 +22,13 @@ export async function submitStockIn($selectProduct: JQuery<HTMLElement>,
         ? datePickerInstance.formatDate(selectedDates[0], "Y-m-d H:i:s") 
         : null;
                 
-            const productId   = Number($selectProduct.val());
-            const quantity    = Number($inputQuantity.val());
-            const providerId  = Number($selectProvider.val());
-            const description = String($textareaDesc.val()) || null;
-            const finalDate   = String(currentDateValue);
+            const productId     = Number($selectProduct.val());
+            const quantity      = Number($inputQuantity.val());
+            const providerId    = Number($selectProvider.val());
+            const description   = String($textareaDesc.val()) || null;
+            const finalDate     = String(currentDateValue);
             const needsLocation = hasSubsidiaries();
-            const locationId = needsLocation ? Number($selectLocation.val()) : null;
+            const locationId    = needsLocation ? Number($selectLocation.val()) : null;
 
             if (!productId || !quantity || !providerId || !finalDate) {
                 Toast.info("Por favor, preencha todos os campos obrigatórios.");

@@ -95,8 +95,9 @@
                 </div>
             </div>
         </aside>
-        <main class="flex-1 overflow-y-auto">
-            <div class="p-8">
+        <div class="flex flex-1 flex-col overflow-y-auto">
+            <main class="flex-1">
+                <div class="p-8">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <div class="flex flex-col gap-1">
                         <h1 class="text-[#0d141b] dark:text-slate-100 text-3xl font-bold leading-tight">Tabela de
@@ -308,8 +309,11 @@
                 </div>
             </div>
 
+                </div>
+            </main>
+
             @include('partials.footer-main')
-        </main>
+        </div>
     </div>
 
 </body>
