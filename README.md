@@ -1,4 +1,4 @@
-9# Management App
+# Management App
 
 Sistema de gestão operacional com foco em estoque, cadastros e controle de usuários, construído com Laravel no backend e TypeScript no frontend.
 
