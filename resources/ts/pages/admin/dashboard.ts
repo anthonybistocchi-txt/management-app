@@ -2,9 +2,9 @@ import $ from 'jquery';
 import "flatpickr/dist/flatpickr.css";
 import { DatePicker } from '../../components/DatePicker/flatpickr';
 import { showUserLogged } from '../../components/User/ShowUserLogged';
-import { showGrapics } from '../../components/graphicDashboard/ShowGrapics';
-import { graphicMovimentsSales } from '../../components/graphicDashboard/movimentsGraphic';
-import { Toast } from '../../components/Swal/swal';
+import { showDashboardGraphics } from '../../components/graphicDashboard/showDashboardGraphics'; 
+import { renderDashboardSalesMovementsChart } from '../../components/graphicDashboard/movimentsGraphic'; 
+import type { DashboardSalesMetric } from '../../types/Dashboard/DashboardGraphics';
 
 $(document).ready(async () => {
     const $username          = $('#text-header-username');
@@ -23,7 +23,7 @@ $(document).ready(async () => {
     const $btn_submit        = $("#btn_submit");
     const $metricButtons     = $("#sales-metric-toggle [data-metric]");
   
-    let currentMetric: "revenue" | "volume" = "revenue";
+    let currentMetric: DashboardSalesMetric = "revenue";
     let cachedDashboardData: DashboardData | null = null;
 
     await showUserLogged($username, $typeUserId);
@@ -35,6 +35,18 @@ $(document).ready(async () => {
         startFilter = start;
         endFilter   = end;
     });
+
+    const renderCachedSalesMovements = () => {
+        if (!cachedDashboardData) {
+            return;
+        }
+
+        renderDashboardSalesMovementsChart({
+            data: cachedDashboardData.salesMovements,
+            metric: currentMetric,
+            previousData: cachedDashboardData.salesMovementsPrevious
+        });
+    };
 
     const setMetricButtonState = () => {
         $metricButtons.each((_, button) => {
@@ -59,11 +71,7 @@ $(document).ready(async () => {
         setMetricButtonState();
 
         if (cachedDashboardData) {
-            graphicMovimentsSales(
-                cachedDashboardData.salesMovements,
-                currentMetric,
-                cachedDashboardData.salesMovementsPrevious
-            );
+            renderCachedSalesMovements();
             return;
         }
 
@@ -77,21 +85,23 @@ $(document).ready(async () => {
         $btn_submit.html('Buscando...').prop('disabled', true);
         
         try {
-            const dashboardData = await showGrapics(
-                startFilter, 
-                endFilter, 
-                $totalSales, 
-                $topSellingProduct,
-                $averageTicket,
-                $totalOrders,
-                $totalSalesGrowth,
-                $topProductsBody,
-                $recentSalesList,
-                $lowStockAlert,
-                $lowStockCount,
-                $lowStockMessage,
-                currentMetric
-            );
+            const dashboardData = await showDashboardGraphics({
+                startFilter,
+                endFilter,
+                metric: currentMetric,
+                elements: {
+                    totalSales: $totalSales,
+                    topSellingProduct: $topSellingProduct,
+                    averageTicket: $averageTicket,
+                    totalOrders: $totalOrders,
+                    totalSalesGrowth: $totalSalesGrowth,
+                    topProductsBody: $topProductsBody,
+                    recentSalesList: $recentSalesList,
+                    lowStockAlert: $lowStockAlert,
+                    lowStockCount: $lowStockCount,
+                    lowStockMessage: $lowStockMessage
+                }
+            });
 
             if (dashboardData) {
                 cachedDashboardData = dashboardData;
