@@ -1,10 +1,10 @@
-import { modalEditProvider } from "../../pages/admin/Providers/modalEditProvider";
+import { submitEditProviderForm } from "./helpers/submitEditProviderForm";
 import { openModal } from "../../utils/openModal";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
 import { showUfs } from "../Locations/showUfs";
 import { showCities } from "../Locations/showCities";
-import { getTomSelectInstance, initLocalTomSelect } from "../TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelect } from "../TomSelect/initTomSelect";
 import { normalizeText } from "../../utils/normalizeText";
 
 async function refreshCities(
@@ -12,17 +12,8 @@ async function refreshCities(
     ufId: number,
     selectedCity?: string,
 ): Promise<void> {
-    const tsCity = getTomSelectInstance($city);
-    if (tsCity) {
-        tsCity.destroy();
-    }
-
     await showCities($city, ufId);
-    const el = $city[0] as HTMLSelectElement | undefined;
-    if (el) {
-        const ts = initLocalTomSelect(el, { size: "md" });
-        $city.data("tomSelect", ts);
-    }
+    const nextTsCity = syncLocalTomSelect($city, { size: "md" });
 
     if (selectedCity) {
         const normalizedSelected = normalizeText(selectedCity);
@@ -33,7 +24,7 @@ async function refreshCities(
         });
 
         if (match) {
-            getTomSelectInstance($city)?.setValue((match as HTMLOptionElement).value, true);
+            nextTsCity?.setValue((match as HTMLOptionElement).value, true);
         }
     }
 }
@@ -42,20 +33,20 @@ export async function ShowModalEditProvider(
     provider: ProviderData,
     table: { draw: (resetPaging?: boolean) => void },
 ): Promise<void> {
-    const $modal = $("#modal-edit-provider");
-    const $btnClose = $("#btn-modal-close-provider-edit");
+    const $modal     = $("#modal-edit-provider");
+    const $btnClose  = $("#btn-modal-close-provider-edit");
     const $btnCancel = $("#btn-modal-cancel-provider-edit");
-    const $btnSave = $("#btn-modal-save-provider-edit");
+    const $btnSave   = $("#btn-modal-save-provider-edit");
 
-    const $inputId = $("#input-edit-provider-id");
-    const $inputName = $("#input-edit-provider-name");
-    const $inputCnpj = $("#input-edit-provider-cnpj");
-    const $inputPhone = $("#input-edit-provider-phone");
-    const $inputEmail = $("#input-edit-provider-email");
-    const $inputCep = $("#input-edit-provider-cep");
+    const $inputId     = $("#input-edit-provider-id");
+    const $inputName   = $("#input-edit-provider-name");
+    const $inputCnpj   = $("#input-edit-provider-cnpj");
+    const $inputPhone  = $("#input-edit-provider-phone");
+    const $inputEmail  = $("#input-edit-provider-email");
+    const $inputCep    = $("#input-edit-provider-cep");
     const $inputStreet = $("#input-edit-provider-street");
     const $inputNumber = $("#input-edit-provider-number");
-    const $selectCity = $("#select-edit-provider-city");
+    const $selectCity  = $("#select-edit-provider-city");
     const $selectState = $("#select-edit-provider-state");
 
     $inputId.val(String(provider.id));
@@ -68,13 +59,9 @@ export async function ShowModalEditProvider(
     $inputNumber.val(provider.number ?? "");
 
     await showUfs($selectState);
-    const stateEl = $selectState[0] as HTMLSelectElement | undefined;
-    if (stateEl) {
-        const ts = initLocalTomSelect(stateEl, { size: "md" });
-        $selectState.data("tomSelect", ts);
-        if (provider.state) {
-            ts.setValue(provider.state, true);
-        }
+    syncLocalTomSelect($selectState, { size: "md" });
+    if (provider.state) {
+        getTomSelectInstance($selectState)?.setValue(provider.state, true);
     }
 
     const selectedUf = $selectState.find("option:selected");
@@ -101,7 +88,7 @@ export async function ShowModalEditProvider(
         $btnSave.text("Salvando...").prop("disabled", true);
 
         try {
-            const submitResult = await modalEditProvider.handleEditProviderSubmit(
+            const submitResult = await submitEditProviderForm(
                 provider.id,
                 $inputName,
                 $inputCnpj,

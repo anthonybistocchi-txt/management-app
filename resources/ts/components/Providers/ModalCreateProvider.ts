@@ -1,26 +1,26 @@
-import { modalCreateProvider } from "../../pages/admin/Providers/modalCreateProvider";
+import { submitCreateProviderForm } from "./helpers/submitCreateProviderForm";
 import { showProvidersTable } from "./TableProviders";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
 
 export async function ShowModalCreateProvider(
-    $inputName: JQuery<HTMLElement>,
-    $inputCnpj: JQuery<HTMLElement>,
-    $inputPhone: JQuery<HTMLElement>,
-    $inputEmail: JQuery<HTMLElement>,
-    $inputCep: JQuery<HTMLElement>,
+    $inputName:   JQuery<HTMLElement>,
+    $inputCnpj:   JQuery<HTMLElement>,
+    $inputPhone:  JQuery<HTMLElement>,
+    $inputEmail:  JQuery<HTMLElement>,
+    $inputCep:    JQuery<HTMLElement>,
     $inputStreet: JQuery<HTMLElement>,
     $inputNumber: JQuery<HTMLElement>,
-    $selectCity: JQuery<HTMLElement>,
+    $selectCity:  JQuery<HTMLElement>,
     $selectState: JQuery<HTMLElement>,
-    $btnSave: JQuery<HTMLElement>,
-    $modal: JQuery<HTMLElement>,
-    $table: JQuery<HTMLElement>,
+    $btnSave:     JQuery<HTMLElement>,
+    $modal:       JQuery<HTMLElement>,
+    $table:       JQuery<HTMLElement>,
 ): Promise<void> {
     $btnSave.text("Salvando...").prop("disabled", true);
 
     try {
-        const requestCreate = await modalCreateProvider.handleCreateProviderSubmit(
+        const requestCreate = await submitCreateProviderForm(
             $inputName,
             $inputCnpj,
             $inputPhone,

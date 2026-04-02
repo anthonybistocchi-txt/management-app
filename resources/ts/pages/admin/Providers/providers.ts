@@ -7,7 +7,7 @@ import { maskPhone } from "../../../utils/phoneMask";
 import { showProvidersTable } from "../../../components/Providers/TableProviders";
 import { ShowModalCreateProvider } from "../../../components/Providers/ModalCreateProvider";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
-import { initLocalTomSelect, getTomSelectInstance } from "../../../components/TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelect, syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 import { ProviderController } from "../../../Controllers/Providers/ProviderController";
 import { showUfs } from "../../../components/Locations/showUfs";
 import { showCities } from "../../../components/Locations/showCities";
@@ -44,17 +44,8 @@ async function refreshCities(
     ufId: number,
     selectedCity?: string,
 ): Promise<void> {
-    const tsCity = getTomSelectInstance($city);
-    if (tsCity) {
-        tsCity.destroy();
-    }
-
     await showCities($city, ufId);
-    const el = $city[0] as HTMLSelectElement | undefined;
-    if (el) {
-        const ts = initLocalTomSelect(el, { size: "lg" });
-        $city.data("tomSelect", ts);
-    }
+    const tsCity = syncLocalTomSelect($city, { size: "lg" });
 
     if (selectedCity) {
         const normalizedSelected = normalizeText(selectedCity);
@@ -65,7 +56,7 @@ async function refreshCities(
         });
 
         if (match) {
-            getTomSelectInstance($city)?.setValue((match as HTMLOptionElement).value, true);
+            tsCity?.setValue((match as HTMLOptionElement).value, true);
         }
     }
 }
@@ -113,13 +104,7 @@ $(document).ready(async () => {
         { $el: $filterCity, size: "sm" as const },
     ];
 
-    for (const { $el, size } of filterSelects) {
-        const el = $el[0] as HTMLSelectElement | undefined;
-        if (el) {
-            const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-            $el.data("tomSelect", ts);
-        }
-    }
+    syncLocalTomSelectGroup(filterSelects.map(({ $el, size }) => ({ $el, size, allowEmpty: true })));
 
     await showProvidersTable($table, $inputSearch, $filterState, $filterCity, $btnSubmitSearch);
 
@@ -211,22 +196,10 @@ $(document).ready(async () => {
         await showUfs($selectState);
         await showCities($selectCity);
 
-        const createSelects = [
-            { $el: $selectState, size: "lg" as const },
-            { $el: $selectCity, size: "lg" as const },
-        ];
-
-        for (const { $el, size } of createSelects) {
-            const el = $el[0] as HTMLSelectElement | undefined;
-            if (el) {
-                const existing = getTomSelectInstance($el);
-                if (existing) {
-                    existing.destroy();
-                }
-                const ts = initLocalTomSelect(el, { size });
-                $el.data("tomSelect", ts);
-            }
-        }
+        syncLocalTomSelectGroup([
+            { $el: $selectState, size: "lg" },
+            { $el: $selectCity, size: "lg" },
+        ]);
 
         $selectState.off("change").on("change", async () => {
             const selected = $selectState.find("option:selected");

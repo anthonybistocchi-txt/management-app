@@ -2,8 +2,9 @@ import { createDataTable } from "../DataTable/DataTable";
 import { ProviderController } from "../../Controllers/Providers/ProviderController";
 import { ShowModalEditProvider } from "./ModalEditProvider";
 import { Toast } from "../Swal/swal";
-import { openModal } from "../../utils/openModal";
-import { closeModal } from "../../utils/CloseModal";
+import { attachDeleteConfirmation } from "../shared/modals/attachDeleteConfirmation";
+import { buildCrudActionButtonsHtml } from "../shared/tables/buildCrudActionButtonsHtml";
+import { getTableRowData } from "../shared/tables/getTableRowData";
 
 const PROVIDER_COLUMNS: DataTables.ColumnSettings[] = [
     { data: "name", title: "NOME", className: "px-4 py-3 text-gray-800 text-sm" },
@@ -32,20 +33,8 @@ const PROVIDER_COLUMNS: DataTables.ColumnSettings[] = [
         title: "ACOES",
         className: "px-4 py-3 text-gray-800 text-sm text-right",
         orderable: false,
-        render(_data: any, _type: any, row: any) {
-            return `
-                <div class="flex items-center justify-end gap-2">
-                    <button type="button"
-                        class="btn-edit-provider p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">edit</span>
-                    </button>
-                    <button type="button"
-                        class="btn-delete-provider p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                    </button>
-                </div>`;
+        render(_data: unknown, _type: unknown, row: ProviderData) {
+            return buildCrudActionButtonsHtml("provider", row.id);
         },
     },
 ];
@@ -54,7 +43,7 @@ function getFilterValue($el?: JQuery<HTMLElement>, fallback = ""): string {
     return $el ? String($el.val() ?? "").trim() : fallback;
 }
 
-function getRowData(table: DataTables.Api, id: number): ProviderData | undefined {
+function getRowData(table: DataTables.Api, id: number): ProviderData | undefined { // @ts-ignore
     const $row = $(table.table().body()).find(`[data-id="${id}"]`).closest("tr");
     return table.row($row).data() as ProviderData | undefined;
 }
@@ -103,7 +92,7 @@ export function showProvidersTable(
             {
                 selector: ".btn-edit-provider",
                 async handler(providerId, tbl) {
-                    const row = getRowData(tbl, providerId);
+                    const row = getTableRowData<ProviderData>(tbl, providerId);
                     if (!row) {
                         Toast.error("Fornecedor nao encontrado.");
                         return;
@@ -122,27 +111,17 @@ export function showProvidersTable(
                     const $btnClose = $("#btn-modal-close-provider-delete");
 
                     $inputId.val(String(providerId));
-                    openModal($modal);
 
-                    $btnCancel.off("click").on("click", () => closeModal($modal));
-                    $btnClose.off("click").on("click", () => closeModal($modal));
-
-                    $btnConfirm.off("click").on("click", async (e) => {
-                        e.preventDefault();
-                        $btnConfirm.text("Excluindo...").prop("disabled", true);
-
-                        try {
-                            const result = await ProviderController.deleteProvider(providerId);
-                            if (result.success) {
-                                Toast.success("Fornecedor excluido com sucesso.");
-                                closeModal($modal);
-                                tbl.draw(false);
-                            } else {
-                                Toast.error(result.message ?? "Nao foi possivel excluir o fornecedor.");
-                            }
-                        } finally {
-                            $btnConfirm.text("Excluir").prop("disabled", false);
-                        }
+                    attachDeleteConfirmation({
+                        modal: $modal,
+                        confirmButton: $btnConfirm,
+                        cancelButton: $btnCancel,
+                        closeButton: $btnClose,
+                        itemIdInput: $inputId,
+                        entityLabel: "Fornecedor",
+                        failureMessage: "Nao foi possivel excluir o fornecedor.",
+                        onConfirm: async () => ProviderController.deleteProvider(providerId), // @ts-ignore
+                        onSuccess: () => tbl.draw(false),
                     });
                 },
             },

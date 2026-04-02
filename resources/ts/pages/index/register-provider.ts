@@ -4,7 +4,7 @@ import { showUserLogged } from "../../components/User/ShowUserLogged";
 import { ProviderController } from "../../Controllers/Providers/ProviderController";
 import { showUfs } from "../../components/Locations/showUfs";
 import { showCities } from "../../components/Locations/showCities";
-import { initAndStore, getTomSelectInstance, initLocalTomSelect } from "../../components/TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelect, syncLocalTomSelectGroup } from "../../components/TomSelect/initTomSelect";
 import { CepController } from "../../Controllers/CEP/CepController";
 import { bindCepAutoFill } from "../../utils/cepAutoFill";
 import { maskCnpj } from "../../utils/cnpjMask";
@@ -40,21 +40,14 @@ $(document).ready(async () => {
         }
     });
 
-    if ($state.length) {
-        initAndStore($state, (element) => initLocalTomSelect(element, { size: "lg" }));
-    }
-    if ($city.length) {
-        initAndStore($city, (element) => initLocalTomSelect(element, { size: "lg" }));
-    }
+    syncLocalTomSelectGroup([
+        { $el: $state, size: "lg" },
+        { $el: $city, size: "lg" },
+    ]);
 
     const refreshCities = async (ufId: number, selectedCity?: string) => {
-        const tsCity = getTomSelectInstance($city);
-        if (tsCity) {
-            tsCity.destroy();
-        }
-
         await showCities($city, ufId);
-        initAndStore($city, (element) => initLocalTomSelect(element, { size: "lg" }));
+        const tsCity = syncLocalTomSelect($city, { size: "lg" });
 
         if (selectedCity) {
             const normalizedSelected = normalizeText(selectedCity);
@@ -65,7 +58,7 @@ $(document).ready(async () => {
             });
 
             if (match) {
-                getTomSelectInstance($city)?.setValue((match as HTMLOptionElement).value, true);
+                tsCity?.setValue((match as HTMLOptionElement).value, true);
             }
         }
     };
