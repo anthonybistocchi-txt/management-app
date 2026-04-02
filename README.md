@@ -1,6 +1,10 @@
-# Management App
+# Inventa
 
-Sistema de gestão operacional com foco em estoque, cadastros e controle de usuários, construído com Laravel no backend e TypeScript no frontend.
+Plataforma de gestão operacional voltada ao controle de estoque, cadastros e administração de usuários
+
+Desenvolvido por **ABCode**, Software corporativo criado por Anthony Bistocchi. 
+
+Construído com Laravel no backend e TypeScript no frontend.
 
 ## 1. Visão Geral
 
@@ -14,7 +18,6 @@ Principais capacidades:
 - Relatório de entrada/saída com filtros.
 
 Arquivos de apoio:
-- [FEATURES.md](FEATURES.md): escopo funcional e itens não implementados.
 - [documentation/database.md](documentation/database.md): referência de banco de dados.
 
 ## 2. Funcionalidades
