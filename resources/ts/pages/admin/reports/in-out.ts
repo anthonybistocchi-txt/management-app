@@ -1,13 +1,13 @@
 import $ from "jquery";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
 import { DatePicker } from "../../../components/DatePicker/flatpickr";
-import type { InOutFilters } from "../../../components/Reports/in-out/showTable";
 import { showTableInOutReport } from "../../../components/Reports/in-out/showTable";
 import { showCategories } from "../../../components/ProductCategories/showCategories";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { showLocations } from "../../../components/Locations/showLocations";
 import { initProductSearch } from "../../../components/Products/productSearch";
-import { initLocalTomSelect } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import type { InOutFilters } from "../../../types/Reports/InOutReport";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $("#text-header-username");
@@ -43,14 +43,9 @@ $(document).ready(async () => {
         showLocations($filterLocation),
     ]);
 
-    const localSelects = [$filterLocation, $filterMovementType, $filterCategory, $filterProvider];
-    
-    for (const $select of localSelects) 
-    {
-        const element = $select[0] as HTMLSelectElement;
-
-        if (element) initLocalTomSelect(element, { size: "sm" });
-    }
+    syncLocalTomSelectGroup(
+        [$filterLocation, $filterMovementType, $filterCategory, $filterProvider].map(($el) => ({ $el, size: "sm" as const }))
+    );
 
     const getSelectValue = ($element: JQuery<HTMLElement>, fallback = "all"): string => {
         const value = ($element.val() as string | null | undefined)?.toString().trim();
