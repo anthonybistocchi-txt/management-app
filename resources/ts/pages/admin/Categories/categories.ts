@@ -4,7 +4,7 @@ import { closeModal } from "../../../utils/CloseModal";
 import { showCategoriesTable } from "../../../components/Categories/TableCategories";
 import { ShowModalCreateCategory } from "../../../components/Categories/ModalCreateCategory";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
-import { initLocalTomSelect } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $("#text-header-username");
@@ -33,13 +33,7 @@ $(document).ready(async () => {
         { $el: $filterType, size: "sm" as const },
     ];
 
-    for (const { $el, size } of filterSelects) {
-        const el = $el[0] as HTMLSelectElement | undefined;
-        if (el) {
-            const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-            $el.data("tomSelect", ts);
-        }
-    }
+    syncLocalTomSelectGroup(filterSelects.map(({ $el, size }) => ({ $el, size, allowEmpty: true })));
 
     await showCategoriesTable($table, $inputSearch, $btnSubmitSearch);
 

@@ -1,19 +1,19 @@
-import { modalCreateCategory } from "../../pages/admin/Categories/modalCreateCategory";
+import { submitCreateCategoryForm } from "./helpers/submitCreateCategoryForm";
 import { showCategoriesTable } from "./TableCategories";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
 
 export async function ShowModalCreateCategory(
-    $inputName: JQuery<HTMLElement>,
+    $inputName:           JQuery<HTMLElement>,
     $textareaDescription: JQuery<HTMLElement>,
-    $btnSave: JQuery<HTMLElement>,
-    $modal: JQuery<HTMLElement>,
-    $table: JQuery<HTMLElement>,
+    $btnSave:             JQuery<HTMLElement>,
+    $modal:               JQuery<HTMLElement>,
+    $table:               JQuery<HTMLElement>,
 ): Promise<void> {
     $btnSave.text("Salvando...").prop("disabled", true);
 
     try {
-        const requestCreate = await modalCreateCategory.handleCreateCategorySubmit(
+        const requestCreate = await submitCreateCategoryForm(
             $inputName,
             $textareaDescription,
         );
