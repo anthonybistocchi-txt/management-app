@@ -7,7 +7,9 @@ function hideSidebarLinkById(linkId: string): void {
 }
 
 export function applySidebarPermissions(typeUserId: number): void {
-    if (typeUserId === 3) {
+    
+    if (typeUserId === 3) 
+    {
         hideSidebarLinkById("link-sidebar-dashboard");
         hideSidebarLinkById("link-sidebar-users");
         hideSidebarLinkById("link-sidebar-providers");

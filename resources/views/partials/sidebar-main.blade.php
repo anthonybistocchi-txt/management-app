@@ -29,7 +29,6 @@
             </button>
         </div>
 
-        {{-- Nav com barra de rolagem super fina e elegante --}}
         <nav class="flex flex-col gap-2 flex-1 overflow-y-auto pr-2 pb-2 
             [&::-webkit-scrollbar]:w-1 
             [&::-webkit-scrollbar-track]:bg-transparent 
@@ -69,7 +68,7 @@
 
             <div
                 class="mt-2 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
-                Cadastros</div>
+                Gestão</div>
             <a id="link-sidebar-products" href="{{ route('products') }}"
                 class="{{ $nav('products') }} hover:text-white hover:bg-primary/10 transition-colors">
                 <span class="material-symbols-outlined">inventory</span>
@@ -109,7 +108,6 @@
                         class="material-symbols-outlined shrink-0 text-lg transition-transform duration-300 group-open:rotate-180">expand_more</span>
                 </summary>
 
-                {{-- Submenu com efeito de hover na borda e nos itens --}}
                 <div
                     class="mt-2 ml-4 flex flex-col gap-1 border-l border-white/15 pl-3 transition-colors duration-300 hover:border-white/40">
                     <a id="link-sidebar-report-sales-period" href="#"
@@ -133,10 +131,8 @@
         </nav>
     </div>
 
-    {{-- Divisor fixo --}}
     <hr class="border-t border-white/10 my-4 shrink-0" />
 
-    {{-- Rodapé fixo --}}
     <div class="flex flex-col gap-1 shrink-0">
         <a id="link-sidebar-settings"
             class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
