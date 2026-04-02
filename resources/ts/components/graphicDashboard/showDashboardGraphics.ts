@@ -45,7 +45,7 @@ export async function showDashboardGraphics({
     const totalOrders             = Number(dashboardData.totalOrders) || 0;
 
     elements.totalSales.text(formatPrice(totalSalesValue));
-    elements.topSellingProduct.text(dashboardData.topSellingProduct.name);
+    elements.topSellingProduct.text(dashboardData.topSellingProduct?.name ?? "—");
     elements.totalOrders.text(totalOrders.toLocaleString("pt-BR"));
 
     const averageTicket = totalOrders > 0 ? totalSalesValue / totalOrders : 0;
@@ -77,7 +77,9 @@ export async function showDashboardGraphics({
     renderDashboardSalesMovementsChart({
         data: dashboardData.salesMovements,
         metric,
-        previousData: dashboardData.salesMovementsPrevious
+        previousData: dashboardData.salesMovementsPrevious,
+        dateFrom: startFilter,
+        dateTo: endFilter
     });
 
     renderDashboardSalesByCategoryChart({

@@ -5,7 +5,6 @@ namespace App\Repositories\Eloquent;
 use App\DTOs\DashboardData;
 use App\Models\StockMovements;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
-use App\Models\StockMovement; // Importando o Model
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -43,7 +42,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id') 
             ->where('stock_movements.type', 'out') 
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->groupBy('products.id', 'products.name') 
             ->orderByDesc('total_sold')
             ->first();
@@ -52,15 +51,15 @@ class DashboardRepository implements DashboardRepositoryInterface
     private function getMovimentsSales($dateFrom, $dateTo)
     {
         return StockMovements::select(
-                DB::raw('DATE(stock_movements.created_at) as sell_date'),
+                DB::raw('DATE(stock_movements.movement_date) as sell_date'),
                 'products.name',
                 DB::raw('SUM(stock_movements.quantity_moved) as total_sold'),
                 DB::raw('SUM(products.price * stock_movements.quantity_moved) as total_sales')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->where('stock_movements.type', 'out')
-            ->groupBy(DB::raw('DATE(stock_movements.created_at)'), 'products.name')
+            ->groupBy(DB::raw('DATE(stock_movements.movement_date)'), 'products.name')
             ->orderBy('sell_date', 'asc')
             ->get();
     }
@@ -69,14 +68,14 @@ class DashboardRepository implements DashboardRepositoryInterface
     {
         return StockMovements::where('stock_movements.type', 'out')
             ->join('products', 'stock_movements.product_id', '=', 'products.id') 
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->sum(DB::raw('products.price * stock_movements.quantity_moved'));
     }
 
     private function getTotalOrders($dateFrom, $dateTo)
     {
         return StockMovements::where('stock_movements.type', 'out')
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->count();
     }
 
@@ -88,7 +87,7 @@ class DashboardRepository implements DashboardRepositoryInterface
                 DB::raw('SUM(products.price * stock_movements.quantity_moved) as total_sales')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->where('stock_movements.type', 'out')
             ->groupBy('products.id', 'products.name')
             ->orderByDesc('total_sales')
@@ -99,16 +98,16 @@ class DashboardRepository implements DashboardRepositoryInterface
     private function getRecentSales($dateFrom, $dateTo)
     {
         return StockMovements::select(
-                'stock_movements.created_at',
+                DB::raw('stock_movements.movement_date as created_at'),
                 'products.name as product_name',
                 'locations.name as location_name',
                 DB::raw('products.price * stock_movements.quantity_moved as total_sales')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('locations', 'stock_movements.location_id', '=', 'locations.id')
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->where('stock_movements.type', 'out')
-            ->orderBy('stock_movements.created_at', 'desc')
+            ->orderBy('stock_movements.movement_date', 'desc')
             ->limit(5)
             ->get();
     }
@@ -131,7 +130,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id') 
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-            ->whereBetween('stock_movements.created_at', [$dateFrom, $dateTo])
+            ->whereBetween('stock_movements.movement_date', [$dateFrom, $dateTo])
             ->where('stock_movements.type', 'out')
             ->groupBy('product_categories.name')
             ->orderByDesc('total_sales')
