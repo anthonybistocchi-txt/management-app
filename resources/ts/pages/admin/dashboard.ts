@@ -44,7 +44,9 @@ $(document).ready(async () => {
         renderDashboardSalesMovementsChart({
             data: cachedDashboardData.salesMovements,
             metric: currentMetric,
-            previousData: cachedDashboardData.salesMovementsPrevious
+            previousData: cachedDashboardData.salesMovementsPrevious,
+            dateFrom: startFilter,
+            dateTo: endFilter
         });
     };
 
