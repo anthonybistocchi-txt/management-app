@@ -1,9 +1,11 @@
 export type DashboardSalesMetric = "revenue" | "volume";
 
 export interface DashboardSalesMovement {
-    total_sold: number;
-    total_sales?: number;
+    /** Vem da API como string em alguns drivers (SUM). */
+    total_sold: number | string;
+    total_sales?: number | string;
     sell_date: string;
+    name?: string;
 }
 
 export interface DashboardSalesByCategory {
@@ -49,6 +51,9 @@ export interface RenderDashboardSalesMovementsChartParams {
     data: DashboardSalesMovement[];
     metric: DashboardSalesMetric;
     previousData?: DashboardSalesMovement[];
+    /** Período selecionado (YYYY-MM-DD): necessário para alinhar o período anterior dia a dia. */
+    dateFrom?: string;
+    dateTo?: string;
 }
 
 export interface RenderDashboardSalesByCategoryChartParams {

@@ -6,7 +6,7 @@ declare global {
             id: number;
             name: string;
             total_sold: string;
-        };
+        } | null;
         salesMovements: DashboardSalesMovement[];
         salesMovementsPrevious: DashboardSalesMovement[];
         totalSalesValue: string;

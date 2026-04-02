@@ -108,12 +108,30 @@
                 </div>
 
                 <div class="lg:col-span-2 flex flex-col rounded-xl p-6 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                    <h3 class="text-lg font-semibold dark:text-text-dark-primary mb-6">Vendas por categorias</h3>
-                    <div class="flex flex-col md:flex-row items-center gap-6 h-full">
-                        <div class="relative w-full md:w-5/12 h-64 flex justify-center items-center">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold dark:text-text-dark-primary">Vendas por categorias</h3>
+                        <p class="mt-1 text-xs text-text-light-secondary dark:text-text-dark-secondary">Gráfico com as maiores categorias; a tabela abaixo lista todas com rolagem.</p>
+                    </div>
+                    <div id="sales_category_chart_wrap" class="relative w-full rounded-lg border border-border-light/80 dark:border-border-dark/80 bg-slate-50/50 dark:bg-slate-900/20 p-2">
+                        <div class="relative h-[380px] w-full">
                             <canvas id="sales_category_chart"></canvas>
                         </div>
-                        <div id="sales_category_legend" class="w-full md:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-4 content-center">
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">Todas as categorias</h4>
+                        <div class="max-h-72 overflow-y-auto rounded-lg border border-border-light dark:border-border-dark">
+                            <table class="w-full text-sm">
+                                <thead class="sticky top-0 z-10 bg-slate-100 dark:bg-slate-800/95 border-b border-border-light dark:border-border-dark">
+                                    <tr class="text-left text-text-light-secondary dark:text-text-dark-secondary">
+                                        <th class="px-3 py-2 font-medium">Categoria</th>
+                                        <th class="px-3 py-2 font-medium text-right">Volume</th>
+                                        <th class="px-3 py-2 font-medium text-right">%</th>
+                                        <th class="px-3 py-2 font-medium text-right">Faturamento</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sales_category_table_body" class="divide-y divide-border-light dark:divide-border-dark">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -154,8 +172,11 @@
 
                     <div id="low_stock_alert" class="flex flex-col rounded-xl p-6 border border-amber-200 bg-amber-50 text-amber-700">
                         <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-lg font-semibold">Alertas de estoque</h3>
-                            <span class="material-symbols-outlined">warning</span>
+                            <div>
+                                <h3 class="text-lg font-semibold">Alertas de estoque</h3>
+                                <p class="mt-1 text-xs opacity-90">Estoque atual; não usa o período do filtro acima.</p>
+                            </div>
+                            <span class="material-symbols-outlined shrink-0">warning</span>
                         </div>
                         <p class="text-3xl font-bold"><span id="low_stock_count">0</span></p>
                         <p id="low_stock_message" class="text-sm">Nenhum produto abaixo do minimo.</p>

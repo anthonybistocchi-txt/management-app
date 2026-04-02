@@ -5,13 +5,16 @@ import { formatPrice } from "../../../utils/FormatPrice";
 import type { RenderDashboardSalesMovementsChartParams } from "../../../types/Dashboard/DashboardGraphics";
 import { buildSalesMovementsSeries } from "../helpers/buildSalesMovementsSeries";
 import { destroyDashboardChart } from "../helpers/destroyDashboardChart";
+import { getPreviousPeriodRange } from "../../../utils/dashboardPeriodDates";
 
 let chartInstance: Chart | null = null;
 
 export function renderDashboardSalesMovementsChart({
     data,
     metric,
-    previousData = []
+    previousData = [],
+    dateFrom,
+    dateTo
 }: RenderDashboardSalesMovementsChartParams): void {
     const $graphic      = $("#moviments_sales_chart");
     const canvasElement = $graphic.get(0) as HTMLCanvasElement;
@@ -25,11 +28,24 @@ export function renderDashboardSalesMovementsChart({
     destroyDashboardChart(canvasElement, chartInstance);
     chartInstance = null;
 
-    const currentSeries  = buildSalesMovementsSeries(data, metric);
-    const previousSeries = buildSalesMovementsSeries(previousData, metric);
-    const labels         = currentSeries.labels;
-    const values         = currentSeries.values;
-    const previousValues = labels.map((_, index) => previousSeries.values[index] ?? null);
+    const hasRange = Boolean(dateFrom?.trim() && dateTo?.trim());
+    const prevRange = hasRange ? getPreviousPeriodRange(dateFrom!, dateTo!) : null;
+
+    const currentSeries = hasRange
+        ? buildSalesMovementsSeries(data, metric, dateFrom, dateTo)
+        : buildSalesMovementsSeries(data, metric);
+
+    const previousSeries =
+        hasRange && prevRange
+            ? buildSalesMovementsSeries(previousData, metric, prevRange.from, prevRange.to)
+            : buildSalesMovementsSeries(previousData, metric);
+
+    const labels = currentSeries.labels;
+    const values = currentSeries.values;
+
+    const previousValues = hasRange
+        ? labels.map((_, i) => Number(previousSeries.values[i] ?? 0))
+        : labels.map((_, index) => previousSeries.values[index] ?? null);
     const labelText      = metric === "revenue" ? "Faturamento" : "Quantidade de vendas";
 
     chartInstance = new Chart(canvasElement, {

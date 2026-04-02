@@ -4,12 +4,16 @@ import { renderDashboardSalesMovementsChart } from "./charts/renderDashboardSale
 export function graphicMovimentsSales(
     data: DashboardSalesMovement[],
     metric: DashboardSalesMetric,
-    previousData: DashboardSalesMovement[] = []
+    previousData: DashboardSalesMovement[] = [],
+    dateFrom?: string,
+    dateTo?: string
 ): void {
     renderDashboardSalesMovementsChart({
         data,
         metric,
-        previousData
+        previousData,
+        dateFrom,
+        dateTo
     });
 }
 

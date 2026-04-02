@@ -1,4 +1,5 @@
 import { createDataTable } from "../DataTable/DataTable";
+import { formatPrice } from "../../utils/FormatPrice";
 import { ProductController } from "../../Controllers/Products/ProductController";
 import { ProviderController } from "../../Controllers/Providers/ProviderController";
 import { ProductCategoriesController } from "../../Controllers/ProductCategories/ProductCategoriesController";
@@ -35,7 +36,7 @@ const PRODUCT_COLUMNS: DataTables.ColumnSettings[] = [
             if (value === null || value === undefined || value === "") return "-";
             const numeric = typeof value === "string" ? Number(value) : value;
             if (Number.isNaN(numeric)) return "-";
-            return numeric.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+            return formatPrice(numeric);
         },
     },
     {

@@ -35,9 +35,12 @@ class ProductController extends Controller
         ],201);
     }
 
-    public function update(UpdateProductRequest $request): JsonResponse
+    public function update(UpdateProductRequest $request, int $id): JsonResponse
     {
-        $this->productService->update($request->validated()['id']);
+        $this->productService->update(array_merge(
+            $request->validated(),
+            ['id' => $id],
+        ));
 
         return response()->json([
             'status'  => true,
