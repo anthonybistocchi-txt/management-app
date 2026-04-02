@@ -147,7 +147,7 @@ Extensões PHP usuais do Laravel:
 ### 7.1 Clonar repositório
 ```bash
 git clone <url-do-repositorio>
-cd management-app
+cd Inventa-App
 ```
 
 ### 7.2 Instalar dependências backend
