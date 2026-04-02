@@ -1,4 +1,4 @@
-# Inventa
+# Inventa App
 
 Plataforma de gestão operacional voltada ao controle de estoque, cadastros e administração de usuários
 
