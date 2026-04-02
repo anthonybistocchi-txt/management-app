@@ -1,18 +1,17 @@
 import { AxiosError } from "axios";
 
-/**
- * Prefer messages returned by the API (English). Client-side fallbacks are in Portuguese for the UI.
- */
-export function messageFromAxiosError(error: unknown, fallbackPt = "Erro na requisição."): string {
+interface ApiErrorPayload {
+    message?: string;
+    errors?: Record<string, string[] | string>;
+}
+
+export function messageFromAxiosError(error: Error | AxiosError, fallbackPt = "Erro na requisição."): string {
     if (!(error instanceof AxiosError)) {
         return "Erro inesperado.";
     }
 
     const status = error.response?.status;
-    const data = error.response?.data as {
-        message?: string;
-        errors?: Record<string, string[] | string>;
-    };
+    const data = error.response?.data as ApiErrorPayload;
 
     if (data?.errors && typeof data.errors === "object") {
         const first = Object.values(data.errors).flat()[0];

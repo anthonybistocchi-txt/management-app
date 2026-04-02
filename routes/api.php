@@ -7,8 +7,10 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Reports\InOutController;
+use App\Http\Controllers\Reports\StockCardController;
+use App\Http\Controllers\Reports\StockTurnoverController;
+use App\Http\Controllers\Reports\InventoryController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\UserController;
@@ -92,8 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('reports')->group(function () {
             Route::post('/in-out', [InOutController::class, 'getAll'])->name('reports.in-out');
-            Route::post('/stock-turnover', [ReportController::class, 'getStockTurnoverReport'])->name('reports.stock-turnover');
-            Route::post('/inventory', [ReportController::class, 'getInventoryReport'])->name('reports.inventory');
+            Route::post('/stock-card', [StockCardController::class, 'getAll'])->name('reports.stock-card');
+            Route::post('/stock-turnover', [StockTurnoverController::class, 'getAll'])->name('reports.stock-turnover');
+            Route::post('/inventory', [InventoryController::class, 'getAll'])->name('reports.inventory');
         });
 
         Route::prefix('stock')->group(function () {

@@ -1,6 +1,6 @@
 # Funcionalidades do projeto
 
-Este documento descreve o escopo funcional do **Management App** — sistema voltado à gestão de estoque, cadastros e operadores — e deixa explícito o que ainda está **em desenvolvimento** ou **não implementado**.
+Este documento descreve o escopo funcional do **Inventa-App** — sistema voltado à gestão de estoque, cadastros e operadores — e deixa explícito o que ainda está **em desenvolvimento** ou **não implementado**.
 
 ---
 
@@ -67,14 +67,16 @@ O back-end expõe rotas REST/JSON sob prefixos como `users`, `products`, `provid
 
 ---
 
-## Relatórios — ainda não disponíveis
+## Relatórios
 
-Na interface principal, o item de menu **Relatórios** aparece como **desabilitado** (não clicável). Isso reflete o estado atual do produto:
+O módulo de relatórios está acessível pelo menu **Relatórios** na sidebar e conta com:
 
-- **Módulo de relatórios não está implementado** (exportações PDF/Excel, relatórios analíticos customizados, agendamento, etc.).
-- Não há, neste momento, entrega funcional de relatórios gerenciais além do que já é exibido no **dashboard** e nas **listagens** (usuários, movimentações, etc.).
+- **Entrada e saída** — listagem paginada de todas as movimentações (entrada, saída, transferência) com filtros por produto, período, localização, tipo, categoria e fornecedor.
+- **Ficha de estoque (Kardex)** — histórico de movimentações de um produto específico com saldo antes/após cada operação, filtros por produto, período e localização.
+- **Giro de estoque** — análise de rotatividade por produto no período selecionado (fórmula: saídas / estoque médio), com filtros por período, categoria e localização.
+- **Inventário** — posição atual do estoque (snapshot da tabela `stock`) com produto, categoria, local, quantidade, preço unitário e valor total. Filtros por categoria e localização.
 
-Qualquer evolução futura (filtros avançados, exportação, dashboards adicionais) deve ser documentada neste arquivo ou em versão nova do README.
+Todas as telas utilizam DataTables com paginação server-side via API REST.
 
 ---
 

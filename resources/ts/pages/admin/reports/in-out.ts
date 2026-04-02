@@ -65,8 +65,8 @@ $(document).ready(async () => {
     // Monta a tabela na inicialização (com filtros padrão e range default do flatpickr).
     await showTableInOutReport($tableInOutReport, buildFilters());
 
-    $btnSearchInOut.on("click", async (e) => {
-        e.preventDefault();
+    $btnSearchInOut.on("click", async (event) => {
+        event.preventDefault();
         await showTableInOutReport($tableInOutReport, buildFilters());
     });
 });

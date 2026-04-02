@@ -8,7 +8,7 @@ export const ProductService = {
             const response = await api.get<ApiResponse<ProductData[]>>("products/getAll", {});
             
             return response.data;
-        } catch (error: unknown) {
+        } catch (error) {
             console.error("Erro no serviço:", error);
             const message = messageFromAxiosError(error, "Erro desconhecido ao buscar produtos.");
 

@@ -13,7 +13,7 @@ const CATEGORY_COLUMNS: DataTables.ColumnSettings[] = [
         title: "ACOES",
         className: "px-4 py-3 text-gray-800 text-sm text-right",
         orderable: false,
-        render(_data: unknown, _type: unknown, row: ProductCategoryData) {
+        render(_cellData: string | null, _displayType: string, row: ProductCategoryData) {
             return buildCrudActionButtonsHtml("category", row.id);
         },
     },
@@ -78,8 +78,8 @@ export function showCategoriesTable(
         ],
     });
 
-    $btnFilter?.on("click", (e) => {
-        e.preventDefault();
+    $btnFilter?.on("click", (event) => {
+        event.preventDefault();
         table.draw();
     });
 

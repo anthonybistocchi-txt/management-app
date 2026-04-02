@@ -9,7 +9,7 @@ export const LocationService = {
             const response = await api.get<ApiResponse<LocationData[]>>("locations/getAll", {});
 
             return response.data;
-        } catch (error: unknown) {
+        } catch (error) {
             console.error("Erro no serviço:", error);
             const message = messageFromAxiosError(error, "Erro desconhecido ao buscar localizações.");
 

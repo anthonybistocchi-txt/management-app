@@ -47,7 +47,7 @@ const USER_COLUMNS: DataTables.ColumnSettings[] = [
         title: "AÇÕES",
         className: `${"px-4 py-3 text-gray-800 text-sm"} text-right`,
         orderable: false,
-        render(_data: any, _type: any, row: any) {
+        render(_cellData: string | null, _displayType: string, row: UserData) {
             return buildCrudActionButtonsHtml("user", row.id);
         },
     },
@@ -125,8 +125,8 @@ export function showUsersTable(
         ],
     });
 
-    $btnFilter?.on("click", (e) => {
-        e.preventDefault();
+    $btnFilter?.on("click", (event) => {
+        event.preventDefault();
         table.draw();
     });
 

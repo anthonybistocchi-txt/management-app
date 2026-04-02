@@ -21,9 +21,9 @@ export function showTableInOutReport(
                 data: "provider_name",
                 title: "FORNECEDOR",  
                 className: "px-4 py-3 text-gray-800 text-sm",
-                render(value: unknown) {
-                    const name = String(value ?? "").trim();
-                    return name ? name : "<span class='italic'>N/A</span>";
+                render(cellValue: string | null) {
+                    const providerName = String(cellValue ?? "").trim();
+                    return providerName ? providerName : "<span class='italic'>N/A</span>";
                 }
 
             },
@@ -31,18 +31,18 @@ export function showTableInOutReport(
                 data: "type",
                 title: "TIPO",
                 className: "px-4 py-3 text-gray-800 text-sm",
-                render(value: unknown) {
-                    const type = String(value ?? "").toLowerCase();
+                render(cellValue: string) {
+                    const movementType = String(cellValue ?? "").toLowerCase();
 
-                    if (type === "in") {
+                    if (movementType === "in") {
                         return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">Entrada</span>`;
                     }
 
-                    if (type === "out") {
+                    if (movementType === "out") {
                         return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-red-50 text-red-700 border border-red-100">Saída</span>`;
                     }
 
-                    if (type === "transfer") {
+                    if (movementType === "transfer") {
                         return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">Transferência</span>`;
                     }
 
@@ -51,12 +51,12 @@ export function showTableInOutReport(
             },
         ],
         
-        fetchData: async (_params: FetchParams): Promise<FetchResult<InOutReportRow>> => {
+        fetchData: async (params: FetchParams): Promise<FetchResult<InOutReportRow>> => {
             const response = await api.post("reports/in-out", {
                 ...filters,
 
-                start: _params.start,
-                length: _params.length,
+                start: params.start,
+                length: params.length,
             });
 
             const payload = response.data as InOutReportResponse;

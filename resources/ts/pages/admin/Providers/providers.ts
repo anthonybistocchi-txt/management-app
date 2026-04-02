@@ -21,8 +21,8 @@ async function populateProviderFilters(
     $selectCity: JQuery<HTMLElement>,
 ): Promise<void> {
     const providers = await ProviderController.getProviders();
-    const states = Array.from(new Set(providers.map((p) => String(p.state ?? "").trim()).filter(Boolean)));
-    const cities = Array.from(new Set(providers.map((p) => String(p.city ?? "").trim()).filter(Boolean)));
+    const states = Array.from(new Set(providers.map((provider) => String(provider.state ?? "").trim()).filter(Boolean)));
+    const cities = Array.from(new Set(providers.map((provider) => String(provider.city ?? "").trim()).filter(Boolean)));
 
     $selectState.empty();
     $selectState.append('<option value="all">Estados</option>');
@@ -212,8 +212,8 @@ $(document).ready(async () => {
         openModal($modalCreate);
     });
 
-    $btnModalSave.on("click", async (e) => {
-        e.preventDefault();
+    $btnModalSave.on("click", async (event) => {
+        event.preventDefault();
         await ShowModalCreateProvider(
             $inputName,
             $inputCnpj,

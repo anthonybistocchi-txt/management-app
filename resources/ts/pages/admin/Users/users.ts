@@ -55,8 +55,8 @@ $(document).ready( async () => {
         openModal($modalCreateUser);
     });
 
-    $btnModalSave.on('click', async (e) => {
-        e.preventDefault();
+    $btnModalSave.on('click', async (event) => {
+        event.preventDefault();
 
         await ShowModalCreateUser(
             $inputCreateName,
@@ -71,8 +71,8 @@ $(document).ready( async () => {
         );
     });
 
-    $btnSubmitSearchUser.on('click',async (e) => {
-        e.preventDefault();
+    $btnSubmitSearchUser.on('click',async (event) => {
+        event.preventDefault();
 
        await showUsersTable(
             $tableUsers, 

@@ -8,7 +8,7 @@ export const ProductCategoriesService = {
            const { data } = await api.get<ApiResponse<ProductCategoryData[]>>("product-categories/getAll", {});
 
             return data;
-        } catch (error: unknown) {
+        } catch (error) {
             console.error("Erro no serviço:", error);
             const message = messageFromAxiosError(error, "Erro desconhecido ao buscar categorias de produtos.");
 

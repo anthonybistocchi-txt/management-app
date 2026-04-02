@@ -56,7 +56,7 @@ const PRODUCT_COLUMNS: DataTables.ColumnSettings[] = [
         title: "ACOES",
         className: "px-4 py-3 text-gray-800 text-sm text-right",
         orderable: false,
-        render(_data: unknown, _type: unknown, row: ProductData) {
+        render(_cellData: string | null, _displayType: string, row: ProductData) {
             return buildCrudActionButtonsHtml("product", row.id);
         },
     },
@@ -160,8 +160,8 @@ export function showProductsTable(
         ],
     });
 
-    $btnFilter?.on("click", (e) => {
-        e.preventDefault();
+    $btnFilter?.on("click", (event) => {
+        event.preventDefault();
         table.draw();
     });
 
