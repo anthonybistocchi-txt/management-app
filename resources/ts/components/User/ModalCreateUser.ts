@@ -1,4 +1,4 @@
-import { modalCreateUser } from "../../pages/admin/Users/modalCreateUser";
+import { submitCreateUserForm } from "./helpers/submitCreateUserForm";
 import { showUsersTable } from "./TableUsers";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
@@ -17,7 +17,7 @@ export async function ShowModalCreateUser($inputCreateName: JQuery<HTMLElement>,
     $btnModalSave.html("Salvando...").prop("disabled", true);
 
     try {
-        const requestCreateUser = await modalCreateUser.handleCreateUserSubmit(
+        const requestCreateUser = await submitCreateUserForm(
             $inputCreateName,
             $inputCreateEmail,
             $selectCreateTypeUser,

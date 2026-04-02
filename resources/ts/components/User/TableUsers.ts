@@ -4,6 +4,8 @@ import { createDataTable } from "../DataTable/DataTable";
 import { Toast } from "../Swal/swal";
 import { ShowModalEditUser } from "./ModalEditUser";
 import { UserController } from "../../Controllers/User/UserController";
+import { buildCrudActionButtonsHtml } from "../shared/tables/buildCrudActionButtonsHtml";
+import { getTableRowData } from "../shared/tables/getTableRowData";
 
 const USER_ROLES: Record<number, string> = {
     1: "Administrador",
@@ -46,19 +48,7 @@ const USER_COLUMNS: DataTables.ColumnSettings[] = [
         className: `${"px-4 py-3 text-gray-800 text-sm"} text-right`,
         orderable: false,
         render(_data: any, _type: any, row: any) {
-            return `
-                <div class="flex items-center justify-end gap-2">
-                    <button type="button"
-                        class="btn-edit-user p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">edit</span>
-                    </button>
-                    <button type="button"
-                        class="btn-delete-user p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                    </button>
-                </div>`;
+            return buildCrudActionButtonsHtml("user", row.id);
         },
     },
 ];

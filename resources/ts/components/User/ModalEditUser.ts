@@ -1,24 +1,24 @@
 import { UserController } from "../../Controllers/User/UserController";
-import { modalEditUser } from "../../pages/admin/Users/modalEditUser";
+import { submitEditUserForm } from "./helpers/submitEditUserForm";
 import { closeModal } from "../../utils/CloseModal";
 import { openModal } from "../../utils/openModal";
 import { Toast } from "../Swal/swal";
-import { initLocalTomSelect, getTomSelectInstance } from "../TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelect } from "../TomSelect/initTomSelect";
 
 export async function ShowModalEditUser(
     userId: number,
     table: { draw: (resetPaging?: boolean) => void }
 ): Promise<void> {
-    const $inputEditName = $("#input-edit-name");
-    const $inputEditUsername = $("#input-edit-username");
-    const $inputEditEmail = $("#input-edit-email");
+    const $inputEditName      = $("#input-edit-name");
+    const $inputEditUsername  = $("#input-edit-username");
+    const $inputEditEmail     = $("#input-edit-email");
     const $selectEditTypeUser = $("#select-edit-type-user");
-    const $modalEdit = $("#modal-edit-user");
-    const $inputEditPassword = $("#input-edit-password");
-    const $inputEditCpf = $("#input-edit-cpf");
-    const $btnModalClose = $("#btn-modal-edit-close");
-    const $btnModalCancel = $("#btn-modal-edit-cancel");
-    const $btnSave = $("#btn-modal-edit");
+    const $modalEdit          = $("#modal-edit-user");
+    const $inputEditPassword  = $("#input-edit-password");
+    const $inputEditCpf       = $("#input-edit-cpf");
+    const $btnModalClose      = $("#btn-modal-edit-close");
+    const $btnModalCancel     = $("#btn-modal-edit-cancel");
+    const $btnSave            = $("#btn-modal-edit");
 
     try {
         const response = await UserController.getUserById(userId);
@@ -35,11 +35,7 @@ export async function ShowModalEditUser(
 
         let tsEdit = getTomSelectInstance($selectEditTypeUser);
         if (!tsEdit) {
-            const el = $selectEditTypeUser[0] as HTMLSelectElement | undefined;
-            if (el) {
-                tsEdit = initLocalTomSelect(el, { size: "md" });
-                $selectEditTypeUser.data("tomSelect", tsEdit);
-            }
+            tsEdit = syncLocalTomSelect($selectEditTypeUser, { size: "md" });
         }
         if (tsEdit) {
             tsEdit.setValue(String(response.data.type_user_id));
@@ -63,7 +59,7 @@ export async function ShowModalEditUser(
             $btnSave.html("Salvando...").prop("disabled", true);
 
             try {
-                const submitResult = await modalEditUser.handleEditUserSubmit(
+                const submitResult = await submitEditUserForm(
                     userId,
                     $inputEditName,
                     $inputEditEmail,

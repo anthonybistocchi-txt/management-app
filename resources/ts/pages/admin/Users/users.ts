@@ -5,7 +5,7 @@ import { maskCpf } from '../../../utils/cpfMask';
 import { showUsersTable } from '../../../components/User/TableUsers';
 import { ShowModalCreateUser } from '../../../components/User/ModalCreateUser';
 import { showUserLogged } from '../../../components/User/ShowUserLogged';
-import { initLocalTomSelect } from '../../../components/TomSelect/initTomSelect';
+import { syncLocalTomSelectGroup } from '../../../components/TomSelect/initTomSelect';
 
 $(document).ready( async () => {
     const $textHeaderUsername = $('#text-header-username');
@@ -36,13 +36,7 @@ $(document).ready( async () => {
         { $el: $selectFilterStatus,   size: "sm" as const },
         { $el: $selectCreateTypeUser, size: "md" as const },
     ];
-    for (const { $el, size } of staticSelects) {
-        const el = $el[0] as HTMLSelectElement | undefined;
-        if (el) {
-            const ts = initLocalTomSelect(el, { size });
-            $el.data("tomSelect", ts);
-        }
-    }
+    syncLocalTomSelectGroup(staticSelects);
 
     await showUsersTable($tableUsers);
     await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
