@@ -5,7 +5,7 @@ import { showLocations } from "../../../components/Location/ShowLocations";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { submitStockIn } from "../../../components/Stock/SubmitStockIn";
 import { initProductSearch } from "../../../components/Products/productSearch";
-import { initLocalTomSelect, initAndStore } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 
 $(document).ready(async () => {
     const $textHeaderUsername = $('#text-header-username');
@@ -23,8 +23,8 @@ $(document).ready(async () => {
     const today              = new Date();
     const datePickerInstance = DatePicker.initSingle($inputStockDate, today);
 
-    const productEl = $selectStockProduct[0] as HTMLSelectElement | undefined;
-    if (productEl) {
+    const productEl = $selectStockProduct.get(0);
+    if (productEl instanceof HTMLSelectElement) {
         const ts = initProductSearch(productEl, "lg");
         $selectStockProduct.data("tomSelect", ts);
     }
@@ -33,12 +33,10 @@ $(document).ready(async () => {
     await showProviders($selectStockProvider);
     await showLocations($selectStockLocation);
 
-    if ($selectStockProvider.length) {
-        initAndStore($selectStockProvider, (el) => initLocalTomSelect(el, { size: "lg" }));
-    }
-    if ($selectStockLocation.length) {
-        initAndStore($selectStockLocation, (el) => initLocalTomSelect(el, { size: "lg" }));
-    }
+    syncLocalTomSelectGroup([
+        { $el: $selectStockProvider, size: "lg" },
+        { $el: $selectStockLocation, size: "lg" },
+    ]);
 
     $btnStockSave.on('click', async (event) => {
         event.preventDefault();
