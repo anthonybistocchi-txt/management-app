@@ -4,22 +4,40 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class StockSeeder extends Seeder
 {
     public function run(): void
     {
-        $now = Carbon::now();
+        $productIds = DB::table('products')->pluck('id')->all();
+        $locationIds = DB::table('locations')->pluck('id')->all();
 
-        // Vamos inserir 10 registros de estoque manualmente
-        // Produto ID 1 no Local 1, Produto 2 no Local 2, etc.
-        for ($i = 1; $i <= 10; $i++) {
-            DB::table('stock')->insert([
-                'product_id' => $i,
-                'location_id' => $i, // Distribuindo um em cada lugar
-                'quantity' => rand(10, 100), // Quantidade aleatória
-            ]);
+        if ($productIds === [] || $locationIds === []) {
+            $this->command?->warn('StockSeeder: sem produtos ou locais.');
+
+            return;
+        }
+
+        $pairs = [];
+
+        foreach ($productIds as $pid) {
+            shuffle($locationIds);
+            $numLocs = random_int(1, min(3, count($locationIds)));
+            for ($i = 0; $i < $numLocs; $i++) {
+                $key = $pid.'-'.$locationIds[$i];
+                if (isset($pairs[$key])) {
+                    continue;
+                }
+                $pairs[$key] = [
+                    'product_id' => $pid,
+                    'location_id' => $locationIds[$i],
+                    'quantity' => random_int(5, 420),
+                ];
+            }
+        }
+
+        foreach ($pairs as $row) {
+            DB::table('stock')->insert($row);
         }
     }
 }
