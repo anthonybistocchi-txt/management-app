@@ -1,16 +1,19 @@
 import { ProductCategoriesController } from "../../Controllers/ProductCategories/ProductCategoriesController";
+import { renderSelectOptions } from "../../utils/renderSelectOptions";
 
 export async function showCategories($selectElement: JQuery<HTMLElement>): Promise<void> 
 {
-
     const categories = await ProductCategoriesController.getProductCategories();
 
-        $selectElement.empty();
-        $selectElement.append('<option value="" selected disabled>Categoria</option>');
-        $selectElement.append('<option value="all">Todas</option>');
-
-        categories.forEach(category => {
-            const option = `<option value="${category.id}">${category.name}</option>`;
-            $selectElement.append(option);
-        });
+    renderSelectOptions(
+        $selectElement,
+        categories.map((category) => ({
+            value: String(category.id),
+            label: category.name,
+        })),
+        {
+            placeholder: "Categoria",
+            includeAllOption: "Todas",
+        }
+    );
 }

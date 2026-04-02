@@ -5,8 +5,9 @@ import { ProductCategoriesController } from "../../Controllers/ProductCategories
 import { LocationController } from "../../Controllers/Locations/LocationController";
 import { ShowModalEditProduct } from "./ModalEditProduct";
 import { Toast } from "../Swal/swal";
-import { openModal } from "../../utils/openModal";
-import { closeModal } from "../../utils/CloseModal";
+import { attachDeleteConfirmation } from "../shared/modals/attachDeleteConfirmation";
+import { buildCrudActionButtonsHtml } from "../shared/tables/buildCrudActionButtonsHtml";
+import { getTableRowData } from "../shared/tables/getTableRowData";
 
 let categoryById = new Map<number, string>();
 let providerById = new Map<number, string>();
@@ -54,20 +55,8 @@ const PRODUCT_COLUMNS: DataTables.ColumnSettings[] = [
         title: "ACOES",
         className: "px-4 py-3 text-gray-800 text-sm text-right",
         orderable: false,
-        render(_data: any, _type: any, row: any) {
-            return `
-                <div class="flex items-center justify-end gap-2">
-                    <button type="button"
-                        class="btn-edit-product p-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">edit</span>
-                    </button>
-                    <button type="button"
-                        class="btn-delete-product p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-100 hover:scale-110 transition-all duration-200"
-                        data-id="${row.id}">
-                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                    </button>
-                </div>`;
+        render(_data: unknown, _type: unknown, row: ProductData) {
+            return buildCrudActionButtonsHtml("product", row.id);
         },
     },
 ];
@@ -76,18 +65,13 @@ function getFilterValue($el?: JQuery<HTMLElement>, fallback = ""): string {
     return $el ? String($el.val() ?? "").trim() : fallback;
 }
 
-function getRowData(table: DataTables.Api, id: number): ProductData | undefined {
-    const $row = $(table.table().body()).find(`[data-id="${id}"]`).closest("tr");
-    return table.row($row).data() as ProductData | undefined;
-}
-
 export function showProductsTable(
-    $tableElement: JQuery<HTMLElement>,
-    $search?: JQuery<HTMLElement>,
+    $tableElement:    JQuery<HTMLElement>,
+    $search?:         JQuery<HTMLElement>,
     $filterCategory?: JQuery<HTMLElement>,
     $filterProvider?: JQuery<HTMLElement>,
     $filterLocation?: JQuery<HTMLElement>,
-    $btnFilter?: JQuery<HTMLElement>,
+    $btnFilter?:      JQuery<HTMLElement>,
 ): DataTables.Api {
     const table = createDataTable($tableElement, {
         columns: PRODUCT_COLUMNS,
@@ -105,7 +89,7 @@ export function showProductsTable(
             providerById = new Map(providers.map((item) => [item.id, item.name]));
             locationById = new Map(locations.map((item) => [item.id, item.name]));
 
-            const searchValue = getFilterValue($search).toLowerCase();
+            const searchValue   = getFilterValue($search).toLowerCase();
             const categoryValue = getFilterValue($filterCategory, "all");
             const providerValue = getFilterValue($filterProvider, "all");
             const locationValue = getFilterValue($filterLocation, "all");
@@ -139,7 +123,7 @@ export function showProductsTable(
             {
                 selector: ".btn-edit-product",
                 async handler(productId, tbl) {
-                    const row = getRowData(tbl, productId);
+                    const row = getTableRowData<ProductData>(tbl, productId);
                     if (!row) {
                         Toast.error("Produto nao encontrado.");
                         return;
@@ -151,34 +135,24 @@ export function showProductsTable(
             {
                 selector: ".btn-delete-product",
                 async handler(productId, tbl) {
-                    const $modal = $("#modal-delete-product");
-                    const $inputId = $("#input-delete-product-id");
+                    const $modal      = $("#modal-delete-product");
+                    const $inputId    = $("#input-delete-product-id");
                     const $btnConfirm = $("#btn-modal-confirm-product-delete");
-                    const $btnCancel = $("#btn-modal-cancel-product-delete");
-                    const $btnClose = $("#btn-modal-close-product-delete");
+                    const $btnCancel  = $("#btn-modal-cancel-product-delete");
+                    const $btnClose   = $("#btn-modal-close-product-delete");
 
                     $inputId.val(String(productId));
-                    openModal($modal);
 
-                    $btnCancel.off("click").on("click", () => closeModal($modal));
-                    $btnClose.off("click").on("click", () => closeModal($modal));
-
-                    $btnConfirm.off("click").on("click", async (e) => {
-                        e.preventDefault();
-                        $btnConfirm.text("Excluindo...").prop("disabled", true);
-
-                        try {
-                            const result = await ProductController.deleteProduct(productId);
-                            if (result.success) {
-                                Toast.success("Produto excluido com sucesso.");
-                                closeModal($modal);
-                                tbl.draw(false);
-                            } else {
-                                Toast.error(result.message ?? "Nao foi possivel excluir o produto.");
-                            }
-                        } finally {
-                            $btnConfirm.text("Excluir").prop("disabled", false);
-                        }
+                    attachDeleteConfirmation({
+                        modal: $modal,
+                        confirmButton: $btnConfirm,
+                        cancelButton:  $btnCancel,
+                        closeButton:   $btnClose,
+                        itemIdInput:   $inputId,
+                        entityLabel:   "Produto",
+                        failureMessage: "Nao foi possivel excluir o produto.",
+                        onConfirm: async () => ProductController.deleteProduct(productId), // @ts-ignore
+                        onSuccess: () => tbl.draw(false),
                     });
                 },
             },

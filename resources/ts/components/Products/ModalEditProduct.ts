@@ -1,11 +1,11 @@
-import { modalEditProduct } from "../../pages/admin/Products/modalEditProduct";
+import { submitEditProductForm } from "./helpers/submitEditProductForm";
 import { openModal } from "../../utils/openModal";
 import { closeModal } from "../../utils/CloseModal";
 import { Toast } from "../Swal/swal";
 import { showCategories } from "../ProductCategories/showCategories";
 import { showProviders } from "../Providers/ShowProviders";
 import { showLocations } from "../Locations/showLocations";
-import { getTomSelectInstance, initLocalTomSelect } from "../TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelect } from "../TomSelect/initTomSelect";
 import { maskPrice } from "../../utils/priceMask";
 
 async function ensureSelect(
@@ -13,36 +13,26 @@ async function ensureSelect(
     loader: (el: JQuery<HTMLElement>) => Promise<void>,
     size: "sm" | "md" | "lg" = "md",
 ): Promise<void> {
-    const tsExisting = getTomSelectInstance($select);
-    if (tsExisting) {
-        tsExisting.destroy();
-    }
-
     await loader($select);
-
-    const el = $select[0] as HTMLSelectElement | undefined;
-    if (el) {
-        const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-        $select.data("tomSelect", ts);
-    }
+    syncLocalTomSelect($select, { size, allowEmpty: true });
 }
 
 export async function ShowModalEditProduct(
     product: ProductData,
     table: { draw: (resetPaging?: boolean) => void },
 ): Promise<void> {
-    const $modal = $("#modal-edit-product");
-    const $btnClose = $("#btn-modal-close-product-edit");
+    const $modal     = $("#modal-edit-product");
+    const $btnClose  = $("#btn-modal-close-product-edit");
     const $btnCancel = $("#btn-modal-cancel-product-edit");
-    const $btnSave = $("#btn-modal-save-product-edit");
+    const $btnSave   = $("#btn-modal-save-product-edit");
 
-    const $inputId = $("#input-edit-product-id");
-    const $inputName = $("#input-edit-product-name");
-    const $selectCategory = $("#select-edit-product-category");
-    const $selectProvider = $("#select-edit-product-provider");
-    const $inputPrice = $("#input-edit-product-price");
-    const $inputQuantity = $("#input-edit-product-quantity");
-    const $selectLocation = $("#select-edit-product-location");
+    const $inputId             = $("#input-edit-product-id");
+    const $inputName           = $("#input-edit-product-name");
+    const $selectCategory      = $("#select-edit-product-category");
+    const $selectProvider      = $("#select-edit-product-provider");
+    const $inputPrice          = $("#input-edit-product-price");
+    const $inputQuantity       = $("#input-edit-product-quantity");
+    const $selectLocation      = $("#select-edit-product-location");
     const $textareaDescription = $("#textarea-edit-product-description");
 
     $inputId.val(String(product.id));
@@ -101,7 +91,7 @@ export async function ShowModalEditProduct(
         $btnSave.text("Salvando...").prop("disabled", true);
 
         try {
-            const submitResult = await modalEditProduct.handleEditProductSubmit(
+            const submitResult = await submitEditProductForm(
                 product.id,
                 $inputName,
                 $selectCategory,

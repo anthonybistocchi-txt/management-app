@@ -4,7 +4,7 @@ import { showUserLogged } from "../../components/User/ShowUserLogged";
 import { showProviders } from "../../components/Providers/ShowProviders";
 import { showCategories } from "../../components/ProductCategories/showCategories";
 import { showLocations } from "../../components/Locations/showLocations";
-import { initAndStore, getTomSelectInstance, initLocalTomSelect } from "../../components/TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelectGroup } from "../../components/TomSelect/initTomSelect";
 import { ProductController } from "../../Controllers/Products/ProductController";
 import { maskPrice, parsePriceToNumber } from "../../utils/priceMask";
 
@@ -34,15 +34,11 @@ $(document).ready(async () => {
     $provider.find('option[value="all"]').remove();
     $location.find('option[value="all"]').remove();
 
-    if ($category.length) {
-        initAndStore($category, (element) => initLocalTomSelect(element, { size: "lg" }));
-    }
-    if ($provider.length) {
-        initAndStore($provider, (element) => initLocalTomSelect(element, { size: "lg" }));
-    }
-    if ($location.length) {
-        initAndStore($location, (element) => initLocalTomSelect(element, { size: "lg", allowEmpty: true }));
-    }
+    syncLocalTomSelectGroup([
+        { $el: $category, size: "lg" },
+        { $el: $provider, size: "lg" },
+        { $el: $location, size: "lg", allowEmpty: true },
+    ]);
 
     $form.on("submit", async (event) => {
         event.preventDefault();

@@ -5,7 +5,7 @@ import { maskPrice } from "../../../utils/priceMask";
 import { showProductsTable } from "../../../components/Products/TableProducts";
 import { ShowModalCreateProduct } from "../../../components/Products/ModalCreateProduct";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
-import { initLocalTomSelect, getTomSelectInstance } from "../../../components/TomSelect/initTomSelect";
+import { getTomSelectInstance, syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 import { showCategories } from "../../../components/ProductCategories/showCategories";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { showLocations } from "../../../components/Locations/showLocations";
@@ -48,13 +48,7 @@ $(document).ready(async () => {
         { $el: $filterLocation, size: "sm" as const },
     ];
 
-    for (const { $el, size } of filterSelects) {
-        const el = $el[0] as HTMLSelectElement | undefined;
-        if (el) {
-            const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-            $el.data("tomSelect", ts);
-        }
-    }
+    syncLocalTomSelectGroup(filterSelects.map(({ $el, size }) => ({ $el, size, allowEmpty: true })));
 
     await showProductsTable($table, $inputSearch, $filterCategory, $filterProvider, $filterLocation, $btnSubmitSearch);
 
@@ -72,23 +66,11 @@ $(document).ready(async () => {
         $selectProvider.find('option[value="all"]').remove();
         $selectLocation.find('option[value="all"]').remove();
 
-        const createSelects = [
-            { $el: $selectCategory, size: "md" as const },
-            { $el: $selectProvider, size: "md" as const },
-            { $el: $selectLocation, size: "md" as const },
-        ];
-
-        for (const { $el, size } of createSelects) {
-            const el = $el[0] as HTMLSelectElement | undefined;
-            if (el) {
-                const existing = getTomSelectInstance($el);
-                if (existing) {
-                    existing.destroy();
-                }
-                const ts = initLocalTomSelect(el, { size, allowEmpty: true });
-                $el.data("tomSelect", ts);
-            }
-        }
+        syncLocalTomSelectGroup([
+            { $el: $selectCategory, size: "md", allowEmpty: true },
+            { $el: $selectProvider, size: "md", allowEmpty: true },
+            { $el: $selectLocation, size: "md", allowEmpty: true },
+        ]);
 
         openModal($modalCreate);
     });
