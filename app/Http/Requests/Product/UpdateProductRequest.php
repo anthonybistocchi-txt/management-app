@@ -14,6 +14,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id'          => 'required|exists:products,id',
             'name'        => 'sometimes|string|max:255',
             'description' => 'sometimes|string', 
             'price'       => 'sometimes|numeric|decimal:0,2|min:0',
@@ -30,6 +31,8 @@ class UpdateProductRequest extends FormRequest
     public function messages(): array
     {
        return [
+            'id.required'        => 'The product ID is required.',
+            'id.exists'          => 'The selected product is invalid.',
             'price.min'          => 'The price cannot be negative.',
             'provider_id.exists' => 'The selected provider is invalid.',
             'quantity.integer'   => 'The quantity must be an integer.',

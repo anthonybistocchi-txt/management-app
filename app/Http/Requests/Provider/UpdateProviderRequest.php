@@ -15,6 +15,7 @@ class UpdateProviderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id'     => 'required|exists:providers,id',
             'email'  => 'nullable|email|',
             'state'  => 'nullable|string|max:2',
             'active' => 'nullable|boolean',
