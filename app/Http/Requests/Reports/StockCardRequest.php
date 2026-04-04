@@ -14,7 +14,15 @@ class StockCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id'  => 'required|exists:products,id',
+            'product_id'  => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if ($value === 'all') return;
+                    if (!\App\Models\Product::whereKey($value)->exists()) {
+                        $fail('The selected product is invalid.');
+                    }
+                },
+            ],
             'location_id' => [
                 'required',
                 function ($attribute, $value, $fail) {

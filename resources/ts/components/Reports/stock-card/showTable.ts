@@ -23,7 +23,7 @@ export function showTableStockCard(
             {
                 data: "quantity_moved",
                 title: "QUANTIDADE",
-                className: "px-4 py-3 text-sm font-semibold",
+                className: "px-4 py-3 text-gray-800 text-sm",
                 render(_cellData: string | number | null, _displayType: string, row: StockCardRow) {
                     const quantity = Number(row.quantity_moved);
                     const movementType = String(row.type).toLowerCase();

@@ -130,13 +130,15 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
             )
             ->leftJoin('locations', 'stock_movements.location_id', '=', 'locations.id')
             ->leftJoin('providers', 'stock_movements.provider_id', '=', 'providers.id')
-            ->where('stock_movements.product_id', $data['product_id'])
             ->whereBetween('stock_movements.movement_date', [
                 $data['date_from'] . ' 00:00:00',
                 $data['date_to']   . ' 23:59:59',
             ])
             ->when(($data['location_id'] ?? 'all') !== 'all', function ($query) use ($data) {
                 $query->where('stock_movements.location_id', $data['location_id']);
+            })
+            ->when(($data['product_id'] ?? 'all') !== 'all', function ($query) use ($data) {
+                $query->where('stock_movements.product_id', $data['product_id']);
             })
             ->orderBy('stock_movements.movement_date', 'desc')
             ->get();

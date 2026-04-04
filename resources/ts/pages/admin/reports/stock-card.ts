@@ -22,7 +22,8 @@ $(document).ready(async () => {
 
     const productEl = $filterProduct[0] as HTMLSelectElement;
     if (productEl) {
-        initProductSearch(productEl, "sm");
+        const tsProduct = initProductSearch(productEl, "sm");
+        tsProduct.setValue("all", true);
     }
 
     DatePicker.initRange($filterDate, (start, end) => {
