@@ -45,6 +45,19 @@
                                 <h1 class="text-3xl font-bold tracking-tight text-[#0d141b] dark:text-slate-100">Giro de Estoque</h1>
                                 <p class="text-base text-[#4c739a] dark:text-slate-400">Análise de rotatividade dos produtos no período selecionado. Giro = Saídas / Estoque médio.</p>
                             </div>
+                            <details class="relative">
+                                <summary
+                                    class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm hover:bg-slate-50 [&::-webkit-details-marker]:hidden">
+                                    <span class="material-symbols-outlined text-base">download</span>
+                                    Download
+                                    <span class="material-symbols-outlined text-base">expand_more</span>
+                                </summary>
+                                <div
+                                    class="absolute right-0 z-10 mt-2 w-36 rounded-lg border border-slate-200 bg-white py-1 text-sm shadow-lg">
+                                    <a href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50">CSV</a>
+                                    <a href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50">PDF</a>
+                                </div>
+                            </details>
                         </div>
 
                         <div class="mb-6 rounded-xl bg-white dark:bg-background-dark p-4 shadow-sm">

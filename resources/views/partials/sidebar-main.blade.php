@@ -60,11 +60,6 @@
                 <span class="material-symbols-outlined">inventory_2</span>
                 <p class="text-sm font-medium">Entrada de mercadoria</p>
             </a>
-            <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
-                class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">assignment</span>
-                <p class="text-sm font-medium">Inventário</p>
-            </a>
 
             <div
                 class="mt-2 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
@@ -113,6 +108,10 @@
                     <a id="link-sidebar-report-stock-turnover" href="{{ route('reportStockTurnover') }}"
                         class="{{ $subNav('reportStockTurnover') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
                         Giro de estoque
+                    </a>
+                    <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
+                        class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
+                        <p class="text-sm font-medium">Inventário</p>
                     </a>
                     <a id="link-sidebar-report-in-out" href="{{ route('reportInOut') }}"
                         class="{{ $subNav('reportInOut') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
