@@ -63,4 +63,9 @@ class StockService
             return $stock;
         });
     }
+
+    public function getInfoProducts()
+    {
+        return $this->stockRepository->getStockValuationData();
+    }
 }

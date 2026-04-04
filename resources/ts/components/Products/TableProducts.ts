@@ -1,40 +1,32 @@
 import { createDataTable } from "../DataTable/DataTable";
 import { formatPrice } from "../../utils/FormatPrice";
 import { ProductController } from "../../Controllers/Products/ProductController";
-import { ProviderController } from "../../Controllers/Providers/ProviderController";
-import { ProductCategoriesController } from "../../Controllers/ProductCategories/ProductCategoriesController";
-import { LocationController } from "../../Controllers/Locations/LocationController";
 import { ShowModalEditProduct } from "./ModalEditProduct";
 import { Toast } from "../Swal/swal";
 import { attachDeleteConfirmation } from "../shared/modals/attachDeleteConfirmation";
 import { buildCrudActionButtonsHtml } from "../shared/tables/buildCrudActionButtonsHtml";
 import { getTableRowData } from "../shared/tables/getTableRowData";
 
-let categoryById = new Map<number, string>();
-let providerById = new Map<number, string>();
-let locationById = new Map<number, string>();
-
 const PRODUCT_COLUMNS: DataTables.ColumnSettings[] = [
     { data: "name", title: "NOME", className: "px-4 py-3 text-gray-800 text-sm" },
     {
-        data: "product_category_id",
+        data: "category_name",
         title: "CATEGORIA",
         className: "px-4 py-3 text-gray-800 text-sm",
-        render: (value: number | null) => categoryById.get(Number(value)) ?? "-",
+        render: (value: string | null, _displayType: string, row: ProductData) => value ?? row.category_name ?? row.category?.name ?? "-",
     },
     {
-        data: "provider_id",
+        data: "provider_name",
         title: "FORNECEDOR",
         className: "px-4 py-3 text-gray-800 text-sm",
-        render: (value: number | null) => providerById.get(Number(value)) ?? "-",
+        render: (value: string | null, _displayType: string, row: ProductData) => value ?? row.provider_name ?? row.provider?.name ?? "-",
     },
     {
         data: "price",
         title: "PRECO",
         className: "px-4 py-3 text-gray-800 text-sm",
-        render: (value: number | string | null) => {
-            if (value === null || value === undefined || value === "") return "-";
-            const numeric = typeof value === "string" ? Number(value) : value;
+        render: (value: number | string | null, _displayType: string, row: ProductData) => {
+            const numeric = Number(value ?? row.price ?? 0);
             if (Number.isNaN(numeric)) return "-";
             return formatPrice(numeric);
         },
@@ -43,13 +35,13 @@ const PRODUCT_COLUMNS: DataTables.ColumnSettings[] = [
         data: "quantity",
         title: "ESTOQUE",
         className: "px-4 py-3 text-gray-800 text-sm",
-        render: (value: number | null) => (value ?? 0).toString(),
+        render: (value: number | string | null, _displayType: string, row: ProductData) => String(value ?? row.quantity ?? 0),
     },
     {
-        data: "location_id",
+        data: "location_name",
         title: "LOCAL",
         className: "px-4 py-3 text-gray-800 text-sm",
-        render: (value: number | null) => locationById.get(Number(value)) ?? "-",
+        render: (value: string | null, _displayType: string, row: ProductData) => value ?? row.location_name ?? row.location?.name ?? "-",
     },
     {
         data: null,
@@ -79,16 +71,7 @@ export function showProductsTable(
         infoLabel: "produtos",
 
         async fetchData(params) {
-            const [products, categories, providers, locations] = await Promise.all([
-                ProductController.getProducts(),
-                ProductCategoriesController.getProductCategories(),
-                ProviderController.getProviders(),
-                LocationController.getLocations(),
-            ]);
-
-            categoryById = new Map(categories.map((item) => [item.id, item.name]));
-            providerById = new Map(providers.map((item) => [item.id, item.name]));
-            locationById = new Map(locations.map((item) => [item.id, item.name]));
+            const products = await ProductController.getInfoProducts();
 
             const searchValue   = getFilterValue($search).toLowerCase();
             const categoryValue = getFilterValue($filterCategory, "all");

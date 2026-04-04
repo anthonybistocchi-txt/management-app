@@ -1,16 +1,17 @@
 import { ApiResponse } from "../../types/ApiResponse";
+import { AxiosError } from "axios";
 import api from "../../utils/api";
 import { messageFromAxiosError } from "../../utils/axiosErrorMessage";
 
 export const ProductService = {
-    async getProducts(): Promise<ApiResponse<ProductData[]> > {
+    async getInfoProducts(): Promise<ApiResponse<ProductData[]> > {
         try {
-            const response = await api.get<ApiResponse<ProductData[]>>("products/getAll", {});
+            const response = await api.get<ApiResponse<ProductData[]>>("stock/getAllInfo", {});
             
             return response.data;
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Erro no serviço:", error);
-            const message = messageFromAxiosError(error, "Erro desconhecido ao buscar produtos.");
+            const message = messageFromAxiosError(error as Error | AxiosError, "Erro desconhecido ao buscar produtos.");
 
             return {
                 success: false,

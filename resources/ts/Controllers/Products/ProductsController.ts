@@ -3,9 +3,9 @@ import { ApiResponse } from "../../types/ApiResponse";
 
 export const getProductsController = {
 
-    async getProducts(): Promise<ProductData[]> {
+    async getInfoProducts(): Promise<ProductData[]> {
         try {
-            const response: ApiResponse<ProductData[]> = await ProductService.getProducts();
+            const response: ApiResponse<ProductData[]> = await ProductService.getInfoProducts();
 
             if (response.status && response.data) {
                 return response.data;

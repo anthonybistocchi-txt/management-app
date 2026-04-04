@@ -5,7 +5,7 @@ import { maskPrice } from "../../../utils/priceMask";
 import { showProductsTable } from "../../../components/Products/TableProducts";
 import { ShowModalCreateProduct } from "../../../components/Products/ModalCreateProduct";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
-import { getTomSelectInstance, syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
 import { showCategories } from "../../../components/ProductCategories/showCategories";
 import { showProviders } from "../../../components/Providers/ShowProviders";
 import { showLocations } from "../../../components/Locations/showLocations";
@@ -23,24 +23,33 @@ $(document).ready(async () => {
 
     const $table = $("#table-products");
 
-    const $modalCreate = $("#modal-create-product");
-    const $btnModalClose = $("#btn-modal-close-product");
+    const $modalCreate    = $("#modal-create-product");
+    const $btnModalClose  = $("#btn-modal-close-product");
     const $btnModalCancel = $("#btn-modal-cancel-product");
-    const $btnModalSave = $("#btn-modal-save-product");
+    const $btnModalSave   = $("#btn-modal-save-product");
 
-    const $inputName = $("#input-create-product-name");
-    const $selectCategory = $("#select-create-product-category");
-    const $selectProvider = $("#select-create-product-provider");
-    const $inputPrice = $("#input-create-product-price");
-    const $inputQuantity = $("#input-create-product-quantity");
-    const $selectLocation = $("#select-create-product-location");
+    const $inputName           = $("#input-create-product-name");
+    const $selectCategory      = $("#select-create-product-category");
+    const $selectProvider      = $("#select-create-product-provider");
+    const $inputPrice          = $("#input-create-product-price");
+    const $inputQuantity       = $("#input-create-product-quantity");
+    const $selectLocation      = $("#select-create-product-location");
     const $textareaDescription = $("#textarea-create-product-description");
 
-    await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
+    const table = showProductsTable($table, $inputSearch, $filterCategory, $filterProvider, $filterLocation, $btnSubmitSearch);
 
-    await showCategories($filterCategory);
-    await showProviders($filterProvider);
-    await showLocations($filterLocation);
+    const userLoggedPromise = showUserLogged($textHeaderUsername, $textHeaderTypeUser).catch((error) => {
+        console.error("Erro ao carregar usuário logado:", error);
+        $textHeaderUsername.text("Usuário");
+        $textHeaderTypeUser.text("");
+    });
+
+    await Promise.allSettled([
+        userLoggedPromise,
+        showCategories($filterCategory),
+        showProviders($filterProvider),
+        showLocations($filterLocation),
+    ]);
 
     const filterSelects = [
         { $el: $filterCategory, size: "sm" as const },
@@ -49,8 +58,6 @@ $(document).ready(async () => {
     ];
 
     syncLocalTomSelectGroup(filterSelects.map(({ $el, size }) => ({ $el, size, allowEmpty: true })));
-
-    await showProductsTable($table, $inputSearch, $filterCategory, $filterProvider, $filterLocation, $btnSubmitSearch);
 
     $inputPrice.on("input", (event) => {
         const target = event.currentTarget as HTMLInputElement;

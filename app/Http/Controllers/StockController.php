@@ -43,5 +43,17 @@ class StockController extends Controller
             'message' => 'stock transferred successfully',
         ], 200);
     }
+
+    public function getInfoProducts(): JsonResponse
+    {
+        $products = $this->stockService->getInfoProducts();
+
+        return response()->json([
+            'status'  => true,
+            'message' => "success",
+            'data'    => $products,
+        ],200);
+    }
+
 }
               
