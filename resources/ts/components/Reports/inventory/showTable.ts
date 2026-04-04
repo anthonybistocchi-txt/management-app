@@ -1,12 +1,8 @@
 import api from "../../../utils/api";
 import { createDataTable } from "../../DataTable/DataTable";
 import type { FetchParams, FetchResult } from "../../DataTable/DataTable";
+import { formatPrice } from "../../../utils/FormatPrice";
 import type { InventoryFilters, InventoryResponse, InventoryRow } from "../../../types/Reports/InventoryReport";
-
-const formatCurrency = (cellValue: number | string | null): string => {
-    const numericValue = Number(cellValue ?? 0);
-    return numericValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-};
 
 export function showTableInventory(
     $tableElement: JQuery<HTMLElement>,
@@ -19,8 +15,8 @@ export function showTableInventory(
             { data: "category_name", title: "CATEGORIA",    className: "px-4 py-3 text-gray-800 text-sm", render: (cellValue: string | null) => String(cellValue ?? "").trim() || "<span class='italic'>N/A</span>" },
             { data: "location_name", title: "LOCAL",        className: "px-4 py-3 text-gray-800 text-sm", render: (cellValue: string | null) => String(cellValue ?? "").trim() || "<span class='italic'>N/A</span>" },
             { data: "quantity",      title: "QUANTIDADE",   className: "px-4 py-3 text-gray-800 text-sm font-semibold" },
-            { data: "price",         title: "PREÇO UNIT.",  className: "px-4 py-3 text-gray-800 text-sm", render: formatCurrency },
-            { data: "total_value",   title: "VALOR TOTAL",  className: "px-4 py-3 text-gray-800 text-sm font-semibold", render: formatCurrency },
+            { data: "price",         title: "PREÇO UNIT.",  className: "px-4 py-3 text-gray-800 text-sm", render: (cellValue: number | string | null) => formatPrice(cellValue ?? 0) },
+            { data: "total_value",   title: "VALOR TOTAL",  className: "px-4 py-3 text-gray-800 text-sm font-semibold", render: (cellValue: number | string | null) => formatPrice(cellValue ?? 0) },
         ],
         fetchData: async (params: FetchParams): Promise<FetchResult<InventoryRow>> => {
             const response = await api.post("reports/inventory", {
