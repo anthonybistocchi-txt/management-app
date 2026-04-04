@@ -12,11 +12,11 @@ class CitiesController extends Controller
     public function __construct(protected CitiesService $citiesService){}
     public function getAll(CitiesAllRequest $request):JsonResponse
     {
-        return $this->citiesService->getAllCities($request->validated()['uf_id']);
+        return response()->json($this->citiesService->getAllCities($request->validated()['uf_id'] ?? null));
     }
 
     public function getCityByCEP(string $cep):JsonResponse
     {
-        return $this->citiesService->getCityByCEP($cep);
+        return response()->json($this->citiesService->getCityByCEP($cep));
     }
 }

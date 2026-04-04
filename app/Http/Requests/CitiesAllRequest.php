@@ -21,8 +21,8 @@ class CitiesAllRequest extends FormRequest
      */
     public function rules(): array
     {
-            return [
-                'uf_id' => 'required|integer',
+        return [
+            'uf_id' => 'nullable|integer',
         ];
     }
 
@@ -38,7 +38,7 @@ class CitiesAllRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'uf_id.required' => 'The UF ID is required.',
+            'uf_id.integer' => 'The UF ID must be an integer.',
         ];
     }
 }

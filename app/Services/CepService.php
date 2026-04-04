@@ -8,7 +8,14 @@ class  CepService
 {
     public function getAddressByCep(string $cep)
     {
-       return Http::get("https://viacep.com.br/ws/$cep/json/")
+       $cep = Http::get("https://viacep.com.br/ws/$cep/json/")
             ->json();
+
+        if(!$cep) 
+        {
+            throw new \Exception('Error fetching address for the provided CEP.', 500);
+        }
+
+        return $cep;
     }
 }

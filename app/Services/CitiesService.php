@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Http;
 class CitiesService
 {
     public function __construct(protected CepService $cepService){}
-    public function getAllCities(string $uf): array
+    public function getAllCities(?string $uf): array
     {
-        $cities = Http::get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/$uf/municipios")
-            ->json();
+        $url = $uf
+            ? "https://servicodados.ibge.gov.br/api/v1/localidades/estados/$uf/municipios"
+            : "https://servicodados.ibge.gov.br/api/v1/localidades/municipios";
+
+        $cities = Http::get($url)->json();
 
         if (!$cities) {
             throw new \Exception('No cities found for the provided state ID.', 404);
