@@ -2,6 +2,9 @@ import $ from "jquery";
 import { openModal } from "../../../utils/openModal";
 import { closeModal } from "../../../utils/CloseModal";
 import { maskCep } from "../../../utils/cepMask";
+import { bindCepAutoFill } from "../../../utils/cepAutoFill";
+import { CepController } from "../../../Controllers/CEP/CepController";
+import { Toast } from "../../../components/Swal/swal";
 import { showLocationsTable } from "../../../components/Locations/TableLocations";
 import { ShowModalCreateLocation } from "../../../components/Locations/ModalCreateLocation";
 import { showUserLogged } from "../../../components/User/ShowUserLogged";
@@ -54,6 +57,11 @@ $(document).ready(async () => {
     const $inputState = $("#input-create-location-state");
     const $inputCep = $("#input-create-location-cep");
 
+    const $inputEditAddress = $("#input-edit-location-address");
+    const $inputEditCity    = $("#input-edit-location-city");
+    const $inputEditState   = $("#input-edit-location-state");
+    const $inputEditCep     = $("#input-edit-location-cep");
+
     await showUserLogged($textHeaderUsername, $textHeaderTypeUser);
 
     await populateLocationFilters($filterState, $filterCity);
@@ -71,6 +79,45 @@ $(document).ready(async () => {
         const target = event.currentTarget as HTMLInputElement;
         target.value = maskCep(target.value);
     });
+
+    $inputEditCep.on("input", (event) => {
+        const target = event.currentTarget as HTMLInputElement;
+        target.value = maskCep(target.value);
+    });
+
+    const bindLocationCep = (
+        $cep:     JQuery<HTMLElement>,
+        $address: JQuery<HTMLElement>,
+        $city:    JQuery<HTMLElement>,
+        $state:   JQuery<HTMLElement>,
+    ) => {
+        bindCepAutoFill($cep, {
+            mask: maskCep,
+            onCepReady: async (cepValue) => {
+                const address = await CepController.getAddress(cepValue);
+
+                if (!address || address.erro) {
+                    Toast.info("CEP nao encontrado.");
+                    return;
+                }
+
+                if (address.logradouro) {
+                    $address.val(address.logradouro);
+                }
+
+                if (address.localidade) {
+                    $city.val(address.localidade);
+                }
+
+                if (address.uf) {
+                    $state.val(address.uf);
+                }
+            },
+        });
+    };
+
+    bindLocationCep($inputCep, $inputAddress, $inputCity, $inputState);
+    bindLocationCep($inputEditCep, $inputEditAddress, $inputEditCity, $inputEditState);
 
     $btnOpenCreate.on("click", () => {
         openModal($modalCreate);
