@@ -4,6 +4,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\views\ViewsController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    if (! auth()->check()) {
+        return redirect()->route('login');
+    }
+    $type = (int) (auth()->user()->type_user_id ?? 0);
+    if (in_array($type, [1, 2], true)) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('stock');
+});
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::prefix('/')->group(function () {

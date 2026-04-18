@@ -8,6 +8,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/ts/app.ts',
+                'resources/ts/components/Layout/SidebarPermissions.ts',
                 'resources/ts/pages/auth/login.ts',
                 'resources/ts/pages/auth/reset-password.ts',
                 'resources/ts/pages/admin/dashboard.ts',

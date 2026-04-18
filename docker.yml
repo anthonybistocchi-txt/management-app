@@ -1,0 +1,4 @@
+# Arquivo de conveniência: mesmo stack que docker-compose.yml
+# Uso: docker compose -f docker.yml up -d --build
+include:
+  - docker-compose.yml
