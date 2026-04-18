@@ -1,4 +1,4 @@
-# Management App
+# Inventa App
 
 Aplicação web de gestão operacional com foco em estoque, cadastros e relatórios, construída com Laravel no backend e TypeScript no frontend.
 
