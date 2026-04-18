@@ -5,6 +5,7 @@ use App\Models\Stock;
 use App\Models\StockMovements;
 use App\Repositories\Interfaces\StockMovementsRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class StockMovementsRepository implements StockMovementsRepositoryInterface
 {
@@ -112,5 +113,68 @@ class StockMovementsRepository implements StockMovementsRepositoryInterface
                 $query->where('product_categories.id', $data['category_id']);
             })
             ->get();
+    }
+
+    public function getStockCardData(array $data): Collection
+    {
+        return StockMovements::select(
+                'stock_movements.id',
+                'stock_movements.type',
+                'stock_movements.quantity_moved',
+                'stock_movements.quantity_before',
+                'stock_movements.quantity_after',
+                'stock_movements.description',
+                'stock_movements.movement_date',
+                'locations.name as location_name',
+                'providers.name as provider_name',
+            )
+            ->leftJoin('locations', 'stock_movements.location_id', '=', 'locations.id')
+            ->leftJoin('providers', 'stock_movements.provider_id', '=', 'providers.id')
+            ->whereBetween('stock_movements.movement_date', [
+                $data['date_from'] . ' 00:00:00',
+                $data['date_to']   . ' 23:59:59',
+            ])
+            ->when(($data['location_id'] ?? 'all') !== 'all', function ($query) use ($data) {
+                $query->where('stock_movements.location_id', $data['location_id']);
+            })
+            ->when(($data['product_id'] ?? 'all') !== 'all', function ($query) use ($data) {
+                $query->where('stock_movements.product_id', $data['product_id']);
+            })
+            ->orderBy('stock_movements.movement_date', 'desc')
+            ->get();
+    }
+
+    public function getStockTurnoverData(array $data): Collection
+    {
+        return StockMovements::select(
+                'products.id as product_id',
+                'products.name as product_name',
+                'product_categories.name as category_name',
+                DB::raw("SUM(CASE WHEN stock_movements.type = 'in'  THEN stock_movements.quantity_moved ELSE 0 END) as total_in"),
+                DB::raw("SUM(CASE WHEN stock_movements.type = 'out' THEN stock_movements.quantity_moved ELSE 0 END) as total_out"),
+            )
+            ->join('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->whereBetween('stock_movements.movement_date', [
+                $data['date_from'] . ' 00:00:00',
+                $data['date_to']   . ' 23:59:59',
+            ])
+            ->when(($data['category_id'] ?? 'all') !== 'all', function ($query) use ($data) {
+                $query->where('product_categories.id', $data['category_id']);
+            })
+            ->when(($data['location_id'] ?? 'all') !== 'all', function ($query) use ($data) {
+                $query->where('stock_movements.location_id', $data['location_id']);
+            })
+            ->groupBy('products.id', 'products.name', 'product_categories.name')
+            ->get()
+            ->map(function ($row) {
+                $totalIn  = (int) $row->total_in;
+                $totalOut = (int) $row->total_out;
+                $avgStock = $totalIn > 0 ? ($totalIn + ($totalIn - $totalOut)) / 2 : 0;
+                $turnover = $avgStock > 0 ? round($totalOut / $avgStock, 2) : 0;
+
+                $row->turnover = $turnover;
+                return $row;
+            });
     }
 }

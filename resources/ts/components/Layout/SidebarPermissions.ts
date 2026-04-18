@@ -20,20 +20,20 @@ $(document).ready(() => {
 
     const $sidebar: JQuery<HTMLElement> = $('#sidebar-main');
 
-    $(document).on('click', '#btn-open-sidebar', (e: JQuery.ClickEvent) => {
-        e.preventDefault();
-        e.stopPropagation(); 
+    $(document).on('click', '#btn-open-sidebar', (event: JQuery.ClickEvent) => {
+        event.preventDefault();
+        event.stopPropagation(); 
         $sidebar.removeClass('-translate-x-full');
         $('#btn-open-sidebar').hide();
     });
 
-    $(document).on('click', '#btn-close-sidebar', (e: JQuery.ClickEvent) => {
-        e.preventDefault();
+    $(document).on('click', '#btn-close-sidebar', (event: JQuery.ClickEvent) => {
+        event.preventDefault();
         $sidebar.addClass('-translate-x-full');
     });
 
-    $(document).on('click', (e: JQuery.ClickEvent) => {
-        const target = e.target as Element;
+    $(document).on('click', (event: JQuery.ClickEvent) => {
+        const target = event.target as Element;
         
         if (window.innerWidth < 1024 && !$sidebar.hasClass('-translate-x-full')) {
 

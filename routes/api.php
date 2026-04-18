@@ -7,13 +7,18 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Reports\InOutController;
+use App\Http\Controllers\Reports\StockCardController;
+use App\Http\Controllers\Reports\StockTurnoverController;
+use App\Http\Controllers\Reports\InventoryController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-       
+       Route::prefix('cities')->group(function () {
+            Route::get('/getAll', [CitiesController::class, 'getAll'])->name('cities.index');
+            Route::get('/getByCEP/{cep}', [CitiesController::class, 'getCityByCEP'])->name('cities.getByCEP');
+        });
 Route::middleware(['auth'])->group(function () {
 
     Route::prefix('users')->group(function () {
@@ -43,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('stock')->group(function () {
             Route::post('/in', [StockController::class, 'in'])->name('stock.in');
             Route::post('/out', [StockController::class, 'out'])->name('stock.out');
+            Route::get('/getAllInfo', [StockController::class, 'getInfoProducts'])->name('products.getAllInfo');
         }); 
 
     Route::middleware('admin.or.gestor')->group(function () {
@@ -77,9 +83,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/getAll', [UFController::class, 'getAll'])->name('ufs.index');
         });
 
-        Route::prefix('cities')->group(function () {
-            Route::get('/getAll', [CitiesController::class, 'getAll'])->name('cities.index');
-        });
+        // Route::prefix('cities')->group(function () {
+        //     Route::get('/getAll', [CitiesController::class, 'getAll'])->name('cities.index');
+        //     Route::get('/getByCEP/{cep}', [CitiesController::class, 'getCityByCEP'])->name('cities.getByCEP');
+        // });
 
         Route::prefix('cep')->group(function () {
             Route::get('/get/{cep}', [CEPController::class, 'getAddress'])->name('cep.get');
@@ -92,8 +99,18 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('reports')->group(function () {
             Route::post('/in-out', [InOutController::class, 'getAll'])->name('reports.in-out');
-            Route::post('/stock-turnover', [ReportController::class, 'getStockTurnoverReport'])->name('reports.stock-turnover');
-            Route::post('/inventory', [ReportController::class, 'getInventoryReport'])->name('reports.inventory');
+            Route::post('/stock-card', [StockCardController::class, 'getAll'])->name('reports.stock-card');
+            Route::post('/stock-turnover', [StockTurnoverController::class, 'getAll'])->name('reports.stock-turnover');
+            Route::post('/inventory', [InventoryController::class, 'getAll'])->name('reports.inventory');
+
+            Route::post('/in-out/export/csv',         [InOutController::class,         'exportCsv'])->name('reports.in-out.export.csv');
+            Route::post('/in-out/export/pdf',         [InOutController::class,         'exportPdf'])->name('reports.in-out.export.pdf');
+            Route::post('/stock-card/export/csv',     [StockCardController::class,     'exportCsv'])->name('reports.stock-card.export.csv');
+            Route::post('/stock-card/export/pdf',     [StockCardController::class,     'exportPdf'])->name('reports.stock-card.export.pdf');
+            Route::post('/stock-turnover/export/csv', [StockTurnoverController::class, 'exportCsv'])->name('reports.stock-turnover.export.csv');
+            Route::post('/stock-turnover/export/pdf', [StockTurnoverController::class, 'exportPdf'])->name('reports.stock-turnover.export.pdf');
+            Route::post('/inventory/export/csv',      [InventoryController::class,     'exportCsv'])->name('reports.inventory.export.csv');
+            Route::post('/inventory/export/pdf',      [InventoryController::class,     'exportPdf'])->name('reports.inventory.export.pdf');
         });
 
         Route::prefix('stock')->group(function () {

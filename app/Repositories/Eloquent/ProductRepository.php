@@ -49,4 +49,5 @@ class ProductRepository implements ProductRepositoryInterface
             ->limit($limit)
             ->get();
     }
+
 }

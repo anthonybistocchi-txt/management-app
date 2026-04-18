@@ -5,7 +5,7 @@
     $navActive = 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors hover:text-white';
     $navInactive = 'flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors hover:text-white hover:bg-primary/10 transition-colors';
     $nav = fn(string $key) => $active === $key ? $navActive : $navInactive;
-    $reportsOpen = in_array($active, ['reportSalesPeriod', 'reportStockTurnover', 'reportInOut', 'reportStockCard'], true);
+    $reportsOpen = in_array($active, ['reportStockTurnover', 'reportInOut', 'reportStockCard'], true);
     $subNav = fn(string $key) => $active === $key
         ? 'block rounded-md px-2 py-1.5 text-sm font-semibold text-primary bg-primary/10'
         : 'block rounded-md px-2 py-1.5 text-sm text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors';
@@ -60,11 +60,6 @@
                 <span class="material-symbols-outlined">inventory_2</span>
                 <p class="text-sm font-medium">Entrada de mercadoria</p>
             </a>
-            <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
-                class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 transition-colors">
-                <span class="material-symbols-outlined">assignment</span>
-                <p class="text-sm font-medium">Inventário</p>
-            </a>
 
             <div
                 class="mt-2 text-xs uppercase tracking-widest text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
@@ -110,13 +105,13 @@
 
                 <div
                     class="mt-2 ml-4 flex flex-col gap-1 border-l border-white/15 pl-3 transition-colors duration-300 hover:border-white/40">
-                    <a id="link-sidebar-report-sales-period" href="#"
-                        class="{{ $subNav('reportSalesPeriod') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
-                        Vendas por periodo
-                    </a>
                     <a id="link-sidebar-report-stock-turnover" href="{{ route('reportStockTurnover') }}"
                         class="{{ $subNav('reportStockTurnover') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
                         Giro de estoque
+                    </a>
+                    <a id="link-sidebar-inventory" href="{{ route('reportInventory') }}"
+                        class="{{ $nav('inventory') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
+                        <p class="text-sm font-medium">Inventário</p>
                     </a>
                     <a id="link-sidebar-report-in-out" href="{{ route('reportInOut') }}"
                         class="{{ $subNav('reportInOut') }} hover:text-white hover:bg-primary/10 hover:translate-x-1 transition-all duration-200">
@@ -134,12 +129,6 @@
     <hr class="border-t border-white/10 my-4 shrink-0" />
 
     <div class="flex flex-col gap-1 shrink-0">
-        <a id="link-sidebar-settings"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-            href="#">
-            <span class="material-symbols-outlined text-2xl">settings</span>
-            <p class="text-sm font-medium">Configuracoes</p>
-        </a>
         <form id="form-sidebar-logout" method="POST" action="{{ url('/logout') }}">
             @csrf
             <button type="submit"

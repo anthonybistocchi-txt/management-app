@@ -5,13 +5,15 @@ import { DeleteProductService } from "../../services/Product/DeleteProductServic
 import { ApiResponse } from "../../types/ApiResponse";
 
 export const ProductController = {
-    async getProducts(): Promise<ProductData[]> {
+    async getInfoProducts(): Promise<ProductData[]> {
         try {
-            const response: ApiResponse<ProductData[]> = await ProductService.getProducts();
+            const response: ApiResponse<ProductData[]> = await ProductService.getInfoProducts();
 
-            if (response.status && response.data) {
+            if (Array.isArray(response.data)) {
                 return response.data;
             }
+
+            console.error("Resposta inválida ao obter produtos.");
         } catch (error) {
             console.error("Erro ao carregar produtos:", error);
         }
@@ -45,4 +47,5 @@ export const ProductController = {
 
         return { success: false, message: result.message };
     },
+
 };

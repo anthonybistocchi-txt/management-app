@@ -10,9 +10,9 @@ export function initProductSearch(selectEl: HTMLSelectElement, size?: TomSelectS
         size,
         preloadOptions: [{ value: "all", text: "Todos" }],
         noResultsText: "Nenhum produto encontrado",
-        mapResult: (p: { id: number; name: string }) => ({
-            value: String(p.id),
-            text: p.name,
+        mapResult: (product: { id: number; name: string }) => ({
+            value: String(product.id),
+            text: product.name,
         }),
     });
 }

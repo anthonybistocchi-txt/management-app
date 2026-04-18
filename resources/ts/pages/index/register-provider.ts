@@ -6,6 +6,7 @@ import { showUfs } from "../../components/Locations/showUfs";
 import { showCities } from "../../components/Locations/showCities";
 import { getTomSelectInstance, syncLocalTomSelect, syncLocalTomSelectGroup } from "../../components/TomSelect/initTomSelect";
 import { CepController } from "../../Controllers/CEP/CepController";
+import { CitiesController } from "../../Controllers/Cities/CitiesController";
 import { bindCepAutoFill } from "../../utils/cepAutoFill";
 import { maskCnpj } from "../../utils/cnpjMask";
 import { maskCep } from "../../utils/cepMask";
@@ -63,6 +64,11 @@ $(document).ready(async () => {
         }
     };
 
+    const loadAllCities = async () => {
+        await showCities($city);
+        syncLocalTomSelect($city, { size: "lg" });
+    };
+
     $state.on("change", async () => {
         const selected = $state.find("option:selected");
         const selectedUfId = Number(selected.data("ufId"));
@@ -81,6 +87,7 @@ $(document).ready(async () => {
     bindCepAutoFill($cep, {
         mask: maskCep,
         onCepReady: async (cepValue) => {
+            const cepInfo = await CitiesController.getCityByCep(cepValue);
             const address = await CepController.getAddress(cepValue);
 
             if (!address || address.erro) {
@@ -106,7 +113,15 @@ $(document).ready(async () => {
 
                 if (ufId) {
                     await refreshCities(ufId, address.localidade ?? undefined);
+                } else {
+                    await loadAllCities();
                 }
+            }
+
+            if (cepInfo?.city && !address.localidade) {
+                await loadAllCities();
+                const tsCity = getTomSelectInstance($city);
+                if (tsCity) tsCity.setValue(cepInfo.city, true);
             }
         },
     });
@@ -114,6 +129,10 @@ $(document).ready(async () => {
     $phone.on("input", (event) => {
         const target = event.currentTarget as HTMLInputElement;
         target.value = maskPhone(target.value);
+    });
+
+    $city.off("focus").on("focus", async () => {
+        await loadAllCities();
     });
 
     $form.on("submit", async (event) => {

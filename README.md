@@ -1,245 +1,310 @@
-# Inventa App
+# Management App
 
-Plataforma de gestão operacional voltada ao controle de estoque, cadastros e administração de usuários
+Aplicação web de gestão operacional com foco em estoque, cadastros e relatórios, construída com Laravel no backend e TypeScript no frontend.
 
-Desenvolvido por **ABCode**, Software corporativo criado por Anthony Bistocchi. 
+Este README foi atualizado para refletir o estado atual do código.
 
-Construído com Laravel no backend e TypeScript no frontend.
+## Visão geral
 
-## 1. Visão Geral
+O sistema atende operações de estoque e gestão administrativa com dois grandes contextos:
+- operação diária (entrada e saída de estoque para usuários autenticados);
+- gestão administrativa (dashboard, cadastros, relatórios e exportações para perfis admin/gestor).
 
-O projeto entrega uma aplicação web com autenticação e módulos administrativos para operação diária.
+Principais entregas:
+- autenticação com controle de sessão;
+- dashboard com indicadores e gráficos por período;
+- CRUD de usuários, fornecedores, produtos e localizações;
+- consultas de categorias, UF, cidades e CEP;
+- movimentações de estoque (`in`, `out`, `transfer`);
+- relatórios de entrada/saída, ficha de estoque, giro e inventário;
+- exportação de relatórios em CSV e PDF.
 
-Principais capacidades:
-- Login e sessão autenticada.
-- Dashboard de vendas com métricas por período.
-- Gestão de usuários (operadores), produtos, fornecedores, categorias e localizações.
-- Movimentações de estoque (entrada, saída e transferência via API).
-- Relatório de entrada/saída com filtros.
+Documentos relacionados:
+- `FEATURES.md`: escopo funcional por área e observações de evolução.
+- `documentation/database.md`: documento de banco existente no repositório (atenção: contém conteúdo legado e não reflete totalmente o schema atual das migrations).
 
-Arquivos de apoio:
-- [documentation/database.md](documentation/database.md): referência de banco de dados.
+## Stack tecnológica
 
-## 2. Funcionalidades
-
-### 2.1 Autenticação
-- Tela de login.
-- Logout em sessão autenticada.
-- Telas de criação e reset de senha no fluxo web.
-
-### 2.2 Dashboard
-- Consulta por intervalo de datas.
-- KPIs de vendas:
-	- valor total vendido;
-	- produto mais vendido;
-	- total de pedidos;
-	- ticket médio;
-	- variação percentual vs. período anterior.
-- Gráficos:
-	- série temporal de vendas por volume/faturamento;
-	- vendas por categoria.
-- Blocos adicionais:
-	- top produtos;
-	- vendas recentes;
-	- alerta de baixo estoque.
-
-### 2.3 Gestão de Usuários
-- Listagem paginada com filtros e busca.
-- Criação de usuário.
-- Edição de usuário.
-- Exclusão/inativação via fluxo da API.
-
-### 2.4 Gestão de Fornecedores
-- Listagem e filtros.
-- Criação, edição e exclusão.
-- Preenchimento assistido de endereço por CEP.
-
-### 2.5 Gestão de Produtos
-- Listagem e filtros por categoria, fornecedor e localização.
-- Criação, edição e exclusão.
-- Campos de preço e estoque inicial.
-
-### 2.6 Gestão de Categorias
-- Listagem e busca.
-- Fluxo de criação e edição estruturado no frontend.
-- Observação: exclusão de categorias ainda não está implementada na API.
-
-### 2.7 Gestão de Localizações
-- Listagem e filtros por estado/cidade.
-- Criação, edição e exclusão.
-
-### 2.8 Estoque
-- Entrada de estoque com produto, fornecedor, quantidade, data e localização.
-- Saída de estoque com produto, quantidade, data e localização.
-- Transferência disponível via endpoint de API.
-
-### 2.9 Relatórios
-- Relatório de entrada/saída com filtros por produto, local, tipo de movimentação, fornecedor, categoria e período.
-- Rotas previstas para relatórios de giro e inventário.
-
-## 3. Stack Tecnológica
-
-### Backend
-- PHP 8.2+
-- Laravel 12
+Backend:
+- PHP `^8.2`
+- Laravel `^12`
 - Eloquent ORM
-- Requests de validação
-- Camada Service/Repository
+- Form Requests para validação
+- Camada de serviços e repositórios (interfaces + implementação Eloquent)
+- `barryvdh/laravel-dompdf` para exportação PDF
 
-### Frontend
+Frontend:
 - TypeScript
-- Vite
+- Vite 5
+- Axios
 - jQuery
 - DataTables
-- TomSelect
+- Tom Select
 - Flatpickr
-- Chart.js
 - SweetAlert2
-- Axios
+- Chart.js e ApexCharts
+- Tailwind CSS (configuração presente no projeto)
 
-## 4. Arquitetura do Projeto
+## Arquitetura e organização
 
-Organização principal:
-- [app](app): controllers, services, repositories, models, requests.
-- [resources/ts](resources/ts): frontend modular por domínio (pages, components, controllers, services, utils, types).
-- [resources/views](resources/views): views Blade.
-- [routes/web.php](routes/web.php): rotas web e páginas.
-- [routes/api.php](routes/api.php): endpoints JSON consumidos pelo frontend.
-- [database/migrations](database/migrations): estrutura de banco.
-- [database/seeders](database/seeders): carga inicial de dados.
+Principais diretórios:
+- `app/Http/Controllers`: controllers HTTP (API e views).
+- `app/Http/Requests`: validações de entrada por endpoint.
+- `app/Services`: regras de negócio por domínio.
+- `app/Repositories`: interfaces + classes Eloquent para acesso a dados.
+- `app/Models`: modelos de domínio.
+- `resources/views`: páginas Blade e templates auxiliares (incluindo template PDF).
+- `resources/ts`: frontend modular por domínio (`pages`, `components`, `services`, `controllers`, `types`, `utils`).
+- `routes/web.php`: rotas de páginas web.
+- `routes/api.php`: endpoints JSON consumidos pelo frontend.
+- `database/migrations`: estrutura de banco.
+- `database/seeders`: carga inicial para ambiente local.
 
-Padrões adotados no frontend:
-- Componentes por domínio (Products, Providers, Locations, Users, Categories, Dashboard).
-- Helpers compartilhados para formulários, selects e ações de tabela.
-- Tipos centralizados em [resources/ts/types](resources/ts/types).
+Padrões observados:
+- separação em camadas (Controller -> Service -> Repository);
+- frontend por domínio com inicializadores por página;
+- DataTables server-side para listagens e relatórios;
+- filtro + consulta + exportação compartilhando o mesmo payload.
 
-## 5. Permissões e Acesso
+## Módulos funcionais
 
-Resumo de acesso por middleware:
-- `auth`: exige usuário autenticado.
+### Autenticação e sessão
+- login via `POST /login`;
+- logout via `POST /logout`;
+- middleware `auth` exige usuário logado e sessão válida (`login_ip` e `login_at`);
+- redirecionamento inicial por perfil:
+  - admin/gestor -> dashboard;
+  - colaborador -> fluxo de estoque.
+
+### Dashboard
+- disponível para admin/gestor;
+- consulta por período;
+- cartões de indicadores e gráficos com dados da API `POST /api/admin/dashboard`.
+
+### Gestão de usuários
+- listagem paginada;
+- criação, edição e remoção lógica;
+- endpoint de usuário logado para cabeçalho e contexto da UI.
+
+### Gestão de fornecedores
+- listagem e CRUD;
+- integração com consultas de CEP/cidade para preenchimento de endereço.
+
+### Gestão de produtos
+- listagem e CRUD;
+- vínculo com categoria;
+- usado nas movimentações e relatórios.
+
+### Gestão de categorias
+- listagem e cadastro/edição disponíveis nas telas administrativas;
+- usada como filtro em produtos e relatórios.
+
+### Gestão de localizações
+- listagem e CRUD;
+- localizações são obrigatórias para posição de estoque e filtragem operacional.
+
+### Estoque e movimentações
+- entrada (`/api/stock/in`);
+- saída (`/api/stock/out`);
+- transferência (`/api/stock/transfer`, restrita a admin/gestor);
+- histórico em `stock_movements` com tipo, quantidades antes/depois e data.
+
+### Relatórios
+Relatórios atualmente disponíveis:
+- Entrada e saída (`/api/reports/in-out`);
+- Ficha de estoque / Kardex (`/api/reports/stock-card`);
+- Giro de estoque (`/api/reports/stock-turnover`);
+- Inventário (`/api/reports/inventory`).
+
+Todos possuem filtros na UI e carregamento server-side.
+
+## Exportação de relatórios (CSV e PDF)
+
+A exportação foi estruturada para ser reutilizável entre todos os relatórios.
+
+Backend:
+- requests específicos de export em `app/Http/Requests/Reports/Exports`;
+- serviços por relatório em `app/Services/Reports/Exports/*ExportService.php`;
+- payload comum em `ReportExportPayload`;
+- colunas formatáveis em `ReportExportColumn`;
+- exportador CSV em `ReportCsvExporter`;
+- exportador PDF em `ReportPdfExporter` com template único em `resources/views/exports/pdf/report.blade.php`.
+
+Endpoints:
+- `POST /api/reports/in-out/export/csv`
+- `POST /api/reports/in-out/export/pdf`
+- `POST /api/reports/stock-card/export/csv`
+- `POST /api/reports/stock-card/export/pdf`
+- `POST /api/reports/stock-turnover/export/csv`
+- `POST /api/reports/stock-turnover/export/pdf`
+- `POST /api/reports/inventory/export/csv`
+- `POST /api/reports/inventory/export/pdf`
+
+Detalhes importantes:
+- CSV usa separador `;` e BOM UTF-8 para compatibilidade com Excel em pt-BR;
+- PDF tem limite defensivo de linhas (constante `PDF_MAX_ROWS`, atualmente `500`);
+- quando há truncamento no PDF, o backend envia headers `X-Pdf-*` e o frontend informa o usuário para usar CSV no dataset completo.
+
+## Permissões e perfis
+
+Middlewares:
+- `auth`: exige autenticação e sessão íntegra;
 - `admin.or.gestor`: restringe módulos administrativos.
 
-Rotas operacionais de estoque (entrada/saída) ficam sob autenticação.
-Rotas administrativas (dashboard, usuários, cadastros e relatórios) exigem perfil administrativo/gestor.
+Perfis observados:
+- `1` = Admin
+- `2` = Gestor
+- `3` = Colaborador
 
-## 6. Requisitos
+Regra prática de acesso:
+- Colaborador opera principalmente entradas e saídas de estoque;
+- Admin/Gestor acessam dashboard, cadastros, relatórios e exportações.
 
-| Ferramenta | Versão recomendada |
-|------------|-------------------|
-| PHP        | ^8.2              |
-| Composer   | 2.x               |
-| Node.js    | 18+               |
-| npm        | 9+                |
-| MySQL      | 8.x (ou compatível) |
+## Banco de dados (resumo real das migrations)
 
-Extensões PHP usuais do Laravel:
-- openssl
-- pdo
-- mbstring
-- tokenizer
-- xml
-- ctype
-- json
-- bcmath
+Tabelas centrais de negócio:
+- `type_user`
+- `users`
+- `providers`
+- `product_categories`
+- `products`
+- `locations`
+- `stock`
+- `stock_movements`
+- `login_activities`
 
-## 7. Instalação
+Suporte de infraestrutura Laravel:
+- `sessions`
+- `cache` e `cache_locks`
 
-### 7.1 Clonar repositório
+Seeders disponíveis:
+- tipos de usuário;
+- usuários;
+- fornecedores;
+- categorias;
+- localizações;
+- produtos;
+- estoque;
+- movimentações de estoque.
+
+## Pré-requisitos
+
+- PHP `^8.2`
+- Composer 2.x
+- Node.js 18+ (recomendado)
+- npm 9+ (recomendado)
+- MySQL 8+ (ou compatível)
+
+Extensões PHP comuns para Laravel:
+- `openssl`
+- `pdo`
+- `mbstring`
+- `tokenizer`
+- `xml`
+- `ctype`
+- `json`
+- `bcmath`
+
+## Instalação
+
+1) Clonar repositório
+
 ```bash
 git clone <url-do-repositorio>
-cd Inventa-App
+cd laravel
 ```
 
-### 7.2 Instalar dependências backend
+2) Instalar dependências do backend
+
 ```bash
 composer install
 ```
 
-### 7.3 Configurar ambiente
-```bash
-copy .env.example .env
+3) Configurar ambiente
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item .env.example .env
 php artisan key:generate
 ```
 
-Configurar no .env:
-- APP_URL
-- DB_HOST
-- DB_PORT
-- DB_DATABASE
-- DB_USERNAME
-- DB_PASSWORD
+Linux/macOS:
 
-### 7.4 Migrar e semear banco
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4) Configurar credenciais no `.env`
+- `APP_URL`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+
+5) Rodar migrations e seeders
+
 ```bash
 php artisan migrate
 php artisan db:seed
 ```
 
-### 7.5 Instalar dependências frontend
+6) Instalar dependências do frontend
+
 ```bash
 npm install
 ```
 
-## 8. Execução em Desenvolvimento
+## Execução local
 
-Executar em terminais separados:
+Opção 1 (terminais separados):
 
-Terminal 1:
 ```bash
 php artisan serve
 ```
 
-Terminal 2:
 ```bash
 npm run dev
 ```
 
-Opcional (fila):
+Opcional para fila:
+
 ```bash
 php artisan queue:listen --tries=1
 ```
 
-Também é possível usar o script integrado do Composer:
+Opção 2 (script único):
+
 ```bash
 composer run dev
 ```
 
-## 9. Build de Produção
+## Build de produção
 
 ```bash
 npm run build
 ```
 
-Os assets serão gerados em `public/build`.
+Assets serão gerados em `public/build`.
 
-## 10. Comandos Úteis
+## Scripts e comandos úteis
 
-| Comando | Descrição |
-|---------|-----------|
-| php artisan migrate | Executa migrações |
-| php artisan db:seed | Executa seeders |
-| php artisan optimize:clear | Limpa caches da aplicação |
-| php artisan test | Executa testes |
-| npm run dev | Frontend em modo desenvolvimento |
-| npm run build | Build de produção frontend |
+- `php artisan migrate`: executa migrations.
+- `php artisan db:seed`: executa seeders.
+- `php artisan optimize:clear`: limpa caches.
+- `php artisan test`: executa testes.
+- `npm run dev`: frontend em desenvolvimento.
+- `npm run build`: build frontend para produção.
+- `composer run dev`: sobe backend + queue + Vite em paralelo.
 
-## 11. Endpoints Principais (Resumo)
+## Fluxo de rotas (resumo)
 
-Principais grupos de API em [routes/api.php](routes/api.php):
-- `/users/*`
-- `/products/*`
-- `/product-categories/*`
-- `/providers/*`
-- `/locations/*`
-- `/stock/*`
-- `/admin/dashboard`
-- `/reports/*`
-- `/uf/getAll`
-- `/cities/getAll`
-- `/cep/get/{cep}`
-
-Páginas web principais em [routes/web.php](routes/web.php):
+Web (`routes/web.php`):
 - `/login`
+- `/index/stock-in`
+- `/index/stock-out`
 - `/index/dashboard`
 - `/index/users`
 - `/index/providers`
@@ -247,14 +312,69 @@ Páginas web principais em [routes/web.php](routes/web.php):
 - `/index/products`
 - `/index/categories`
 - `/index/movements`
-- `/index/stock-in`
-- `/index/stock-out`
 - `/index/report-in-out`
+- `/index/report-stock-turnover`
+- `/index/report-inventory`
+- `/reports/stock-card`
 
-## 12. Observações de Negócio
+API (`routes/api.php`):
+- `/api/users/*`
+- `/api/products/*`
+- `/api/product-categories/*`
+- `/api/providers/*`
+- `/api/locations/*`
+- `/api/stock/*`
+- `/api/reports/*`
+- `/api/admin/dashboard`
+- `/api/uf/getAll`
+- `/api/cities/*`
+- `/api/cep/get/{cep}`
 
-- O sistema utiliza regra de preço em inteiro (centavos) com conversão para moeda no frontend.
-- O dashboard trabalha com filtros de período validados no frontend e backend.
-- Algumas funcionalidades de relatório avançado continuam em evolução.
+## Credenciais seed (somente desenvolvimento)
 
-Projeto sob licença MIT, conforme ecossistema Laravel.
+O `UserSeeder` cria usuários com senhas simples para ambiente local.
+
+Exemplos:
+- `bruno.costa` (admin) com senha `12345678`
+- `carla.dias` (gestor) com senha `12345678`
+- `ana.silva` (colaborador) com senha `12345678`
+
+Nunca reutilizar essas credenciais fora de ambiente local.
+
+## Pontos de atenção para novos devs
+
+- `documentation/database.md` contém modelagem ampla/legada e não representa fielmente as migrations atuais.
+- `routes/api.php` possui endpoints de cidades (`/api/cities/*`) fora do grupo autenticado.
+- `bootstrap/providers.php` referencia `AppServiceProvider`; confirme a presença desse provider no projeto antes de alterações estruturais de bootstrap.
+- o projeto ignora `public/build` e `storage/framework/views`; não versionar artefatos gerados.
+- pode haver inconsistências visuais de caminho com `\` e `/` em ambientes Windows no status do git; valide pelo path real do arquivo antes de deduplicar.
+
+## Troubleshooting
+
+Erro de CSRF em requests autenticadas:
+- garantir meta `csrf-token` na view;
+- confirmar sessão ativa e cookies válidos.
+
+Vite/HMR não conecta:
+- revisar arquivo `public/hot` (host/porta inválidos para o ambiente atual).
+
+Tela vazia ou sem dados:
+- confirmar login;
+- revisar filtros de data/local/produto;
+- validar se seeders foram executados.
+
+PDF muito grande:
+- refinar filtros;
+- usar exportação CSV para volume completo.
+
+## Contribuição
+
+Fluxo sugerido:
+1. Criar branch de feature/fix.
+2. Implementar alterações por domínio.
+3. Validar com `php artisan test` e `npm run build`.
+4. Abrir PR com contexto funcional, impacto técnico e checklist de testes.
+
+## Licença
+
+MIT.

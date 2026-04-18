@@ -53,8 +53,8 @@ export async function ShowModalEditUser(
             closeModal($modalEdit);
         });
 
-        $btnSave.off("click").on("click", async (e) => {
-            e.preventDefault();
+        $btnSave.off("click").on("click", async (event) => {
+            event.preventDefault();
 
             $btnSave.html("Salvando...").prop("disabled", true);
 

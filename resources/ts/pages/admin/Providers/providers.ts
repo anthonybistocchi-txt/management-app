@@ -13,6 +13,7 @@ import { showUfs } from "../../../components/Locations/showUfs";
 import { showCities } from "../../../components/Locations/showCities";
 import { bindCepAutoFill } from "../../../utils/cepAutoFill";
 import { CepController } from "../../../Controllers/CEP/CepController";
+import { CitiesController } from "../../../Controllers/Cities/CitiesController";
 import { normalizeText } from "../../../utils/normalizeText";
 import { Toast } from "../../../components/Swal/swal";
 
@@ -21,8 +22,8 @@ async function populateProviderFilters(
     $selectCity: JQuery<HTMLElement>,
 ): Promise<void> {
     const providers = await ProviderController.getProviders();
-    const states = Array.from(new Set(providers.map((p) => String(p.state ?? "").trim()).filter(Boolean)));
-    const cities = Array.from(new Set(providers.map((p) => String(p.city ?? "").trim()).filter(Boolean)));
+    const states = Array.from(new Set(providers.map((provider) => String(provider.state ?? "").trim()).filter(Boolean)));
+    const cities = Array.from(new Set(providers.map((provider) => String(provider.city ?? "").trim()).filter(Boolean)));
 
     $selectState.empty();
     $selectState.append('<option value="all">Estados</option>');
@@ -59,6 +60,11 @@ async function refreshCities(
             tsCity?.setValue((match as HTMLOptionElement).value, true);
         }
     }
+}
+
+async function loadAllCities($city: JQuery<HTMLElement>): Promise<void> {
+    await showCities($city);
+    syncLocalTomSelect($city, { size: "lg" });
 }
 
 $(document).ready(async () => {
@@ -131,6 +137,7 @@ $(document).ready(async () => {
     bindCepAutoFill($inputCep, {
         mask: maskCep,
         onCepReady: async (cepValue) => {
+            const cepInfo = await CitiesController.getCityByCep(cepValue);
             const address = await CepController.getAddress(cepValue);
 
             if (!address || address.erro) {
@@ -155,7 +162,15 @@ $(document).ready(async () => {
 
                 if (ufOptionId) {
                     await refreshCities($selectCity, ufOptionId, address.localidade ?? undefined);
+                } else {
+                    await loadAllCities($selectCity);
                 }
+            }
+
+            if (cepInfo?.city && !address.localidade) {
+                await loadAllCities($selectCity);
+                const tsCity = getTomSelectInstance($selectCity);
+                if (tsCity) tsCity.setValue(cepInfo.city, true);
             }
         },
     });
@@ -163,6 +178,7 @@ $(document).ready(async () => {
     bindCepAutoFill($inputEditCep, {
         mask: maskCep,
         onCepReady: async (cepValue) => {
+            const cepInfo = await CitiesController.getCityByCep(cepValue);
             const address = await CepController.getAddress(cepValue);
 
             if (!address || address.erro) {
@@ -187,7 +203,15 @@ $(document).ready(async () => {
 
                 if (ufOptionId) {
                     await refreshCities($selectEditCity, ufOptionId, address.localidade ?? undefined);
+                } else {
+                    await loadAllCities($selectEditCity);
                 }
+            }
+
+            if (cepInfo?.city && !address.localidade) {
+                await loadAllCities($selectEditCity);
+                const tsCity = getTomSelectInstance($selectEditCity);
+                if (tsCity) tsCity.setValue(cepInfo.city, true);
             }
         },
     });
@@ -209,11 +233,15 @@ $(document).ready(async () => {
             }
         });
 
+        $selectCity.off("focus").on("focus", async () => {
+            await loadAllCities($selectCity);
+        });
+
         openModal($modalCreate);
     });
 
-    $btnModalSave.on("click", async (e) => {
-        e.preventDefault();
+    $btnModalSave.on("click", async (event) => {
+        event.preventDefault();
         await ShowModalCreateProvider(
             $inputName,
             $inputCnpj,

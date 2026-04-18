@@ -41,8 +41,8 @@ $(document).ready(async () => {
         openModal($modalCreate);
     });
 
-    $btnModalSave.on("click", async (e) => {
-        e.preventDefault();
+    $btnModalSave.on("click", async (event) => {
+        event.preventDefault();
         await ShowModalCreateCategory(
             $inputName,
             $textareaDescription,

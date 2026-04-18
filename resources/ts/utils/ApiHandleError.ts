@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-export const handleError = (error: unknown): string => {
+export const handleError = (error: Error | AxiosError): string => {
     if (error instanceof AxiosError) {
         const status = error.response?.status;
 

@@ -110,7 +110,7 @@ export function createDataTable<TRow extends object = Record<string, unknown>>(
             }
         },
 
-        createdRow(row, _data, index) {
+        createdRow(row, _rowData, index) {
             if (striped && index % 2 === 0) {
                 $(row).addClass("bg-gray-100");
             }
@@ -126,8 +126,8 @@ export function createDataTable<TRow extends object = Record<string, unknown>>(
     /* ---------- Registra os handlers dos botões de ação ---------- */
 
     for (const action of actions) {
-        $table.on("click", action.selector, async function (e) {
-            e.preventDefault();
+        $table.on("click", action.selector, async function (event) {
+            event.preventDefault();
 
             const id = Number($(this).data("id"));
 

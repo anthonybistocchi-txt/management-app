@@ -12,7 +12,7 @@ class ProductService
 
     public function create(array $data): Product
     {
-        return $this->productRepository->create($this->normalizePriceToCentavos($data));
+        return $this->productRepository->create($data);
     }
 
     public function getAll(): Collection
@@ -27,21 +27,7 @@ class ProductService
     
     public function update(array $data): Product
     {
-        return $this->productRepository->update($this->normalizePriceToCentavos($data));
-    }
-
-    /**
-     * A API recebe preço em reais (ex.: 1999.99); o banco armazena inteiro em centavos.
-     */
-    private function normalizePriceToCentavos(array $data): array
-    {
-        if (! array_key_exists('price', $data) || $data['price'] === null) {
-            return $data;
-        }
-
-        $data['price'] = (int) round((float) $data['price'] * 100);
-
-        return $data;
+        return $this->productRepository->update($data);
     }
 
     public function delete(int $id): bool

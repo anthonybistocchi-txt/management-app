@@ -86,8 +86,8 @@ export async function ShowModalEditProduct(
     $btnCancel.off("click").on("click", () => closeModal($modal));
     $btnClose.off("click").on("click", () => closeModal($modal));
 
-    $btnSave.off("click").on("click", async (e) => {
-        e.preventDefault();
+    $btnSave.off("click").on("click", async (event) => {
+        event.preventDefault();
         $btnSave.text("Salvando...").prop("disabled", true);
 
         try {

@@ -1,1 +1,1 @@
-export {};
+import "../admin/reports/stock-card";
