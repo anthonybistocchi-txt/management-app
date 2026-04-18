@@ -192,6 +192,7 @@ Seeders disponíveis:
 - Node.js 18+ (recomendado)
 - npm 9+ (recomendado)
 - MySQL 8+ (ou compatível)
+- Docker Desktop 4+ e Docker Compose v2 (para execução containerizada)
 
 Extensões PHP comuns para Laravel:
 - `openssl`
@@ -255,7 +256,102 @@ php artisan db:seed
 npm install
 ```
 
+## Rodando com Docker (recomendado para onboarding rápido)
+
+O projeto já possui infraestrutura Docker pronta:
+- `Dockerfile` com build multi-stage (assets frontend + runtime PHP-FPM);
+- `docker-compose.yml` com serviços `app` (PHP), `nginx`, `mysql` e `node` (profile `assets`);
+- scripts em `docker/` para bootstrap e build de assets.
+
+### 1) Configurar variáveis de ambiente
+
+O `docker-compose.yml` usa variáveis próprias para banco no container MySQL:
+- `COMPOSE_DB_DATABASE`
+- `COMPOSE_DB_USERNAME`
+- `COMPOSE_DB_PASSWORD`
+- `COMPOSE_MYSQL_ROOT_PASSWORD`
+- `HTTP_PORT` (default `8080`)
+- `MYSQL_PORT` (default `33060`)
+
+Exemplo rápido no PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+No `.env`, garanta ao menos:
+- `APP_URL=http://localhost:8080`
+- `DB_CONNECTION=mysql`
+- `DB_HOST=mysql`
+- `DB_PORT=3306`
+- `DB_DATABASE` com o mesmo valor de `COMPOSE_DB_DATABASE`
+- `DB_USERNAME` com o mesmo valor de `COMPOSE_DB_USERNAME`
+- `DB_PASSWORD` com o mesmo valor de `COMPOSE_DB_PASSWORD`
+
+### 2) Subir containers
+
+```bash
+docker compose up -d --build
+```
+
+Na primeira inicialização, o `entrypoint` do serviço `app` já:
+- copia `.env.example` para `.env` (se necessário);
+- gera `APP_KEY` (se ausente);
+- tenta rodar `php artisan migrate`.
+
+### 3) Rodar seeders (opcional, recomendado em ambiente local)
+
+```bash
+docker compose exec app php artisan db:seed
+```
+
+### 4) Acessar a aplicação
+
+- App web: `http://localhost:8080` (ou valor de `HTTP_PORT`)
+- MySQL host: `127.0.0.1`
+- MySQL porta: `33060` (ou valor de `MYSQL_PORT`)
+
+### 5) Comandos úteis com Docker
+
+Subir/derrubar stack:
+
+```bash
+docker compose up -d
+docker compose down
+```
+
+Ver logs:
+
+```bash
+docker compose logs -f app
+docker compose logs -f nginx
+docker compose logs -f mysql
+```
+
+Executar comandos Laravel dentro do container:
+
+```bash
+docker compose exec app php artisan migrate
+docker compose exec app php artisan test
+docker compose exec app php artisan optimize:clear
+```
+
+Rebuild dos assets frontend usando serviço `node`:
+
+```bash
+docker compose --profile assets run --rm node
+```
+
+Reset completo (inclui volume do banco):
+
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
 ## Execução local
+
+Use esta seção se você preferir executar sem Docker (ambiente nativo no host).
 
 Opção 1 (terminais separados):
 
@@ -296,6 +392,9 @@ Assets serão gerados em `public/build`.
 - `npm run dev`: frontend em desenvolvimento.
 - `npm run build`: build frontend para produção.
 - `composer run dev`: sobe backend + queue + Vite em paralelo.
+- `docker compose up -d --build`: sobe ambiente completo com Docker.
+- `docker compose exec app php artisan <comando>`: roda comandos artisan no container.
+- `docker compose --profile assets run --rm node`: gera assets de frontend no container.
 
 ## Fluxo de rotas (resumo)
 
@@ -355,11 +454,17 @@ Erro de CSRF em requests autenticadas:
 
 Vite/HMR não conecta:
 - revisar arquivo `public/hot` (host/porta inválidos para o ambiente atual).
+- em Docker, prefira `npm run build` (ou o profile `assets`) em vez de HMR para evitar problemas de websocket entre host/container.
 
 Tela vazia ou sem dados:
 - confirmar login;
 - revisar filtros de data/local/produto;
 - validar se seeders foram executados.
+
+Erro de conexão com banco no Docker:
+- conferir se `DB_HOST=mysql` e `DB_PORT=3306` no `.env`;
+- validar se `COMPOSE_DB_*` e `DB_*` estão consistentes;
+- aguardar healthcheck do MySQL e reexecutar `docker compose exec app php artisan migrate`.
 
 PDF muito grande:
 - refinar filtros;
