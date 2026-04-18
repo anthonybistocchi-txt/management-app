@@ -102,6 +102,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/stock-card', [StockCardController::class, 'getAll'])->name('reports.stock-card');
             Route::post('/stock-turnover', [StockTurnoverController::class, 'getAll'])->name('reports.stock-turnover');
             Route::post('/inventory', [InventoryController::class, 'getAll'])->name('reports.inventory');
+
+            Route::post('/in-out/export/csv',         [InOutController::class,         'exportCsv'])->name('reports.in-out.export.csv');
+            Route::post('/in-out/export/pdf',         [InOutController::class,         'exportPdf'])->name('reports.in-out.export.pdf');
+            Route::post('/stock-card/export/csv',     [StockCardController::class,     'exportCsv'])->name('reports.stock-card.export.csv');
+            Route::post('/stock-card/export/pdf',     [StockCardController::class,     'exportPdf'])->name('reports.stock-card.export.pdf');
+            Route::post('/stock-turnover/export/csv', [StockTurnoverController::class, 'exportCsv'])->name('reports.stock-turnover.export.csv');
+            Route::post('/stock-turnover/export/pdf', [StockTurnoverController::class, 'exportPdf'])->name('reports.stock-turnover.export.pdf');
+            Route::post('/inventory/export/csv',      [InventoryController::class,     'exportCsv'])->name('reports.inventory.export.csv');
+            Route::post('/inventory/export/pdf',      [InventoryController::class,     'exportPdf'])->name('reports.inventory.export.pdf');
         });
 
         Route::prefix('stock')->group(function () {

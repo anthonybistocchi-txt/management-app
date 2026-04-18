@@ -129,12 +129,6 @@
     <hr class="border-t border-white/10 my-4 shrink-0" />
 
     <div class="flex flex-col gap-1 shrink-0">
-        <a id="link-sidebar-settings"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-white hover:bg-primary/10 transition-colors"
-            href="#">
-            <span class="material-symbols-outlined text-2xl">settings</span>
-            <p class="text-sm font-medium">Configuracoes</p>
-        </a>
         <form id="form-sidebar-logout" method="POST" action="{{ url('/logout') }}">
             @csrf
             <button type="submit"

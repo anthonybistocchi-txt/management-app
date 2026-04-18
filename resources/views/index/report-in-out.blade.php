@@ -51,8 +51,8 @@
                                 </summary>
                                 <div
                                     class="absolute right-0 z-10 mt-2 w-36 rounded-lg border border-slate-200 bg-white py-1 text-sm shadow-lg">
-                                    <a href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50">CSV</a>
-                                    <a href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50">PDF</a>
+                                    <a id="btn-download-in-out-csv" href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 cursor-pointer">CSV</a>
+                                    <a id="btn-download-in-out-pdf" href="#" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 cursor-pointer">PDF</a>
                                 </div>
                             </details>
                         </div>

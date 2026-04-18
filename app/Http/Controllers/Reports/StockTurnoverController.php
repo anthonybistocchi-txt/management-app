@@ -3,13 +3,23 @@
 namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reports\Exports\StockTurnoverExportRequest;
 use App\Http\Requests\Reports\StockTurnoverRequest;
+use App\Services\Reports\Exports\ReportCsvExporter;
+use App\Services\Reports\Exports\ReportPdfExporter;
+use App\Services\Reports\Exports\StockTurnoverExportService;
 use App\Services\Reports\StockTurnoverService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class StockTurnoverController extends Controller
 {
-    public function __construct(protected StockTurnoverService $stockTurnoverService) {}
+    public function __construct(
+        protected StockTurnoverService        $stockTurnoverService,
+        protected StockTurnoverExportService  $stockTurnoverExportService,
+        protected ReportCsvExporter           $csvExporter,
+        protected ReportPdfExporter           $pdfExporter,
+    ) {}
 
     public function getAll(StockTurnoverRequest $request): JsonResponse
     {
@@ -22,5 +32,19 @@ class StockTurnoverController extends Controller
             'recordsFiltered' => $report['recordsFiltered'] ?? 0,
             'data'            => $report['data']            ?? [],
         ]);
+    }
+
+    public function exportCsv(StockTurnoverExportRequest $request): Response
+    {
+        return $this->csvExporter->download(
+            $this->stockTurnoverExportService->buildPayload($request->validated()),
+        );
+    }
+
+    public function exportPdf(StockTurnoverExportRequest $request): Response
+    {
+        return $this->pdfExporter->download(
+            $this->stockTurnoverExportService->buildPayload($request->validated()),
+        );
     }
 }

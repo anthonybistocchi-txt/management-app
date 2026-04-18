@@ -17,13 +17,29 @@ class AuthenticatedMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        $wantsJson = $request->expectsJson() || $request->is('api/*');
+
+        if (! Auth::check()) {
+            if ($wantsJson) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'user not authenticated, please login to continue.',
+                ], 401);
+            }
+
             return redirect('/login')
                 ->withErrors(['user not authenticated, please login to continue.']);
         }
 
-        if (!Session::has('login_ip') || !Session::has('login_at')) {
+        if (! Session::has('login_ip') || ! Session::has('login_at')) {
             Auth::logout();
+
+            if ($wantsJson) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'session expired, please login again.',
+                ], 401);
+            }
 
             return redirect('/login')
                 ->withErrors(['session expired, please login again.']);

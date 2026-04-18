@@ -7,6 +7,7 @@ import { showProviders } from "../../../components/Providers/ShowProviders";
 import { showLocations } from "../../../components/Locations/showLocations";
 import { initProductSearch } from "../../../components/Products/productSearch";
 import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import { initReportDownload } from "../../../components/Reports/shared/initReportDownload";
 import type { InOutFilters } from "../../../types/Reports/InOutReport";
 
 $(document).ready(async () => {
@@ -68,5 +69,13 @@ $(document).ready(async () => {
     $btnSearchInOut.on("click", async (event) => {
         event.preventDefault();
         await showTableInOutReport($tableInOutReport, buildFilters());
+    });
+
+    initReportDownload({
+        baseEndpoint: "reports/in-out",
+        fileNameBase: "relatorio-entrada-saida",
+        buildFilters,
+        $csvTrigger: $("#btn-download-in-out-csv"),
+        $pdfTrigger: $("#btn-download-in-out-pdf"),
     });
 });

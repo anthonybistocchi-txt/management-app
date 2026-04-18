@@ -3,6 +3,7 @@
 namespace App\Services\Reports;
 
 use App\Repositories\Interfaces\StockMovementsRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class StockTurnoverService
 {
@@ -23,5 +24,14 @@ class StockTurnoverService
             'recordsFiltered' => $recordsTotal,
             'data'            => $pageRows,
         ];
+    }
+
+    /**
+     * Devolve todas as linhas (sem paginação) para serem usadas
+     * pelas exportações de CSV/PDF.
+     */
+    public function getStockTurnoverForExport(array $data): Collection
+    {
+        return $this->stockMovementsRepository->getStockTurnoverData($data);
     }
 }

@@ -29,4 +29,13 @@ class InOutService
             'data'            => $pageRows,
         ];
     }
+
+    /**
+     * Devolve todas as linhas (sem paginação) para serem usadas
+     * pelas exportações de CSV/PDF.
+     */
+    public function getInOutReportForExport(array $data): Collection
+    {
+        return $this->stockMovementsRepository->getInOutReportData($data);
+    }
 }

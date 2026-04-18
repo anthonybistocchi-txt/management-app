@@ -5,6 +5,7 @@ import { showTableStockTurnover } from "../../../components/Reports/stock-turnov
 import { showCategories } from "../../../components/ProductCategories/showCategories";
 import { showLocations } from "../../../components/Locations/showLocations";
 import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import { initReportDownload } from "../../../components/Reports/shared/initReportDownload";
 import type { StockTurnoverFilters } from "../../../types/Reports/StockTurnoverReport";
 
 $(document).ready(async () => {
@@ -54,5 +55,13 @@ $(document).ready(async () => {
     $btnSearch.on("click", async (event) => {
         event.preventDefault();
         await showTableStockTurnover($table, buildFilters());
+    });
+
+    initReportDownload({
+        baseEndpoint: "reports/stock-turnover",
+        fileNameBase: "giro-de-estoque",
+        buildFilters,
+        $csvTrigger: $("#btn-download-turnover-csv"),
+        $pdfTrigger: $("#btn-download-turnover-pdf"),
     });
 });

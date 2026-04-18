@@ -14,17 +14,19 @@ class CheckIsGestorMiddleware
     {
         $user = Auth::user();
 
+        $wantsJson = $request->expectsJson() || $request->is('api/*');
+
         if (! $user) {
-            return $request->expectsJson()
+            return $wantsJson
                 ? response()->json(['error' => 'not authenticated'], 401)
                 : redirect('/login')->withErrors(['user not authenticated, please login to continue.']);
         }
 
         $typeUserId = (int) ($user->type_user_id ?? 0);
-        $allowed = [1, 2]; 
+        $allowed = [1, 2];
 
         if (! in_array($typeUserId, $allowed, true)) {
-            return $request->expectsJson()
+            return $wantsJson
                 ? response()->json(['status' => false, 'message' => 'access denied'], 403)
                 : abort(403, 'Access denied.');
         }

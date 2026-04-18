@@ -5,6 +5,7 @@ import { showTableStockCard } from "../../../components/Reports/stock-card/showT
 import { showLocations } from "../../../components/Locations/showLocations";
 import { initProductSearch } from "../../../components/Products/productSearch";
 import { syncLocalTomSelectGroup } from "../../../components/TomSelect/initTomSelect";
+import { initReportDownload } from "../../../components/Reports/shared/initReportDownload";
 import type { StockCardFilters } from "../../../types/Reports/StockCardReport";
 
 $(document).ready(async () => {
@@ -55,5 +56,13 @@ $(document).ready(async () => {
     $btnSearch.on("click", async (event) => {
         event.preventDefault();
         await showTableStockCard($table, buildFilters());
+    });
+
+    initReportDownload({
+        baseEndpoint: "reports/stock-card",
+        fileNameBase: "ficha-de-estoque",
+        buildFilters,
+        $csvTrigger: $("#btn-download-stock-card-csv"),
+        $pdfTrigger: $("#btn-download-stock-card-pdf"),
     });
 });
