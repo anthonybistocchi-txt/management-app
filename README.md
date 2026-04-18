@@ -2,8 +2,6 @@
 
 Aplicação web de gestão operacional com foco em estoque, cadastros e relatórios, construída com Laravel no backend e TypeScript no frontend.
 
-Este README foi atualizado para refletir o estado atual do código.
-
 ## Visão geral
 
 O sistema atende operações de estoque e gestão administrativa com dois grandes contextos:
